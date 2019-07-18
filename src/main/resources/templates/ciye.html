@@ -1,0 +1,63 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>公司查询</title>
+</head>
+<div  th:replace="_header :: common_resource"></div>
+<body>
+<!-- 顶部导航 -->
+<div class="container ui-sortable">
+ <div class="panel panel-default mt-20">
+	
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">查询统计</th>
+			</tr>
+			<tr class="text-c">
+				<th width="100">图片(点击查看原图)</th>
+				<th>网点或者公司名称(点击名称查看详情)</th>
+				<th>网点或者公司地址</th>
+				<th>联系人</th>
+				<th>联系电话</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c"  th:each="base:${pageInfo.list}" varStatus="s">
+				<td  ><img style="width:100%" onclick="javascript:window.open(this.src)"   th:id="${base.companyId}"  th:src="${base.detailPicture}"></img></td>
+				<td ><a th:href="@{/index4(companyId=${base.companyId})}"     target='_blank'  th:text="${base.companyName}"></a></td>
+				<td th:text="${base.address}"></td>
+				<td th:text="${base.contact}"></td>
+				<td th:text="${base.phone}"></td>
+				
+			</tr>
+			
+		</tbody>
+	</table>
+	
+</div>
+</div>
+<!--footer-->  
+<div  th:replace="_footer :: common_resource"></div>
+<script data-th-src="@{old/app/ciye.js}"></script>
+</body>
+</html>

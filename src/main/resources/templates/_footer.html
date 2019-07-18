@@ -1,0 +1,41 @@
+﻿!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="common_resource">
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> 
+<!--此乃百度统计代码，请自行删除-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<!--/此乃百度统计代码，请自行删除-->
+<script>
+$(window).resize(function() {
+    var window_height = $(window).height();//获取浏览器窗口宽度
+    if(window_height<=500){
+          $('#footer').css("position","relative")
+    }else{
+		  $('#footer').css("position","absolute")
+		}
+   
+});
+</script>
+
+﻿<footer class="footer mt-20">
+		<div class="container-fluid" >
+   	  <p class="ft_link"><span class="sep">|</span>联系我们<span class="sep">|</span>QQ:814224019<span class="sep">|</span>电话：15515559622<span class="sep">|</span>友情链接:<span><a href="http://www.56114.net.cn/" target="_blank">56114物流查询网</a></span></p>
+    <p class="copyright"><span class="sep"></span><span class="sep"></span><span>豫ICP备090号</span></p>
+    </div> 
+		</footer>
+		
+		</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.RoleMapper">
+
+<!-- Integer addNewRole(Role role); -->
+<insert id="addNewRole" parameterType="com.select.wuliu.entity.Role">
+	insert into role
+	(rid,roleName,userName
+	)
+	values
+	(#{rid},#{roleName},#{userName}
+)
+	</insert>
+	<!-- 根据用户rid查找角色 Role  findRoleByrid(Integer rid); -->
+	<select id="findRoleByrid" resultType="com.select.wuliu.entity.Role">
+	select 
+	*
+	from role
+	WHERE
+	rid = #{rid}
+	
+ 
+	</select>
+	<!-- 修改权限 Integer updateRole(@Param("rid")Integer rid,@Param("roleName")Integer roleName,@Param("userName")Integer userName); -->
+	<update id="updateRole">
+	update role
+	set
+	<if test="rid!=null">
+	rid=#{rid},
+	</if>
+	<if test="roleName!=null">
+	roleName=#{roleName},
+	</if>
+	<if test="userName!=null">
+	userName=#{userName}
+	</if>
+	where 
+	 rid=#{rid}
+	</update>
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+

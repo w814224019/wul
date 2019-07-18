@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.TaskMapper">
+
+<!-- List<Task> findAllTask(); -->
+<select id="findAllTask" resultType="com.select.wuliu.entity.Task">
+	select 
+	*
+	from dingshi
+where status=0
+	</select>
+	<!--分页查询网点id找线路  Page <Pather> PfindBywdId(Integer wlId); -->
+	<select id="PfindBywdId" resultType="com.select.wuliu.entity.Task">
+	SELECT  d.* from dingshi d join line l on d.lineId=l.id
+	 where l.wl_id=#{wlId} and d.status=0
+	</select>
+	<!-- List<Task> findTasksBylineId(Integer lineId); -->
+	<select id="findTasksBylineId" resultType="com.select.wuliu.entity.Task">
+	select 
+	*
+	from dingshi
+where status=0 and lineId=#{lineId}
+	</select>
+	<!-- Task findMaxBylineId(Integer lineId); -->
+	<select id="findMaxBylineId" resultType="com.select.wuliu.entity.Task">
+	select 
+	*
+	from dingshi
+where status=0 and 
+id=(SELECT MAX(id) from dingshi where status=0 and lineId=#{lineId})
+	</select>
+	<!-- Task findBydsId(Integer id,String time); -->
+	<select id="findBydsId" resultType="com.select.wuliu.entity.Task">
+	select 
+	*
+	from dingshi
+where status=0 and lineId=#{lineId} and time=#{time}
+	</select>
+	<!-- List<Task> findByLikeN(@Param("name")String Name); -->
+	<select id="findByLikeN" resultType="com.select.wuliu.entity.Task">
+	SELECT * FROM 
+	dingshi 
+	WHERE (lineId LIKE '%${name}%' or
+	time LIKE '%${name}%') and status=0
+	</select>
+	
+	<!-- Integer addNewTask(Task task); -->
+	<insert id="addNewTask" parameterType="com.select.wuliu.entity.Task"
+     useGeneratedKeys="true" keyProperty="id">
+	insert into dingshi
+	(lineId,time,status
+	
+	)
+	values
+	(#{lineId},#{time},#{status}
+	)
+	</insert>
+	<!-- Integer UpdateTask(@Param("id")Integer id,@Param("lineId")Integer lineId,@Param("time")Integer time,@Param("status")Integer status); -->
+	<update id="UpdateTask">
+	update dingshi
+	set
+	<if test="status!=null">
+	status=#{status}
+	</if>
+	where 
+	time=#{time} and lineId=#{lineId}
+	</update>
+</mapper>
+
+
+
+
+

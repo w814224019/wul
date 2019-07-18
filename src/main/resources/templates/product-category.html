@@ -1,0 +1,323 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>基本设置</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+	<span class="c-gray en">&gt;</span>
+	<a   th:href="@{/product-category(companyId=${company.companyId})}" >系统管理</a>
+	<span class="c-gray en">&gt;</span>
+	基本设置
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+</nav>
+<div class="page-container">
+	<form class="form form-horizontal" id="form-article-add">
+		<div id="tab-system" class="HuiTab">
+			<div class="tabBar cl">
+				<span>基本设置</span>
+				<span>公司简介</span>
+				<span>认证充值</span>
+				<span>日志记录</span>
+			</div>
+			<div class="tabCon">
+			<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						公司ID：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+					<input th:value=${company.companyId} type="text" class="input-text" style="width:100px" placeholder="输入id" id="companyId" name=""> 
+						<a class="btn btn-success radius" data-title="进入客户后台"   href="javascript:;"> 进入客户后台</a>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						公司全称：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input th:value=${company.companyName}  type="text" id="companyName" placeholder="控制在25个字、50个字节以内"  class="input-text"/>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						公司简称：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input th:value="${company.alias}"  type="text" id="alias" placeholder="控制在10个字以内"  class="input-text"/>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						出发地：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input th:value="${company.depart==null?sp.sta:company.depart}" type="text" id="depart" placeholder="5个左右,8汉字以内,城市" value="" class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						详细地址：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" id="address" placeholder="空制在80个汉字，160个字符以内" th:value=${company.address} class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						联系人：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" id="contact" placeholder="公司联系人" th:value=${company.contact} class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						手机号：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" id="phone" placeholder="公司联系电话" th:value=${company.phone} class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						座机电话：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" id="telephone" placeholder="公司座机电话" th:value=${company.telephone} class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						公司类型：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="select-box inline">
+						<select class="select" id="select1" name="">
+			<option value="1" th:selected="${company.type==1}">物流公司</option>
+			<option value="3" th:selected="${company.type==3}" >货运公司</option>
+			<option value="4" th:selected="${company.type==4}" >快递公司</option>
+			<option value="2"  th:selected="${company.type==2}"  >信息部</option>
+			<option value="5" th:selected="${company.type==5}"  >货运部</option>
+			<option value="6" th:selected="${company.type==6}"   >物流联盟</option>
+		</select>
+		</span>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						运营方式：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="select-box inline">
+						<select class="select" id="select2" name="">
+			<option value="零担" th:selected="${company.style=='零担'}">零担</option>
+			<option value="整车" th:selected="${company.style=='整车'}">整车</option>
+			<option value="整车零担" th:selected="${company.style=='整车零担'}">整车零担</option>
+			
+		</select>
+		</span>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>运输类型：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="checkbox" id="website-icp" checked="checked" value="公路" >公路
+						<input type="checkbox" id="website"  value="铁路" >铁路
+						<input type="checkbox" id="websitp"  value="水路" >水路
+						<input type="checkbox" id=""  value="航空" >航空
+						<input type="checkbox" id=""  value="快递" >快递
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>公司专线：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<textarea  th:text=${sp.end}  id="end"  class="textarea"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="tabCon">
+			
+			
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">公司简介：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<textarea class="textarea" name="" th:text="${company.intro}"     id="intro"></textarea>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">企业文化：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<textarea class="textarea" name="" th:text="${company.culture}"     id="culture"></textarea>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">简短描述：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" class="input-text" value=""  th:value="${company.directRemark}"    id="directRemark" name="" >
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">公司封面图片：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<img  th:src="${company.detailPicture}"></img><br/>
+						
+					</div>
+				</div>
+				
+				
+				
+			</div>
+			<div class="tabCon">
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">接管：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" style="width:200px" class="input-text" th:value=${member.userName} id="3" name="">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">服务期限：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						从<input type="text" style="width:200px" class="input-text" th:value="${#dates.format(member.startTime,'yyyy-MM-dd HH:mm:ss')}" id="22" name="">到
+						<input type="text" style="width:200px" class="input-text" th:value="${#dates.format(member.endTime,'yyyy-MM-dd HH:mm:ss')}" id="3" name="">
+						距离过期还有<input type="text" style="width:100px" class="input-text" th:value=${days} id="22" name="">天
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">运价：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						重货：<input style="width:100px" type="text" id="heavyCost" th:value="${company.heavyCost}" class="input-text">元/吨
+						轻货：<input style="width:100px" type="text" id="lightCost" th:value="${company.lightCost}" class="input-text">元/立方
+						时效：<input style="width:200px" type="text" id="aging" th:value="${company.aging}" class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">剩余物流币：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span th:text=${money}></span>
+					   <input  type="text" class="input-text" style="width:100px" placeholder="输入"    id="add" name=""> 
+	                  <a onclick="addmoney()" class="btn btn-primary radius">点击充值</a>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						会员类型：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+					<span th:text="${member.type}==null?'非会员':${member.type}" >非会员</span>
+						 <a class="btn btn-primary radius" onClick="change_password()" href="javascript:;" title="验证密码"><i class="Hui-iconfont">&#xe600;</i>开通会员</a>
+		
+					</div>
+				</div>
+				
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">认证信息：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+												<span class="select-box inline">
+		                                   
+						<select class="select" id="testSelect" name="">
+			<option value="0" th:selected="${company.att==0}">未认证</option>
+			<option value="1" th:selected="${company.att==1}">已认证</option>
+
+		</select>
+		</span>
+					</div>
+				</div>
+			</div>
+			<div class="tabCon">
+		<table class="table table-border table-bordered table-bg" >
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">查询统计
+				<label  class="r" >查看第
+	<select style="width:60px"  id="pageNum" onChange="getallrecords()" >
+			<option value="0"   > 请选择</option>
+		</select>
+		页
+	 <span class="r">共有： <span id="total" ></span> 页,总共：<strong id="tiaoshu" ></strong>条</span>,
+	 显示
+   <select  id="pageSize" onChange="getallrecords()">
+<option value="10"  >10</option>
+<option value="25" >25</option>
+<option value="50" >50</option>
+<option value="100" >100</option>
+</select>
+条,</label>
+				
+				
+				</th>
+			</tr>
+			<tr class="text-c">
+				<th>公司Id</th>
+				<th>操作用户</th>
+				<th>操作时间</th>
+				<th>操作类型</th>
+			</tr>
+		</thead>
+		<tbody id="table-result11">
+		<div id="company11"></div>
+			<tr class="text-c"  >
+				<td ></td>
+				<td >测试</td>
+				<td ></td>
+				<td ></td>
+			</tr>
+			
+		</tbody>
+	</table>
+		
+	</div>
+			</div>
+			
+			
+			</div>
+		
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<button onClick="updateCompany()" class="btn btn-primary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 修改保存</button>
+				
+				<button onClick="delCompany()" class="btn btn-primary radius" type="button">&nbsp;&nbsp;标记删除公司&nbsp;&nbsp;</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script data-th-src="@{system/company/product-category.js}"></script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

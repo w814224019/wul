@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.WebUserMapper">
+
+
+	<!-- 分页查询货车主信息Page<webUser> findAllweuser(); -->
+	<select id="findAllweuser" resultType="com.select.wuliu.entity.webUser">
+	SELECT 
+	rid,name,uid, khr_id as khrId,companyid,branchid,
+	mobile,permissionid,company,password,weixin_unionid as weixinUnionid,
+	province,city,address,del_flag as delFlag,headimgurl,sex,areabranchid,
+	time_out as timeOut,type,telephone,add_time as addTime
+			
+		FROM 
+			userinfo
+	    where 
+	    del_flag=0 and 
+	    (name LIKE '%${name}%' or
+	    mobile LIKE '%${name}%' or
+	    telephone LIKE '%${name}%' or
+	    company LIKE '%${name}%' or
+	    address LIKE '%${name}%' ) order by rid desc
+	
+	</select>
+	<!-- 根据或车主类型找到实体类List<webUser> findBytype(Integer type); -->
+		<select id="findBytype" resultType="com.select.wuliu.entity.webUser">
+	SELECT 
+			rid,name,uid, khr_id as khrId,companyid,branchid,
+	mobile,permissionid,company,password,weixin_unionid as weixinUnionid,
+	province,city,address,del_flag as delFlag,headimgurl,sex,areabranchid,
+	time_out as timeOut,type,telephone,add_time as addTime
+			
+		FROM 
+			userinfo
+			WHERE 
+			type=#{type}
+	       and del_flag=0
+	
+	</select>
+	
+	<!-- 根据货车主主键 id找到实体类信息 webUser findwebUserById(Integer id); -->
+		<select id="findwebUserById" resultType="com.select.wuliu.entity.webUser">
+	SELECT 
+		rid,name,uid, khr_id as khrId,companyid,branchid,
+	mobile,permissionid,company,password,weixin_unionid as weixinUnionid,
+	province,city,address,del_flag as delFlag,headimgurl,sex,areabranchid,
+	time_out as timeOut,type,telephone,add_time as addTime
+			
+		FROM 
+			userinfo
+			WHERE 
+			rid=#{rid}
+	       and del_flag=0
+	
+	</select>
+	<!--  修改或车主密码信息等
+	 * rid,name,uid, khr_id as khrId,companyid,branchid,
+	mobile,permissionid,company,password,weixin_unionid as weixinUnionid,
+	province,city,address,del_flag as delFlag,headimgurl,sex,areabranchid,
+	time_out as timeOut,type
+			); -->
+	<update id="updatewebUser">
+	update userinfo
+	set
+	<if test="rid!=null">
+	rid=#{rid},
+	</if>
+	<if test="name!=null">
+	name=#{name},
+	</if>
+	<if test="uid!=null">
+	uid=#{uid},
+	</if>
+	<if test="permissionid!=null">
+	permissionid=#{permissionid},
+	</if>
+	<if test="companyid!=null">
+	companyid=#{companyid},
+	</if>
+	<if test="password!=null">
+	password=#{password},
+	</if>
+	<if test="weixin_unionid!=null">
+	weixin_unionid=#{weixin_unionid},
+	</if>
+	<if test="address!=null">
+	address=#{address},
+	</if>
+	<if test="headimgurl!=null">
+	headimgurl=#{headimgurl},
+	</if>
+	<if test="sex!=null">
+	sex=#{sex},
+	</if>
+	<if test="mobile!=null">
+	mobile=#{mobile},
+	</if>
+	<if test="company!=null">
+	company=#{company},
+	</if>
+	<if test="telephone!=null">
+	telephone=#{telephone},
+	</if>
+	<if test="add_time!=null">
+	add_time=#{add_time},
+	</if>
+	<if test="del_flag!=null">
+	del_flag=#{del_flag}
+	</if>
+	where 
+	 rid=#{rid}
+	
+	</update>
+	
+	
+	
+	
+</mapper>
+
+
+
+
+

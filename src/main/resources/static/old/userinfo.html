@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>公司内部权限注册页面</title>
+		<script src="../bootstrap3/jquery.jsonp.js"></script>
+</head>
+<body>
+<h1>管理后台用户注册页面</h1>
+<div class="pd-20">
+  <div class="Huiform">
+    <form action="" >
+      <table class="table table-bg">
+        <tbody>
+          <tr>
+            <th width="100" class="text-r"><span class="c-red">*</span> 用户名：</th>
+            <td><input type="text" style="width:200px" class="input-text" value="" placeholder="" id="name" name="name" datatype="*2-16" nullmsg="用户名不能为空"></td>
+          </tr>
+          <tr>
+            <th class="text-r"><span class="c-red">*</span> 性别：</th>
+            <td><label>
+                <input name="sex" type="radio" id="six_1" value="1" checked>
+                男</label>
+              <label>
+                <input type="radio" name="sex" value="0" id="six_0">
+                女</label></td>
+          </tr>
+          <tr>
+                <th class="text-r"><span class="c-red">*</span>    部门：</th>
+          <td><label><select id="testSelect">  
+          <option value ="1">技术部 </option>  
+         <option value ="2">销售部</option>  
+         <option value="3">行政部</option>  
+         <option value="4">财务部</option> 
+        </select>
+                 </label></td>
+           </tr>
+          <tr>
+            <th class="text-r"><span class="c-red">*</span> 手机号：</th>
+            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="请输入手机号" id="mobile" name="mobile" maxlength=11></td>
+          </tr>
+          <tr>
+            <th class="text-r"><span class="c-red">*</span>密码：</th>
+            <td><input type="password" style="width:300px" class="input-text" value="" placeholder="请输入密码" id="password" name="password"></td>
+          </tr>
+          <tr>
+            <th class="text-r"><span class="c-red">*</span>确认密码：</th>
+            <td><input type="password" style="width:300px" class="input-text" value="" placeholder="再次输入密码" id="passwords" name="passwords"></td>
+          </tr>
+          <tr>
+            <th></th>
+            <td><button id="" class="btn btn-success radius" type="submit"><i class="icon-ok"></i> 确定并提交</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <input id="btn-reg" type="button" value="立即注册">
+    </form>
+  </div>
+</div>
+ <script type="text/javascript" src=jquery.min.js"></script>  
+      <script type="text/javascript"> 
+
+
+ jQuery(document).ready(function(){ 
+    $.ajax({ 
+         type: "get", 
+         async: false, 
+         url: "http://localhost:8080/userinfo", 
+         dataType: "jsonp", 
+         jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback) 
+         jsonpCallback:"flightHandler",//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据 
+         success: function(json){ 
+             alert('您查询到航班信息：票价： ' + json.price + ' 元，余票： ' + json.tickets + ' 张。'); 
+         }, 
+         error: function(){ 
+             alert('fail'); 
+         } 
+     }); 
+ });  
+
+
+
+
+
+
+
+
+$("#btn-reg").click(function(){
+	//alert("点击")
+var url="http://localhost:8080/userinfo";
+	var sda=$('#testSelect option:selected').val()
+	console.log("sda"+sda)
+	var sex=$("input[type='radio']:checked").val()
+	console.log("sex"+sex)
+	//var data=$("#form-reg").serialize();
+	var name=$.trim($("#name").val());
+	var password=$.trim($("#password").val());
+	var passwords=$.trim($("#passwords").val());
+	var phone=$.trim($("#mobile").val());
+	
+	console.log("登录参数password:"+password);
+	console.log("登录参数passwords:"+passwords);
+	$.ajax({
+		"url":url,
+		"data":{
+			"name":name,
+			"password":password,
+			"passwords":passwords,
+			"mobile":mobile,
+			"permissionid":sda,
+			"sex":sex
+		}, 
+		"type":"post",
+		"dataType":"jsonp",
+		"success":function(json){
+			if(json.state==200){
+				alert("注册成功！");
+		   location.href="";
+			
+			}else{
+				alert(json.message);
+			}
+			
+		}
+	});
+	
+	});
+	
+
+
+
+</script>
+
+</body>
+</html>

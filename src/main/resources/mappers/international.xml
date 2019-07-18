@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.internationalMapper">
+<!--增加国际线路 Integer addInternation(International inter); -->
+<insert id="addInternation" parameterType="com.select.wuliu.entity.International"
+     useGeneratedKeys="true" keyProperty="id">
+	insert into international
+	(companyName,content,phone,zhuye,chuanzhen,youbian,
+	companyAddress,isDel
+	
+	)
+	values
+	(#{companyName},#{content},#{phone},#{zhuye},#{chuanzhen},#{youbian},
+	#{companyAddress},#{isDel}
+	)
+	</insert>
+<!-- 根据主键id 找国际物流公司International findintercById(Integer id); -->
+<select id="findintercById" resultType="com.select.wuliu.entity.International">
+	SELECT 
+      *FROM 
+	international where isDel=0 
+	and id=#{id}
+	
+	</select>
+<!-- 分页模糊查找国际物流公司Page findintersByPLname(@Param("name")String name); -->
+<select id="findintersByPLname" resultType="com.select.wuliu.entity.International">
+	SELECT 
+      *FROM 
+	international where isDel=0 
+	and(companyName LIKE '%${name}%' or
+	  companyAddress LIKE '%${name}%'
+	)
+	
+	</select>
+<!-- 修改国际资料Integer updateinter(@Param("id")Integer id,@Param("companyName")String companyName,
+			@Param("phone")String phone,@Param("content")String content,
+			@Param("zhuye")String zhuye,
+			@Param("chuanzhen")String chuanzhen,@Param("youbian")String youbian,
+			@Param("companyAddress")String companyAddress,
+			@Param("isDel")Integer isDel); -->
+			<update id="updateinter">
+	update international
+	set
+	<if test="id!=null">
+	id=#{id},
+	</if>
+	<if test="companyName!=null">
+	companyName=#{companyName},
+	</if>
+	<if test="phone!=null">
+	phone=#{phone},
+	</if>
+	<if test="content!=null">
+	content=#{content},
+	</if>
+	<if test="zhuye!=null">
+	zhuye=#{zhuye},
+	</if>
+	<if test="chuanzhen!=null">
+	chuanzhen=#{chuanzhen},
+	</if>
+	<if test="companyAddress!=null">
+	companyAddress=#{companyAddress},
+	</if>
+	
+	<if test="youbian!=null">
+	youbian=#{youbian},
+	</if>
+	<if test="isDel!=null">
+	isDel=#{isDel}
+	</if>
+	where 
+	 id=#{id}
+	
+	</update>
+	
+			
+			
+			
+			
+			
+
+</mapper>
+
+
+
+
+

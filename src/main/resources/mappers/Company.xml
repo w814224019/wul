@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.CompanyMapper">
+
+<!-- Integer addNewCompany(Companier company); -->
+<insert id="addNewCompany" parameterType="com.select.wuliu.entity.Companier"
+     useGeneratedKeys="true" keyProperty="companyId">
+	insert into company1_copy1
+	(companyName,address,phone,telephone,contact,
+	picturePath,directRemark,transitRemark,detailPicture,qz,att,depart,alias,intro,culture,vipClass,isDel
+	,province,city,type,longitude,dimensions,lightCost,heavyCost,aging,style)
+	values
+	(#{companyName},#{address},#{phone},#{telephone},#{contact},
+	#{picturePath},#{directRemark},#{transitRemark},#{detailPicture},#{qz},#{att},#{depart},#{alias},#{intro},#{culture},#{vipClass},
+	#{isDel},#{province},#{city},#{type},#{longitude},#{dimensions},#{lightCost},#{heavyCost},#{aging},#{style})
+	</insert>
+	<!-- Integer updateCompany(@Param("companyName")String companyName,@Param("address")String address,
+		@Param("phone")String phone,@Param("picturePath")String picturePath,
+		@Param("telephone")String telephone,@Param("contact")String contact,
+		@Param("directRemark")String directRemark,@Param("transitRemark")String transitRemark,
+		@Param("detailPicture")String detailPicture,@Param("qz")Integer qz,
+		@Param("isDel")Integer isDel); -->
+	<update id="updateCompany">
+	update company1_copy1
+	set<if test="companyName!=null">
+	companyName=#{companyName},
+	</if>
+	<if test="address!=null">
+	address=#{address},
+	</if>
+	<if test="phone!=null">
+	phone=#{phone},
+	</if>
+	<if test="picturePath!=null">
+	picturePath=#{picturePath},
+	</if>
+	<if test="telephone!=null">
+	telephone=#{telephone},
+	</if>
+	<if test="contact!=null">
+	contact=#{contact},
+	</if>
+	<if test="directRemark!=null">
+	directRemark=#{directRemark},
+	</if>
+	<if test="transitRemark!=null">
+	transitRemark=#{transitRemark},
+	</if>
+	<if test="detailPicture!=null">
+	detailPicture=#{detailPicture},
+	</if>
+	<if test="qz!=null">
+	qz=#{qz},
+	</if>
+	<if test="att!=null">
+	att=#{att},
+	</if>
+	<if test="depart!=null">
+	depart=#{depart},
+	</if>
+	<if test="alias!=null">
+	alias=#{alias},
+	</if>
+	<if test="intro!=null">
+	intro=#{intro},
+	</if>
+	<if test="culture!=null">
+	culture=#{culture},
+	</if>
+	<if test="vipClass!=null">
+	vipClass=#{vipClass},
+	</if>
+	<if test="province!=null">
+	province=#{province},
+	</if>
+	<if test="city!=null">
+	city=#{city},
+	</if>
+	<if test="type!=null">
+	type=#{type},
+	</if>
+	<if test="longitude!=null">
+	longitude=#{longitude},
+	</if>
+	<if test="dimensions!=null">
+	dimensions=#{dimensions},
+	</if>
+	<if test="lightCost!=null">
+	lightCost=#{lightCost},
+	</if>
+	<if test="heavyCost!=null">
+	heavyCost=#{heavyCost},
+	</if>
+	<if test="aging!=null">
+	aging=#{aging},
+	</if>
+	<if test="style!=null">
+	style=#{style},
+	</if>
+	<if test="isDel!=null">
+	isDel=#{isDel}
+	</if>
+	where 
+	companyId=#{companyId}
+	</update>
+	
+	
+	<!-- Pather findByft(String sta,String end); -->
+	<select id="findByft" resultType="com.select.wuliu.entity.Pather">
+	SELECT 
+     id,sta,end,wl_id as wlId,qz,del_flag as delFlag,type,tui,direct
+      FROM 
+	line
+	where sta=#{sta} and end=#{end} and del_flag=0
+	</select>
+	<!-- Page<Pather> findBystaEnd(String sta,String end); -->
+	<select id="findBystaEnd" resultType="com.select.wuliu.entity.Pather">
+	SELECT 
+     id,sta,end,wl_id as wlId,qz,del_flag as delFlag,type,tui,direct
+      FROM 
+	line
+	where sta=#{sta} and end=#{end} and del_flag=0
+	</select>
+	
+	<!-- List<Companier> findBystaAndend(@Param("sta")Integer sta,@Param("end")Integer end);-->
+	<select id="findBystaAndend" resultType="com.select.wuliu.entity.Companier" parameterType="java.util.List">
+	SELECT 
+    *FROM 
+	company1_copy1
+	where companyId in
+	<foreach collection="list" index="index" item="wlId" 
+        separator="," open="(" close=")">
+     #{wlId}
+    </foreach>
+	</select>
+	<!-- List<Integer> findBystaAd(@Param("sta")Integer sta,@Param("end")Integer end,@Param("type")Integer type); -->
+	<select id="findBystaAd" resultType="java.lang.Integer">
+	SELECT 
+     wl_id as wlId
+      FROM 
+	line
+	where sta=#{sta} and end=#{end} and del_flag=0 and type=#{type}
+	</select>
+	
+	
+	
+	
+	
+	<!-- Companier findByName(String companyName); -->
+	<select id="findByName" resultType="com.select.wuliu.entity.Companier">
+	SELECT 
+      *FROM 
+	company1_copy1
+	where companyName=#{companyName} and isDel=0
+	</select>
+	<!-- List<Companier> findAll(); -->
+	<select id="findAll" resultType="com.select.wuliu.entity.Companier">
+	SELECT 
+      *FROM 
+	company1_copy1 where isDel=0 order by vipClass
+	</select>
+	<!-- Companier findById(); -->
+	<select id="findById" resultType="com.select.wuliu.entity.Companier">
+	SELECT 
+      *FROM 
+	company1_copy1
+	where companyId=#{companyId} and isDel=0
+	</select>
+	<!-- 查询标记删除的公司Companier findAdelById(Integer companyId); -->
+	<select id="findAdelById" resultType="com.select.wuliu.entity.Companier">
+	SELECT 
+      *FROM 
+	company1_copy1
+	where companyId=#{companyId} and isDel=1
+	</select>
+	
+	<!-- List<Companier> findByLName(String Name); -->
+	<select id="findByLName" resultType="com.select.wuliu.entity.Companier">
+	SELECT * FROM 
+	company1_copy1 
+	WHERE (companyName LIKE '%${name}%' or
+	companyId LIKE '%${name}%' or
+	address LIKE '%${name}%' or
+	phone LIKE '%${name}%' or
+	telephone LIKE '%${name}%' or
+	contact LIKE '%${name}%' or
+	directRemark LIKE '%${name}%' or
+	transitRemark LIKE '%${name}%') and isDel=0
+	</select>
+	<!-- 模糊分页查询Page<Companier> findCompanyByLName(@Param("name")String Name); -->
+	<select id="findCompanyPByLName" resultType="com.select.wuliu.entity.Companier">
+	SELECT * FROM 
+	company1_copy1 
+	WHERE (
+	depart LIKE '%${name}%' 
+	) and isDel=0
+	</select>
+	<!-- 模糊分页查询删除的公司Page<Companier> findDelCompanyPByLName(@Param("name")String Name); -->
+	<select id="findDelCompanyPByLName" resultType="com.select.wuliu.entity.Companier">
+	SELECT * FROM 
+	company1_copy1 
+	WHERE (companyName LIKE '%${name}%' or
+	address LIKE '%${name}%' 
+	) and isDel=1
+	</select>
+	<!-- 彻底删除信息Integer deleteCompanyById(Integer CompanyId); -->
+	<delete  id="deleteCompanyById" parameterType="com.select.wuliu.entity.Companier">
+	  delete from 
+	company1_copy1
+	where companyId=#{companyId}
+	</delete>
+	
+	
+		<!-- List<Companier> findByLaddress(@Param("address")String address); -->
+	<select id="findByLaddress" resultType="com.select.wuliu.entity.Companier">
+	SELECT * FROM 
+	company1_copy1 
+	WHERE depart LIKE '%${depart}%' and isDel=0
+	</select>
+	
+	
+</mapper>
+
+
+
+
+

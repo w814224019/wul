@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.arealikeMapper">
+<!-- Integer addNewarealike(arealike areal); -->
+     <insert id="addNewarealike" parameterType="com.select.wuliu.entity.arealike"
+     >
+	insert into arealike
+	(sheng,shi,qu
+	)
+	values
+	(#{sheng},#{shi},#{qu}
+	)
+	</insert>
+	<!-- List<arealike> findall(); -->
+<select id="findall" resultType="com.select.wuliu.entity.arealike">
+
+select * from arealike
+
+</select>
+	
+	
+</mapper>
+
+
+
+
+

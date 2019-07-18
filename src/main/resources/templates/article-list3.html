@@ -1,0 +1,263 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>网点列表</title>
+
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+	<span class="c-gray en">&gt;</span>
+	<a >系统管理</a>
+	<span class="c-gray en">&gt;</span>
+	<a style="color: blue;" th:href="@{/product-category(companyId=${companyId})}" >返回基本设置</a>
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+</nav>
+<div class="page-container">
+<input type="hidden" id="companyId" th:value="${companyId}"/>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th colspan="8" scope="col">查询统计
+				<label class="r">
+	<span class="r">总共 <span th:text="${pageInfo.pages}"></span> 页,<span th:text="${pageInfo.total}"></span> 条</span>
+	  查看第
+	<select style="width:60px" id="pageNum1" onchange="GaiBian1()" >
+			<option th:each="pageNo : ${#numbers.sequence(1, pageInfo.pages)}" th:text="${pageNo}" th:value="${pageNo}" th:selected="${pageInfo.pageNum==pageNo}" > 请选择</option>
+		</select>
+		页,显示
+   <select  id="select" onChange="GaiBian1()" >
+<option value="10"  th:selected="${pageInfo.pageSize==10}">10</option>
+<option value="25" th:selected="${pageInfo.pageSize==25}">25</option>
+<option value="50" th:selected="${pageInfo.pageSize==50}">50</option>
+<option value="100" th:selected="${pageInfo.pageSize==100}">100</option>
+</select>条,
+ </label>
+				</th>
+			</tr>
+			<tr class="text-c">
+				<th>网点ID</th>
+				<th >公司ID</th>
+				<th>网点名称</th>
+				<th>网点地址</th>
+				<th>经纬度</th>
+				<th>联系人</th>
+				<th>联系电话</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c"  th:each="base:${pageInfo.list}" varStatus="s">
+				<td><a th:href="@{/index5(companyId=${base.id})}" target='_blank' style="color: blue;" th:text="${base.id}"></a></td>
+				<td th:text="${base.companyId}"> </td>
+				<td><a th:href="@{/index5(companyId=${base.id})}" style="color: blue;"  target='_blank' th:text="${base.branchName}"></a></td>
+				<td ><a  onclick="soub(this)"  style="color: blue;" th:id="${base.address}"  th:text="${base.address}"></a></td>
+				<td th:text="${base.longitude==null?'':base.longitude}+','+${base.dimensions==null?'':base.dimensions}"></td>
+				<td th:text="${base.content}"></td>
+				<td th:text="${base.phone}"></td>
+				<td><a title="将地图标记经纬度存入数据库"  href="javascript:;" onclick="admin_edit(this)"  th:id="${base.id}"    class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></td>
+			</tr>
+			
+		</tbody>
+	</table>
+	<p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+</div>
+<div class="layui-form-item layui-form-text" style="height: 500px">
+    <div class="layui-input-block">
+        <div id="myPageTop">
+            <table>
+                <tr>
+                    <td>
+                        <label>按关键字搜索：</label>
+                    </td>
+                    <td class="column2">
+                        <label>左击获取经纬度：</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" style="width:600px" class="input-text" id="tipinput"     placeholder="请输入关键字进行搜索" >
+                   <a class="btn btn-primary radius" onclick="markLocation()">搜索</a>
+                    </td>
+                    <td class="column2">
+                        <input type="text" style="width:300px" class="input-text" readonly="true" id="lnglat" name="lnglat" >
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="container" style="height: 450px"></div>
+       
+    </div>
+</div>
+
+
+<script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.9&key=f5ff20cbcc7f8d7bcd92baf7221a5c7d&plugin=AMap.Autocomplete&plugin=AMap.Geocoder"></script>
+<script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+
+<script type="text/javascript">
+//每页多少条
+function GaiBian1(){
+	var type=$('#select option:selected').val();
+	var pageNum=$('#pageNum1 option:selected').val();
+	var companyId=$.trim($("#companyId").val());
+	//console.log(type+"type"+pageNum+"pageNum")
+	location.href="article-list3?pageNum="+pageNum+"&&pageSize="+type+"&&companyId="+companyId+""
+	
+}
+
+
+//点击地址标注soub(this)
+function soub(dom){
+	 var address = dom.getAttribute("id");
+	 console.log(address+"address")
+	    commonMark(address);	 
+}
+//通用根据地址标注功能
+function  commonMark(address){
+	 AMap.plugin('AMap.Geocoder', function() {
+		         var geocoder = new AMap.Geocoder();            
+		         geocoder.getLocation(address, function(status, result) {
+		             if (status === 'complete' && result.info === 'OK') {
+		                   
+		                 // 经纬度                      
+		                 var lon = result.geocodes[0].location.lng;
+		                 var lat = result.geocodes[0].location.lat;
+		                 document.getElementById("lnglat").value= lon + ',' + lat;
+		                 lnglatXY = [lon, lat];
+		                addMarker(lon,lat);
+		             } else {
+		                 console.log('定位失败！');
+		             }
+		         });
+		     });
+	
+	
+}
+
+
+//根据地址搜索
+function markLocation() {
+    var address = $("#tipinput").val();
+    console.log(address+"address")
+   commonMark(address);
+}
+
+    var map = new AMap.Map("container", {
+            resizeEnable: true,
+            zoom: 13
+        })
+
+        //为地图注册click事件获取鼠标点击出的经纬度坐标
+    var clickEventListener = map.on('click', function(e) {
+        document.getElementById("lnglat").value = e.lnglat.getLng() + ',' + e.lnglat.getLat();
+
+        if (marker) {
+            marker.setMap(null);
+            marker = null;
+        }
+        addMarker(e.lnglat.getLng(),e.lnglat.getLat());
+        //这边是数组
+        var lnglatXY=[e.lnglat.getLng(),e.lnglat.getLat()];
+        regeocoder(lnglatXY);
+    });
+
+    var auto = new AMap.Autocomplete({
+        input: "tipinput"
+    });
+
+    //注册监听，当选中某条记录时会触发
+    AMap.event.addListener(auto, "select", select);
+    function select(e) {
+        var lng = e.poi.location.lng;
+        var lat = e.poi.location.lat;
+        console.log(e.poi.location.lng);
+        if (e.poi && e.poi.location) {
+            map.setZoom(15);
+            map.setCenter(e.poi.location);
+            addMarker(lng,lat);
+        }
+    }
+
+    var marker;
+    // 实例化点标记
+    function addMarker(lng,lat) {
+        marker = new AMap.Marker({
+            icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+            position: [lng, lat]
+        });
+        marker.setMap(map);
+    }
+
+    //坐标-地址
+    function regeocoder(lnglatXY) {  //逆地理编码
+        var geocoder = new AMap.Geocoder({
+            radius: 1000,
+            extensions: "all"
+        });
+        geocoder.getAddress(lnglatXY, function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+                geocoder_CallBack(result);
+            }
+        });
+    }
+
+    function geocoder_CallBack(data) {
+        var address = data.regeocode.formattedAddress; //返回地址描述
+        document.getElementById("tipinput").value=address;
+    }
+  //标记地图
+    function admin_edit(dom){
+    	console.log("点击")
+    		var url="../editMap";
+    	   var ids=$.trim($("#lnglat").val());
+    		 var id= dom.getAttribute("id");
+    		 console.log("参数comp:"+ids);
+    		$.ajax({
+    			"url":url,
+    		 "data":{
+    			 "companyId":id,
+    			 "ids":ids,
+    			 }, 
+    			"type":"post",
+    			"dataType":"json",
+    			"success":function(json){
+    				if(json.state==200){
+    					alert("标记成功！");
+    					//window.open("product-category");
+    			}else if(json.state==402){
+    				alert(json.message);
+    			}
+    		}
+    		});
+    		}
+
+    
+    
+    
+    
+</script>
+
+    
+<!--footer-->  
+<div  th:replace="_footer :: common_resource"></div>
+</body>
+</html>
+

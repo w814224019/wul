@@ -1,0 +1,176 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico">
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+
+<![endif]-->
+<link href="/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="/h-ui.admin/css/H-ui.admin.css" rel="stylesheet"
+	type="text/css" />
+<link href="lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet"
+	type="text/css" />
+
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>刷新计划列表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 物流公司管理 <span class="c-gray en">&gt;</span> 刷新计划列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c">
+		<input type="text" name="" id="name" placeholder=" 输入时间或者序号ID" style="width:250px" class="input-text">
+		<button name="" onClick="findtasksBylikename()"  id="" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe665;</i> 根据序号或者时间查询</button>
+	</div>
+	
+	<div class="mt-20">
+	
+		<table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
+			<thead>
+				<tr class="text-c">
+					<th width="25"><input type="checkbox" name="" value=""></th>
+					<th width="80">序号</th>
+					<th width="80">公司或网点ID</th>
+					<th width="200">网点名称</th>
+					<th width="80">出发地</th>
+					<th width="80">到达地</th>
+					<th width="80">状态</th>
+					<th width="150">刷新时间</th>
+					<th width="120">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr class="text-c"  th:each="base:${pageInfo.list}">
+					<td><input type="checkbox" th:value="${base.time}+'!'+${base.linedId}" name="duoxuan"></td>
+					<td      th:text="${base.linedId}">10001</td>
+					<td th:text="${base.id}">10001</td>
+					<td th:text="${base.wname}">10001</td>
+					<td th:text="${base.sta}">10001</td>
+					<td th:text="${base.end}">10001</td>
+					<td th:text="${base.status}">等待</td>
+					<td th:text="${base.time}">2014-6-11 11:11:42</td>
+					<td class="f-14 td-manage"> <a style="text-decoration:none" th:id="${base.time}" th:id1="${base.linedId}" class="ml-5" onClick="deltask4(this)" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				</tr>
+				
+			
+				
+				
+			</tbody>
+		</table>
+		<p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+    <a th:href="@{/blank4}">首页</a>
+    <a th:href="@{/blank4(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+    <a th:href="@{/blank4(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+    <a th:href="@{/blank4(pageNum=${pageInfo.pages})}">尾页</a>
+		
+	</div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+//删除当前所选
+function removetasks(){
+	var url="../removetasks";
+	 var arr=[];//定义一个数组
+	    var arr2=$(":checked");//获取多选框的数组
+	    $.each(arr2,function () {
+	        arr.push($(this).val());//把多选框数组的value放入自己定义的里面
+	    })
+	   // alert(arr)
+	 var id=$.trim($("#companyId").val());
+	console.log("参数data:"+id);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "ids" : arr.join(",")
+		 
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("成功！");
+				location.href="blank5";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+//模糊所有计划列表
+function findtasksBylikename(){
+	var url="../getalltasksBylikename";
+	 var name=$.trim($("#name").val());
+	
+	console.log("参数data:"+name);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "name":name,
+		 
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("成功！");
+				location.href="blank4";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+//deltask()单独删除计划
+function deltask4(dom){
+	var url="../deltask4";
+	var time= dom.getAttribute("id");
+	var lineId= dom.getAttribute("id1");
+	//alert("111111")
+	console.log("参数data:"+time);
+	console.log("参数data:"+lineId);
+	$.ajax({
+		"url":url,
+	  "data":{
+			"time":time,
+			"lineId":lineId,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("删除成功！");
+				location.href="blank5";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+</script>
+</body>
+
+</html>

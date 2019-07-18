@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户注册页面</title>
+<script src="../bootstrap3/js/holder.js"></script>
+		<link href="../bootstrap3/css/bootstrap.css" rel="stylesheet" type="text/css">
+		<script src="../bootstrap3/jquery-1.9.1.min.js"></script>
+		<script src="../bootstrap3/js/bootstrap.js"></script>
+</head>
+<form id="form-reg" action="">
+	
+	<span>请完善以下信息，免费开通企业网站</span><br/>
+	公司城市：<input  name="city"/><br/> 
+	公司名称：<input  name="companyName"/><br/> 
+	公司简称：<input  name="shortName"/><br/>
+	公司详细地址：<input  name="companyAddress"/><br/>
+	联系人：<input name="contact" /><br/> 
+	固定电话：<input name="telephone" /><br/>
+	手机号：<input  name="phone"/><br/>
+	QQ：<input name="qq" /><br/>
+	运输方式：<br/>
+	主营线路：<input name="cityTo" /><br/>
+	<input name="" type="checkbox" />我已看过并同意《56114服务条款》<br/>
+	
+	
+	
+	<input id="btn-reg" type="button" value="立即注册">
+</form>
+<script type="text/javascript">
+          
+		$("#btn-reg").click(function(){
+		var url="../UserReg";
+		var data=$("#form-reg").serialize();
+		
+		console.log("登录参数:"+data);
+		$.ajax({
+			"url":url,
+			"data":data,
+			"type":"post",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					alert("注册成功！");
+			   location.href="userhome";
+				
+				}else{
+					alert(json.message);
+				}
+				
+			}
+		});
+		
+		});
+		
+		</script>
+
+</body>
+</html>

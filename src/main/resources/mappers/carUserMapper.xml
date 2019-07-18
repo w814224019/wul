@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.carUserMapper">
+	<!-- 分页查询所有车辆信息Page<carUser> findAllcarusers(@Param("name")String name,@Param("userid")Integer userid);-->
+	<select id="findAllcarusers" resultType="com.select.wuliu.entity.carUser">
+	SELECT 
+	id,userid,type,chang,city,destination,car_license as carLicense,remark,status,picturePath
+		FROM 
+			car_info
+			where 
+			(
+			type LIKE '%${name}%' or
+			chang LIKE '%${name}%' or
+	city LIKE '%${name}%' or
+	destination LIKE '%${name}%' or
+	car_license LIKE '%${name}%' or
+	remark LIKE '%${name}%' or
+	status LIKE '%${name}%'
+	)and userid=#{userid}
+	
+	</select>
+	<!-- 根据车主id查询车辆信息Page<carUser> findAcarUserByi(Integer rid);-->
+		<select id="findAcarUserByi" resultType="com.select.wuliu.entity.carUser">
+	SELECT 
+	id,userid,type,chang,city,destination,car_license as carLicense,remark,status,picturePath
+		FROM 
+			car_info
+			WHERE 
+			userid=#{userid}
+	</select>
+	
+</mapper>
+
+
+
+
+

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.websMapper">
+
+<!-- 添加网站 Integer addNewWeb(webs web); -->
+<insert id="addNewWeb" parameterType="com.select.wuliu.entity.webs"
+useGeneratedKeys="true" keyProperty="id"
+>
+	insert into webs
+	(rid,webName,webAddress,type,createTime
+	)
+	values
+	(#{rid},#{webName},#{webAddress},#{type},#{createTime}
+)
+	</insert>
+	<!-- 根据用户rid
+	 * 查找收藏内容  Page<webs> findByrid(Integer rid); -->
+	<select id="findByrid" resultType="com.select.wuliu.entity.webs">
+	select 
+	*
+	from webs
+	WHERE
+	rid = #{rid}
+	and
+	(type LIKE '%${name}%')
+	
+ 
+	</select>
+	<!-- 导出表格查询个人所有列表   List<webs> findallwebsByrid(Integer rid); -->
+	<select id="findallwebsByrid" resultType="com.select.wuliu.entity.webs">
+	select 
+	*
+	from webs
+	WHERE
+	rid = #{rid}
+	</select>
+	<!--  删除收藏网站	Integer Delteweb(Integer id); -->
+	<delete  id="Delteweb" parameterType="com.select.wuliu.entity.webs">
+	  delete from 
+	webs
+	where id=#{id}
+	</delete>
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+

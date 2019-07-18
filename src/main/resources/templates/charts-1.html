@@ -1,0 +1,690 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script> 
+   
+<style type="text/css">
+
+*{margin: 0;padding: 0;}
+.top-box{margin-left: 100px;width: 90%;}
+dl{line-height: 35px;margin: 0;}
+	.abs-sheng,.list-one,.btnzhen-xian{ 
+	
+	vertical-align:top;
+	width: 80px;
+	display: inline-block;
+	line-height:36px;
+    text-align: left;
+    color: #df0000;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+	line-height:22px;
+	height:22px;
+	margin-top: 7px;
+}
+   #myModal .modal-body a,.message-box a, .abs-shi,.btnzhen-a,.qu,.xian {
+	
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 14px;
+    padding:0 4px;
+    text-align: center;
+    color: #666;
+	margin-left:8px;
+	height:22px;
+	line-height:22px;
+	width: auto;
+	font-weight:400;
+}
+.message-box a{ margin:0 0 2px 2px;}
+ #myModal .modal-body a{ margin: 10px; font-size:16px;}
+.abs-sheng{ margin: 0;line-height: 20px;}
+.abs-shi:hover{ cursor: pointer;}
+#btn-zhensub{display:none;}
+.floatbox{position: fixed;top: 0px;left: 0px;width: auto;padding-right: 5px;}
+
+.col-xs-3{width: 100px;}
+.ppp {display: inline-block;width: 80%;line-height: 36px;margin: 0;}
+#myModal .checked, #shi .checked{background-color: #d9534f;color: #fff !important;border-color: #d43f3a; border-radius:3px;}
+
+#shi .checkeds{color: #fff;border-color: #d43f3a;}
+
+.panel-title{cursor:pointer;}
+#btn{position: fixed;
+	right:130px;top: 0;
+	font-size: 14px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    font-weight: bold;
+    width: 100px;
+    height: 35px;
+  }
+    ul.nav-tabs{
+        width: 80px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+    }
+    ul.nav-tabs li{
+        margin: 0;
+        border-top: 1px solid #ddd;
+    }
+    ul.nav-tabs li:first-child{
+        border-top: none;
+    }
+    ul.nav-tabs li a{
+        margin: 0;
+        padding: 0px 16px;
+        border-radius: 0;
+        text-align: center;
+		line-height:1.2;
+    }
+    ul.nav-tabs li.active a, ul.nav-tabs li.active a:hover{
+        color: #fff;
+        background: #0088cc;
+        border: 1px solid #0088cc;
+    }
+    ul.nav-tabs li:first-child a{
+        border-radius: 4px 4px 0 0;
+    }
+    ul.nav-tabs li:last-child a{
+        border-radius: 0 0 4px 4px;
+    }
+    ul.nav-tabs.affix{
+        top: 30px; /* Set the top position of pinned element */
+    }
+   .head-h2{display: inline-block;height: 100%;padding:10px ;}
+	.panel-heading{ padding: 0px 15px 0 5px;}
+    .list-memu {padding: 5px 5px 5px 15px;}
+    .jumbotron{padding: 10px;margin: 0px;margin-left: 115px;width: 88%;border-radius: 5px;}
+    .jumbotron h1{font-size: 30px;line-height: 30px;margin: 0;padding: 0;text-align: center;}
+    .panel-heading, .list-memu dl dd{position: relative;}
+    .panel-heading .b-true{position: absolute;top: 3px;right:45px;}
+	.btn-zhen{position: absolute;top: 0;right:  -5px;}
+	.list-memu dl dd .b-yes{position:absolute; top:0; right:0; margin-right:40px;}
+	.zhendiv{width: 80%;display: inline-block;}
+	.btnzhen-a:hover{cursor: pointer;}
+    @media (min-width: 768px){	.modal-dialog {width: 700px;margin: 30px auto;} }
+    .head-line{	display: block; }
+    .modal-body .btnzhen-xian{margin: 0;line-height: 20px;}
+    #btn-zhensub{position: absolute;top: 10px;right: 60px;}
+   
+	.b-dj{position:absolute;top:3px;right:0;}
+	#btn-top{ position: fixed; bottom: 0; right: 30px;display:none;}
+	 
+	.nonebox,.message-box{ width: 100%; height: auto;border: 1px solid #ccc;min-height: 50px;}
+	.message{width: 100%;height: auto; margin: 10px auto; display:none;}
+	.message-box p{margin-left: 2px;}
+	 #modal-sub{ position:absolute: }
+	
+</style>
+<script type="text/javascript">
+	$(function(){
+		var txts="";
+		var zhens="";
+	
+		$("#myNav li:eq(0)").addClass("active");
+		// $(".floata").on("click",function(){
+		// var a=$(this).attr("id2");
+		// var h=$("span[id2="+a+"]").offset().top;
+		//  $('html ,body').animate({scrollTop: h},10);
+		// }); 
+		$(window).on('scroll',function(){
+			var hh=$(document).scrollTop();
+			if(hh>=50){
+				$("#btn-top").show();
+			}else{
+				$("#btn-top").hide();
+				}
+        })
+	
+		$("#btn-top").on("click",function(){
+			$('html ,body').animate({scrollTop: 0},500);
+			})
+		 $('#myModal').on('hide.bs.modal', function () {
+		 	$(".modal-body").html("");
+			$("#btn-zhensub").hide();
+			$(".checked").removeClass("checked");
+			$(".message").hide();
+			$(".message-box").text("");
+		 });
+		$("#btn-int").on("click",function(){
+		$(".checked").removeClass("checked");
+		$("#btn-zhensub").show();
+		$(".message").show();
+		$("#myModalLabel").text("国际线路");
+		$("#btn-zhensub").show();
+	    var gjson="";
+		gjson+="<div class='m-top'></div>";
+		
+		for( m=0;m<5;m++){
+		gname=guojijson[m].zname;
+		gjson+="<div class='m-bottom'>";
+		gjson+="<p class='btnzhen-xian'>"+gname+"</p>";
+		gjson+="<div class='zhendiv'>";
+		gnamearr=guojijson[m].guojia.split("|");
+			for (  w=0;w<gnamearr.length-1;w++){
+				
+		var xarr1=gnamearr[w].split("_");
+		gjson+="<p class='btnzhen-a' qu="+gnamearr[w]+" id2="+xarr1[1]+">"+xarr1[0]+"</p>";
+		
+			
+			}
+			gjson+="</div>";
+			gjson+="</div>";
+			}
+		
+		$(".modal-body").html(gjson);
+			   });
+			
+		  $("#modal-sub,#modal-sub1").on("click",function(){
+			  var $checked=$(".modal-body .checked");
+			for(var i=0;i<$checked.length;i++){
+				zheni=$(".checked").eq(i).attr("id2");
+				
+				zhens+=zheni+",";
+			}
+			console.log("zhens"+zhens)
+			//调用添加线路方法
+			addallcommon(zhens);
+			//$("#daodadi1").val(zhens);
+			//form2.submit();
+			zhens="";
+			$(".checked").removeClass("checked");
+			  });
+			  //选择镇
+		  $("#shi").on('click','.btn-zhen',function(){ 
+			 $(".checked").removeClass("checked");
+		 	$("#btn-zhensub").show();
+			$(".message").show();
+		 	var btnzhen="";
+		 	zhenshi=$(this).siblings(".list-one").text();
+		 	$("#myModalLabel").text(zhenshi);
+			var $a=$(this).siblings("p").find("a");
+			//console.log("已选中"+$a)
+			var au;
+			var autext;
+			for(n=0;n<$a.length;n++){
+				au=$(this).siblings("p").find("a").eq(n).attr("id2");
+				autext=$(this).siblings("p").find("a").eq(n).text();
+		      $.ajax({
+		           url: '../shi',
+	                 type: 'get',
+	                 dataType: 'json',
+	                 async: false,//必须
+	                   data: {"areaid":au},
+	                success: function(res){
+	                var zhenjson = res.data;
+	                if(zhenjson!=null){
+	                //	console.log("已选中au"+au+"已选中autext"+autext)
+	        	btnzhen+="<p  class='abs-sheng'  id2="+au+">"+autext+"</p>";
+				btnzhen+="<div class='zhendiv'>";
+	          for(m=0;m<zhenjson.length-1;m++){
+				btnzhen+="<p  class='abs-shi'  qu='"+zhenjson[m].areaname+"' id2="+zhenjson[m].areaid+">"+zhenjson[m].areaname+"</p>";
+	          }
+				 btnzhen+="</div>";
+	              //console.log("btnzhen"+btnzhen);
+	              $(".modal-body").html(btnzhen);
+	                	
+	                }
+	                }
+			}); 
+		        
+			}  
+			
+			});
+		
+		$(".modal-body").on("click","a",function(){
+		
+			//var btnid2=$(this).attr("id2");
+			//$(this).toggleClass("checked");
+			//$("[id2="+btnid2+"]").eq(0).toggleClass("checked");
+		 var cla=$(this).hasClass("checked");
+					$(this).toggleClass("checked");
+					if(cla==false){
+					
+						$(".message-box").append($(this).clone())
+						 
+					}else{
+						
+						id2=$(this).attr("id2");
+						$(".message-box a[id2="+id2+"]").remove(); 
+						 
+					}
+		 
+		})
+		
+		
+		$("#btn-sd").on("click",function(){
+			$(".checked").removeClass("checked");
+			$("#myModalLabel").text("省会加地级市");
+			$("#btn-zhensub").show();
+			$(".message").show();
+			
+			$.ajax({
+	           url: '../shengshi',
+                 type: 'get',
+                 dataType: 'json',
+                   data: '',
+                success: function(res){
+                    var data = res.data;
+                    var citystr1="";
+	                for (i in data){
+	                var	sname=data[i]['areaname'];
+	                	//console.log("sname:"+sname)
+	    				var spy=data[i]['areaid'];	
+	    				citystr1 += "<div class='m-bottom'>";
+	    				citystr1 += "<p class='abs-sheng'    qu="+sname+" id2="+spy+">"+sname+"</p>";
+	    				citystr1 +="<div class='zhendiv'>"; 	
+			            
+			              let data2 = res['data'][i]['diqu'];
+							for(var a=0;a<data2.length;a++){
+	 						citystr1+="<p class='abs-shi' qu="+data2[a]["areaname"]+"  id2="+data2[a]["areaid"]+">"+data2[a]["areaname"]+"</p>";
+	 						//console.log("sname:+++"+data2[a]["areaname"])
+	 					} 
+							citystr1 += "</div>";
+							citystr1 += "</div>";
+							// console.log("citystr1111:"+citystr1)
+							$(".modal-body").html(citystr1);
+	                }
+                }
+			
+			});
+			
+			 
+		});
+		$("#btn-pro").on("click",function(){
+			//console.log("省")
+		$(".checked").removeClass("checked");
+		$("#btn-zhensub").show();
+			$(".message").show();
+			$("#myModalLabel").text("省");
+			//$(".head-h2,.list-one:lt(3)").toggleClass("checked");
+			//$(".modal-body").append($(".checked").clone());
+			 $(".modal-body").append($(".head-h2,.list-one:lt(3)").clone());
+			
+		});
+		$("body").on("click","#btn-sh",function(){
+			$(".checked").removeClass("checked");
+			$("#btn-zhensub").show();
+			$(".message").show();
+			$("#myModalLabel").text("省会");
+			$("body .panel .list-memu dl").each(function(){
+				
+				
+				//$(this).find("dd:eq(0)").find(".list-one").addClass("checked");
+			})
+		
+			$(".modal-body").append("<a class='list-one' qu='北京市' id2='35' >北京市</a>"+
+					"<a class='list-one' qu='上海市' id2='36' >上海市</a>"+
+					"<a class='list-one' qu='天津市' id2='37' >天津市</a>"+
+					"<a class='list-one' qu='重庆市' id2='38' >重庆市</a>"+
+					"<a class='list-one' qu='石家庄市' id2='142'>石家庄市</a>"+
+					"<a class='list-one' qu='太原市' id2='303'>太原市</a>"+
+					"<a class='list-one' qu='郑州市' id2='412' >郑州市</a>"+
+					"<a class='list-one' qu='沈阳市' id2='560' >沈阳市</a>"+
+					"<a class='list-one' qu='长春市' id2='639' >长春市</a>"+
+					"<a class='list-one' qu='哈尔滨市' id2='698'>哈尔滨市</a>"+
+					"<a class='list-one' qu='呼和浩特市' id2='799'>呼和浩特市</a>"+
+					"<a class='list-one' qu='南京市' id2='904' >南京市</a>"+
+					"<a class='list-one' qu='济南市' id2='1000' >济南市</a>"+
+					"<a class='list-one' qu='合肥市' id2='1116' >合肥市</a>"+
+					"<a class='list-one' qu='宁波市' id2='1158'>宁波市</a>"+
+					"<a class='list-one' qu='福州市' id2='1303'>福州市</a>"+
+					"<a class='list-one' qu='武汉市' id2='1381' >武汉市</a>"+
+					"<a class='list-one' qu='长沙市' id2='1482' >长沙市</a>"+
+					"<a class='list-one' qu='广州市' id2='1601' >广州市</a>"+
+					"<a class='list-one' qu='南宁市' id2='1715'>南宁市</a>"+
+					"<a class='list-one' qu='南昌市' id2='1827'>南昌市</a>"+
+					"<a class='list-one' qu='成都市' id2='1930' >成都市</a>"+
+					"<a class='list-one' qu='海口市' id2='2121' >海口市</a>"+
+					"<a class='list-one' qu='贵阳市' id2='2144' >贵阳市</a>"+
+					"<a class='list-one' qu='昆明市' id2='2235'>昆明市</a>"+
+					"<a class='list-one' qu='拉萨市' id2='2951'>拉萨市</a>"+
+					"<a class='list-one' qu='西安市' id2='2376' >西安市</a>"+
+					"<a class='list-one' qu='兰州市' id2='2487' >兰州市</a>"+
+					"<a class='list-one' qu='西宁市' id2='2580' >西宁市</a>"+
+					"<a class='list-one' qu='银川市' id2='2628'>银川市</a>"+
+					"<a class='list-one' qu='乌鲁木齐市' id2='2652'>乌鲁木齐市</a>"
+			);
+			 $(".checked").removeClass("checked");
+			
+		});
+		$("#btn-all").on("click",function(){
+		$("#shi a").toggleClass("checked");
+		});
+		$("#btn-dj").on("click",function(){
+			$(".list-one,.head-h2").toggleClass("checked");
+			
+		});
+		$("#btn-xian").on("click",function(){
+		$(".xian,.list-one,.head-h2").toggleClass("checked");
+	
+		});
+		
+		$("#btn-qu").on("click",function(){
+		$(".qu,.list-one,.head-h2").toggleClass("checked");
+	
+		});
+		$("#btn-zh").on("click",function(){
+			$(".checked").removeClass("checked");
+		});
+		$("#shi").on('click','.b-true',function(){
+			
+			$(this).siblings("a").toggleClass("checked")
+			$(this).parent().parent().toggleClass("checkeds")
+			$(this).parent().siblings().children().children().find("a").toggleClass("checked");
+			$(this).parent().siblings().children().children("p").children().toggleClass("checked");
+		 });
+
+		$("#shi").on('click',' .list-one,.head-h2',function(){
+			
+			$(this).toggleClass("checked");
+		 });
+		$("body").on('click','.btnzhen-a',function(){
+			$(this).toggleClass("checked");
+		 });
+		$("body").on('click','.btnzhen-xian',function(){	
+			$(this).next().children().toggleClass("checked");
+		 });
+		 $("body").on('click','.abs-shi,.btnzhen-a',function(){
+			//$(this).toggleClass("checked");
+					var cla=$(this).hasClass("checked");
+					$(this).toggleClass("checked");
+					if(cla==false){
+					
+						$(".message-box").append($(this).clone())
+						 
+					}else{
+						
+						id2=$(this).attr("id2");
+						$(".message-box p[id2="+id2+"]").remove(); 
+						 
+					}
+		 });
+		$("body").on('click','.abs-sheng,.btnzhen-xian',function(){	
+			//$(this).next().children().toggleClass("checked");
+			var clas=$(this).next().children().hasClass("checked");
+					if(clas==false){
+						$(this).next().children().addClass("checked");
+						
+						$(".message-box").append($(this).next().children().clone())
+					} else{
+						 $(this).next().children().each(function(){
+							 var ar2=$(this).attr("id2");
+							$(".message-box p[id2="+ar2+"]").remove(); 
+							$(this).removeClass("checked")	 
+				 })
+						}
+		 });
+		  $("body").on('click','.message-box p,.message-box a',function(){
+					id2=$(this).attr("id2");
+					$(this).remove();
+					$("[id2="+id2+"]").removeClass("checked")	 
+			});
+		 $("body").on('click','.b-dj',function(){
+			$(this).parent().siblings(".list-memu").find(".list-one").toggleClass("checked");
+			
+		 });
+		$("body").on('click','#btn-zhensub',function(){
+			$("body .modal-body .btnzhen-a,body .modal-body .abs-shi,.modal-body a").toggleClass("checked");
+			var txt=$(this).text();
+		txt=='全选'?txt='取消全选':txt='全选';
+		$(this).text(txt);
+		 });
+		$("#shi").on('click','.b-yes',function(){
+			 $(this).siblings("a").toggleClass("checked");
+			 $(this).siblings().find("a").toggleClass("checked");
+		 });
+		$("#shi").on('click',' .xian, .qu',function(){
+			$(this).toggleClass("checked");
+		 });
+		$("#btn").on("click",function(){
+			var $checked=$(".checked");
+			for(var i=0;i<$checked.length;i++){
+				qu=$(".checked").eq(i).attr("id2");
+				txts+=qu+",";
+			}
+			//console.log("txts"+txts);
+			//调用添加线路方法
+			addallcommon(txts);
+			//$("#daodadi").val(txts);
+			//form1.submit();
+			txts="";
+			
+
+		})
+	});
+	//添加确定按钮
+	function addallcommon(arr){
+		var url="../addcityspath";
+		var cfd=$.trim($("#cfd").val());
+		var id=$.trim($("#companyId").val());
+		console.log("cfd"+cfd+"companyId"+companyId)
+		$.ajax({
+			"url":url,
+		  "data":{
+			  "ids" : arr,
+			  "id":id,
+			  "cfd":cfd,
+			  "direct":"直达",
+			},  
+			"type":"post",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					alert("添加成功！");
+					//location.href="";
+				}else if(json.state==402){
+					alert(json.message);
+				}
+			}
+		});
+	}	
+	
+	
+	
+	
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+</head>
+
+<body   data-spy="scroll" data-target="#myScrollspy">
+<div style="display:none;" class="nonebox"></div>
+	 <div class="jumbotron">
+      <button type="button" class="btn btn-primary" id="btn-pro" data-toggle="modal" data-target="#myModal">省</button>
+     
+      <button type="button" class="btn btn-success" id="btn-sh" data-toggle="modal" data-target="#myModal">省会城市</button>
+      <button type="button" class="btn btn-info" id="btn-dj">地级城市</button>
+       <button type="button" class="btn btn-success" id="btn-sd" data-toggle="modal" data-target="#myModal">省会+地级</button>
+      <button type="button" class="btn btn-warning" id="btn-xian">县</button>
+      <button type="button" class="btn btn-danger" id="btn-qu" >区</button>
+        <button type="button" class="btn btn-info" id="btn-all">全选省</button>
+         <button type="button" class="btn btn-primary" id="btn-int" data-toggle="modal" data-target="#myModal">国际线路</button>
+     
+      <button type="button" class="btn btn-default" id="btn-zh" >取消选择</button>
+      <a th:href="@{/article-list7(companyId=${companyId})}"  href="javascript:void(0)">返回运营线路</a>
+    </div>
+<div class="top-box col-xs-9">
+  <div id="shi"></div>
+</div>
+<div class="floatbox col-xs-3" id="myScrollspy">
+	<ul class="nav nav-tabs nav-stacked affix-top" id="myNav">
+		
+	</ul>
+</div>
+<form name="form1" action="xianlu_pladd.asp" method="post">
+<input type="button" name="btn" id="btn" class="btn btn-warning" value="确定添加">
+<label for="textfield"></label>
+<input type="hidden" name="sid" id="sid" value="181">
+<input type="hidden" name="action" id="action" value="add">
+<input type="hidden"  id="companyId"  th:value="${companyId}">
+<input type="hidden"  id="cfd" th:value="${cfd}">
+<input type="hidden" name="daodadi" id="daodadi" value="">
+</form>
+<form name="form2" action="xianlu_pladd.asp" method="post">
+<label for="textfield"></label>
+<input type="hidden" name="sid" id="sid" value="181">
+<input type="hidden" name="action" id="action" value="add">
+<input type="hidden" name="daodadi" id="daodadi1" value="">
+</form>
+ <button type="button" class="btn btn-danger" id="btn-top" >返回顶部<span class="glyphicon glyphicon-eject"></span></button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					模态框（Modal）标题
+				</h4>
+                <button type="button" class="btn btn-warning" id="btn-zhensub">全选</button>
+			</div>
+            <div class="message">
+		您已选择：(顺序如下)
+		<div class="message-box">
+	 
+	</div></div>
+			<div class="modal-body">
+				<!--在这里添加一些文本-->
+			</div>
+			<div class="modal-footer">
+				<button id="modal-close" type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button id="modal-sub" type="button" class="btn btn-primary">
+					确定添加
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+    <button id="modal-sub1" type="button" class="btn btn-primary" style="position: fixed; top: 0; right: 128px; padding-left:21px; padding-right:21px; ">
+					确定添加
+				</button>
+	</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	
+
+$.ajax({
+	url: '../sheng',
+    type: 'get',
+    dataType: 'json',
+    data: '',
+    success: function(res){
+        let data = res.data;
+       // console.log(data)
+	var citystr="";
+	var floata="";
+	var v=0;
+	
+	for (let i in data){
+				v+=1;
+				var sname=data[i]['areaname'];
+				var spy=data[i]['areaid'];	
+				//console.log(spy+"spy00000")
+					floata += "<li><a class='floata' href= '#section-"+v+"'  id2="+data[i]['areaid']+">"+data[i]['areaname']+"</a></li>";
+					citystr += "<div class='panel panel-primary'>";
+					citystr += "<div class='panel-heading'><a  class='pro-span panel-title head-h2' onclick='addcitys(this)'     id= 'section-"+v+"'  qu="+data[i]['areaname']+" id2="+data[i]['areaid']+">"+data[i]['areaname']+"</a><button class='b-true btn btn-default'  onselectstart='return false';>全选</button><button class='b-dj btn btn-default'  onselectstart='return false';>市</button></div>";
+					
+					citystr += "<div class='list-memu' id='list-memu'><dl>";
+					
+					citystr+="<dd id='table"+spy+"' >";
+					citystr+="<p class='ppp'>";
+					citystr+="</p>";
+					citystr+="</dd>";
+						citystr += "</div>";
+						citystr += "</div>";
+						
+						
+				}
+	           // console.log("citystr"+citystr)
+				floata += "<li><a class='floata' href= '#section-32'  id2='2426'>香港</a></li>";
+						floata += "<li><a class='floata' href= '#section-33'  id2='2427'>澳门</a></li>";
+						floata += "<li><a class='floata' href= '#section-34'  id2='3087'>台湾</a></li>";
+						citystr += "<a  class='pro-span panel-title head-h2' qu='香港_2426'   id= 'section-32' id2='2426'> 香港</a>";
+						citystr += "<a  class='pro-span panel-title head-h2' qu='澳门_2427'   id= 'section-33' id2='2427'> 澳门</a>";
+						citystr += "<a  class='pro-span panel-title head-h2' qu='台湾_3087'   id= 'section-34' id2='3087'> 台湾</a>";
+				$("#shi").html(citystr);  
+				
+				$("#myNav").html(floata);
+				//$(".panel-heading:lt(3)").remove();
+				$(".panel:lt(3)").css("border","0");
+				/* $(".list-one:eq(0)").attr("id","section-1");
+				$(".list-one:eq(1)").attr("id","section-2");
+				$(".list-one:eq(2)").attr("id","section-3"); */
+				
+    }	 
+});
+
+
+
+});
+//点击添加市addcitys(this)
+function addcitys(dom){
+	var url='../area';
+	var areaid= dom.getAttribute("id2");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table"+areaid+"");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "name":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					//console.log("添加市成功！"+data);
+					for(i in data){
+						str+="<dd><a class='list-one' qu='"+data[i].areaname+"'  id2='"+data[i].areaid+"'>"+data[i].areaname+"</a><button class='btn-zhen btn btn-default'  onselectstart='return false'; data-toggle='modal' data-target='#myModal'>镇</button><button class='b-yes btn btn-default'  onselectstart='return false'; >"+data[i].areaname+"</button>"+
+						"<p class='ppp'>";
+					
+					var data2 = data[i]['diqu'];
+					for(var a=0;a<data2.length;a++){
+						var qu=data2[a]["areaname"].slice(-1);
+						//console.log("汉字："+qu)
+						if(qu=="区" || qu=="镇"){
+							str +="<a id2="+data2[a]["areaid"]+" qu='"+data2[a]["areaname"]+"_"+data2[a].areaid+"' class='qu' href='javascript:;'>"+data2[a]["areaname"]+"</a>";
+						}
+						else{
+							str +="<a id2="+data2[a]["areaid"]+" qu='"+data2[a]["areaname"]+"_"+data2[a].areaid+"' class='xian' href='javascript:;'>"+data2[a]["areaname"]+"</a>";
+						}
+						
+						
+					}
+					}
+					str+="</p>";
+					str+="</dd>";
+					
+					//console.log("地区数据"+data2)
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	
+	
+	}
+
+
+
+</script>
+</body>
+</html>

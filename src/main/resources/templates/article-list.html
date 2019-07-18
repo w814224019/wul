@@ -1,0 +1,157 @@
+﻿<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>公司查询</title>                          
+</head>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+	<span class="c-gray en">&gt;</span>
+        查询管理
+	<span class="c-gray en">&gt;</span>
+	所有物流公司查询
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+</nav>	
+<body>
+<div class="page-container">
+	<form id="form-s">
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+	<input type="text" style="width:100px" name="from" id="from" class="input-text" txt1="" value="" placeholder="出发地" readonly="readonly"/>
+		    		-->
+    <input type="text" style="width:100px" name="to" id="to" value="" class="input-text" placeholder="到达地" readonly="readonly"/>
+	<a href="javascript:;" onclick="datacx()" class="btn btn-primary radius"> 专线查询</a>
+	<a href="javascript:;" onclick="datafx()" class="btn btn-primary radius"> 反向查询</a>  
+	<a  onclick="datacxc()" class="btn btn-primary radius"  ><i class="Hui-iconfont">&#xe665;</i> 根据地区查询公司</a>
+	 <input type="text" class="input-text" style="width:100px" placeholder="输入id" id="companyId" name=""> <a href="javascript:;" onclick="datafid()" class="btn btn-primary radius">根据公司id查找</a><br/>
+	</div> 
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+	<input type="text" class="input-text" style="width:250px" placeholder="输入关键词" id="companyLname" name=""> 
+	<a  onclick="datagjc()" class="btn btn-primary radius" id="btn-skey" name=""><i class="Hui-iconfont">&#xe665;</i> 关键词查找</a>
+		<a href="javascript:;" th:href="@{/product-category4}" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加公司</a></span> 
+	</div>
+	
+	 </form>
+	 <div  id="chushibiao">
+	 <div class="cl pd-5 bg-1 bk-gray mt-20">  
+	<span class="l">公司列表:
+	</span>
+	<span class="r">总共 <span th:text="${pageInfo.pages}"></span> 页,<span th:text="${pageInfo.total}"></span> 条</span>
+	
+	  <label class="r">
+	  查看第
+	<select style="width:60px" id="pageNum1" onchange="GaiBian1()" >
+			<option th:each="pageNo : ${#numbers.sequence(1, pageInfo.pages)}" th:text="${pageNo}" th:value="${pageNo}" th:selected="${pageInfo.pageNum==pageNo}" > 请选择</option>
+		    
+		</select>
+		页,
+	  
+	  显示
+   <select  id="select" onChange="GaiBian1()" >
+<option value="10"  th:selected="${pageInfo.pageSize==10}">10</option>
+<option value="25" th:selected="${pageInfo.pageSize==25}">25</option>
+<option value="50" th:selected="${pageInfo.pageSize==50}">50</option>
+<option value="100" th:selected="${pageInfo.pageSize==100}">100</option>
+</select>
+条,
+
+ </label>
+	  </div>
+	<table class="table table-border table-bordered table-bg table-hover ">
+		<thead>
+			
+			<tr class="text-c">
+				<th>Id</th>
+				<th>公司名称(点击名称查看详情)</th>
+				<th width="100">公司图片(点击查看原图)</th>
+				<th>公司地址</th>
+				<th>联系人</th>
+				<th>联系电话</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c"  th:each="base:${pageInfo.list}" varStatus="s">
+				<td th:text="${base.companyId}"></td>
+				<td ><img th:class="'img'+${base.vipClass}" src=""/><a  th:href="@{/index4(companyId=${base.companyId})}"  style="color: blue;"   target='_blank'  th:text="${base.companyName}"></a><a target='_blank'   th:href="${base.mobilepath}"><img src='http://static.56114.net.cn/images/ssj.jpg' width='9' height='15'/></a></td>
+				<td><img style="width:100%" onclick="javascript:window.open(this.src)"  th:src="${base.detailPicture}"></img></td>
+				<td th:text="${base.address}"></td>
+				<td th:text="${base.contact}"></td>
+				<td    th:text="${base.phone}"></td>
+				
+			</tr>
+			
+		</tbody>
+	</table>
+	<p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+    <!-- <a th:href="@{/article-list}">首页</a>
+    <a th:href="@{/article-list(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+
+    <a th:href="@{/article-list(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+    <a th:href="@{/article-list(pageNum=${pageInfo.pages})}">尾页</a> -->
+   </div>
+    <div id="zhuanxianbiao" style="display:none;" >
+    <table class="table table-border table-bordered table-bg table-hover">
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">查询统计
+				<label class="r" >查看第
+	<select style="width:60px" id="pageNum" onChange="datacx()">
+	     <option value="0" > 请选择</option></select>
+		页, 显示
+   <select  id="pageSize" onChange="datacx()">
+      <option value="10"  >10</option>
+        <option value="25" >25</option>
+         <option value="50" >50</option>
+       <option value="100" >100</option>
+             </select>条,
+	<span class="r">共有： <span id="total" ></span> 页, 总共：<strong id="tiaoshu" ></strong>条</span>		
+    </label>
+				</th>
+			</tr>
+			<tr class="text-c">
+				<th>网点或者公司Id</th>
+				<th>网点或者公司名称(点击名称查看详情)</th>
+				<th width="100">图片(点击查看原图)</th>
+				<th>网点或者公司地址</th>
+				<th>联系人</th>
+				<th>联系电话</th>
+				
+			</tr>
+		</thead>
+		<tbody id="table-result">
+		<div id="company"></div>
+			<tr>
+				<td></td>
+				<td  ></td>
+				<td></td>
+				<td ></td>
+				<td ></td>
+				<td >123456</td>
+				
+			</tr>
+			
+		</tbody>
+	</table>
+    </div>
+</div>
+<!--footer-->  
+<div  th:replace="_footer :: common_resource"></div>
+<script data-th-src="@{system/company/article-list.js}"></script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>用户查看</title>
+</head>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 用户中心 <span class="c-gray en">&gt;</span> <a style="color: blue;" th:href="@{/member-list}" >返回会员列表</a> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+<body>
+<div class="cl pd-20" style=" background-color:#5bacb6">
+	<img class="avatar size-XL l" src="/h-ui/images/ucnter/avatar-default.jpg">
+	<dl style="margin-left:80px; color:#fff">
+		<dt>
+			<span class="f-18" th:text=${m.companyName} >张三</span>
+		</dt>  
+		<dd class="pt-10 f-12" style="margin-left:0" id="xh"  th:text="'序号：'+${m.id}" >这家伙很懒，什么也没有留下</dd>
+	</dl>
+</div>
+<div class="pd-20">
+
+<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>设置会员日期范围：</label>
+			开通时间
+		<input type="text" th:value="${#dates.format(m.startTime,'yyyy-MM-dd ')}" onfocus="WdatePicker({ maxDate:'\'%y-%M-%d\'}' })" id="startTime" class="input-text Wdate" style="width:120px;">
+		- 到期时间
+		<input type="text" th:value="${#dates.format(m.endTime,'yyyy-MM-dd ')}"  onfocus="WdatePicker()" id="endTime" class="input-text Wdate" style="width:120px;">
+	</div>
+<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						公司ID：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input th:value=${m.id} type="hidden" class="input-text" style="width:100px"  id="id" name=""> 
+						<input th:value=${m.companyId} type="text" class="input-text" style="width:100px" placeholder="输入id" id="companyId" name=""> 
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						公司全称：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input th:value=${m.companyName}  type="text" id="companyName" placeholder="控制在25个字、50个字节以内"  class="input-text"/>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						开户销售员：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input th:value=${m.userName} type="text" id="userName" placeholder="5个左右,8汉字以内" value="" class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						开户详情：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+				<textarea name="beizhu"  th:text=${m.remarks} class="textarea" id="remarks" placeholder="说点什么...最少输入10个字符" ></textarea>
+			</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						设置会员类型：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="select-box inline">
+						<select class="select" id="testSelect" name="">
+			<option value="诚信会员" th:selected="${m.type=='诚信会员'}" >诚信会员</option>
+			<option value="金牌会员"  th:selected="${m.type=='金牌会员'}">金牌会员</option>
+			<option value="银牌牌会员"  th:selected="${m.type=='银牌会员'}">银牌会员</option>
+			<option value="铜牌会员"  th:selected="${m.type=='铜牌会员'}">铜牌会员</option>
+			<option value="普通会员"  th:selected="${m.type=='普通会员'}">普通会员</option>
+			<option value="试用会员"  th:selected="${m.type=='试用会员'}">试用会员</option>
+			<option value="非会员"  th:selected="${m.type=='非会员'}">非会员</option>
+		</select>
+		</span>
+					</div>
+				</div>
+				
+				
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						发票单据号：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" id="InvoiceNumber" placeholder="发票单据号" th:value=${m.InvoiceNumber} class="input-text">
+					</div>
+				</div>
+
+
+
+<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" onclick="memberupdate()" type="button" value="&nbsp;&nbsp;确认修改&nbsp;&nbsp;">
+				<input class="btn btn-primary radius" onclick="memberdel()" type="button" value="&nbsp;&nbsp;标记删除&nbsp;&nbsp;">
+			</div>
+		</div>
+	
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> 
+<script type="text/javascript">
+//删除会员memberdel()
+function memberdel(){
+	var url="../memberdel";
+	var id=$.trim($("#id").val());
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "id":id,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("删除成功！");
+				location.href="member-list";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.$('.btn-refresh').click();
+			parent.layer.close(index);
+			
+			
+		}
+	});
+}
+
+
+
+//修改会员
+function memberupdate(){
+	var url="../memberupdate";
+	
+	var id=$.trim($("#id").val());
+	var InvoiceNumber=$.trim($("#InvoiceNumber").val());
+	 var companyId=$.trim($("#companyId").val());
+	 var companyName=$.trim($("#companyName").val());
+		var userName=$.trim($("#userName").val());
+		var remarks=$.trim($("#remarks").val());
+		var startTime=$.trim($("#startTime").val());
+		var endTime=$.trim($("#endTime").val());
+		var type=$('#testSelect option:selected').val()
+		console.log("startTime"+startTime)
+		console.log("id"+id)
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "id":id,
+		  "companyId":companyId,
+			"companyName":companyName,
+			"userName":userName,
+			"remarks":remarks,
+			"startTime":startTime,
+			"endTime":endTime,
+			"type":type,
+			"InvoiceNumber":InvoiceNumber,
+		},  
+		"type":"post",
+		"dataType":"json",
+		async:false,
+		"success":function(json){
+			if(json.state==200){
+				console.log("修改成功！");
+				location.href="";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.$('.btn-refresh').click();
+			parent.layer.close(index);
+			
+			
+		}
+	});
+}
+</script> 
+</body>
+</html>

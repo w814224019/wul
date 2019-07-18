@@ -1,0 +1,280 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>图片管理</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 公司图片管理 <span class="c-gray en">&gt;</span> 
+<a style="color: blue;" th:href="@{/product-category(companyId=${companyId})}" >返回基本设置</a>
+<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+<input th:value=${companyId} type="hidden" class="input-text" style="width:100px" placeholder="输入id" id="companyId" name=""> 
+<input type="text" class="input-text" style="width:200px" placeholder="输入图片类型" id="companyName" name=""> <a href="javascript:;" onclick="datafcn()" class="btn btn-primary radius">根据关键词查找</a>
+<a class="btn btn-primary radius"   th:href="@{/picture-add(companyId=${companyId})}"><i class="Hui-iconfont">&#xe600;</i> 继续添加图片</a>
+	<a class="btn btn-danger radius"   onclick="delpicturelist()">批量删除公司图片</a>
+	<div class="mt-20">
+		<table class="table table-border table-bordered table-bg table-sort">
+			<thead>
+			<tr>
+				<th scope="col" colspan="8">图片列表
+				<label id="picadd"  class="r">
+	<span class="r">总共 <span th:text="${pageInfo.pages}"></span> 页,<span th:text="${pageInfo.total}"></span> 条</span>
+	  查看第
+	<select style="width:60px" id="pageNum1" onchange="GaiBian1()" >
+			<option th:each="pageNo : ${#numbers.sequence(1, pageInfo.pages)}" th:text="${pageNo}" th:value="${pageNo}" th:selected="${pageInfo.pageNum==pageNo}" > 请选择</option>
+		</select>
+		页,显示
+   <select  id="select" onChange="GaiBian1()" >
+<option value="10"  th:selected="${pageInfo.pageSize==10}">10</option>
+<option value="25" th:selected="${pageInfo.pageSize==25}">25</option>
+<option value="50" th:selected="${pageInfo.pageSize==50}">50</option>
+<option value="100" th:selected="${pageInfo.pageSize==100}">100</option>
+</select>条,
+ </label>
+ <label id="fahjil"  style="display:none;" class="r" >查看第
+	<select style="width:60px"  id="pageNum" onChange="datafcn()" >
+			<option value="0"   > 请选择</option>
+		</select>
+		页
+	 <span class="r">共有： <span id="total1" ></span> 页,总共：<strong id="tiaoshu" ></strong>条</span>,
+	 显示
+   <select  id="pageSize" onChange="datafcn()">
+<option value="10"  >10</option>
+<option value="25" >25</option>
+<option value="50" >50</option>
+<option value="100" >100</option>
+</select>
+条,</label>
+ 
+				</th>
+			</tr>
+				<tr class="text-c">
+					<th width="25"><input type="checkbox" name="duoxuan" value=""></th>
+					<th width="70">ID</th>
+					<th width="200">公司名称</th>
+					<th width="80">排序</th>
+					<th width="150" >公司图片</th>
+					<th width="150" >图片类型</th>
+					<th>图片地址</th>
+					<th width="100">操作</th>
+				</tr>
+				
+			</thead>
+			<tbody id="table-result">
+			<div id="company"></div>
+				<tr class="text-c"  th:each="base:${pageInfo.list}" varStatus="s">
+				<td><input name="duoxuan" type="checkbox" th:value="${base.picturePath}"></td>
+				<td th:text="${base.companyId}"></td>
+				<td  th:text="${base.companyName}"></td>
+				<td  th:text="${base.sor}"></td>
+				<td><img style="width:100%" onclick="javascript:window.open(this.src)"     th:src="${base.picturePath}"></img></td>
+				<td th:text="${base.types}"></td>
+				<td th:text="${base.picturePath}"></td>
+				<td class="f-14 product-brand-manage">
+				<a style="text-decoration:none" onClick="setfirst(this)" th:id="${base.picturePath}"  href="javascript:;" title="设为封面"><i class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5" onClick="delpicture(this)" th:id="${base.picturePath}"  href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+			</tr>
+			</tbody>
+		</table>
+		<div id="yeshu">
+		<p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+	</div>
+		
+		
+	</div>
+</div>
+
+
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+
+
+<script type="text/javascript">
+//每页多少条
+function GaiBian1(){
+	var type=$('#select option:selected').val();
+	var pageNum=$('#pageNum1 option:selected').val();
+	var companyId=$.trim($("#companyId").val());
+	location.href="picture-add2?pageNum="+pageNum+"&&pageSize="+type+"&&companyId="+companyId+""
+}
+//通过公司名称找公司图片列表
+function datafcn(){
+	var url="../findPictureByName1";
+	document.getElementById("fahjil").style.display='block';
+	document.getElementById("picadd").style.display='none';
+	document.getElementById("yeshu").style.display='none';
+	var tbody=window.document.getElementById("table-result");
+	 var companyName=$.trim($("#companyName").val());
+	 var companyId=$.trim($("#companyId").val());
+	 var pageNum=$.trim($("#pageNum").val());
+	$.ajax({
+		"url":url,
+	  "data":{
+			"companyName":companyName,
+			"pageNum":pageNum,
+			"companyId":companyId,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				var str="";
+				var data=json.data;
+				$("#company").text(str);
+				for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td><input type='checkbox' value='"+data[i].picturePath+"' name='duoxuan'></td>"+
+						"<td align='center'>"+data[i].companyId+"</td>"+
+						"<td align='center'>"+data[i].companyName+"</td>"+
+						"<td align='center'>"+data[i].sor+"</td>"+
+						"<td align='center'><img style='width:100%' onclick='javascript:window.open(this.src)'   src="+data[i].picturePath+"></img></td>"+
+						"<td align='center'>"+data[i].types+"</td>"+
+						"<td align='center'>"+data[i].picturePath+"</td>"+
+						"<td class='f-14 product-brand-manage'><a style='text-decoration:none'  id="+data[i].picturePath+" onClick='setfirst(this)' href='javascript:;' title='设为首页'><i class='Hui-iconfont'>&#xe6df;</i></a> <a style='text-decoration:none' class='ml-5' onClick='delpicture(this)' id="+data[i].picturePath+"  href='javascript:;' title='删除'><i class='Hui-iconfont'>&#xe6e2;</i></a></td>"+
+						"</tr>";
+				}
+				//console.log(data[i].pages+"页数")
+				tbody.innerHTML=str;
+				var total=0;
+				var tiaoshu=0;
+				if (data.length==0){
+					total=0;
+					tiaoshu=0;
+				}else{
+					
+				 total=data[i].pages;
+				 tiaoshu=data[i].totals;
+				}
+				$("#total1").text(total);
+				var option =""
+					for(i=0;i<total;i++){
+						//先创建好select里面的option元素
+		                 option += "<option value='"+(i+1)+"' >"+(i+1)+"</option>";
+					}
+			    $('#pageNum').html(option);
+			    $('#pageNum').val(pageNum);
+				$("#tiaoshu").text(tiaoshu);
+				//$("#total1").text(data[i].pages);
+			}else if(json.state==402){
+				alert(json.message);
+			}else if(json.state==400){
+				alert(json.message);
+			}
+			
+		}
+	});
+}
+
+//批量删除公司图片delpicturelist()
+function delpicturelist(){
+	var url="../delpicturelist";
+	var companyId=$.trim($("#companyId").val());
+	 var arr=[];//定义一个数组
+	    var arr2=$("input[name='duoxuan']:checked");//获取多选框的数组
+	    $.each(arr2,function () {
+	        arr.push($(this).val());//把多选框数组的value放入自己定义的里面
+	    })
+	   // alert(arr)
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "ids" : arr.join(",")
+		 
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				layer.msg('批量删除图片成功！',{icon: 6,time:1000});
+				location.href="picture-add2?companyId="+companyId+"";
+				//location.href="picture-add2";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+//单个删除公司图片
+function delpicture(dom){
+	var url="../delpicture";
+	
+	var picturePath= dom.getAttribute("id");
+	var companyId=$.trim($("#companyId").val());
+	console.log("参数data:"+picturePath);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  
+		  "picturePath":picturePath,
+		  
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				layer.msg('删除成功!',{icon: 6,time:1000});
+				// $("img").attr("src",json.data);
+				location.href="picture-add2?companyId="+companyId+"";
+				//location.href="picture-add2";
+			}else if(json.state==402){
+				alert(json.message);
+				
+			}
+		}
+	});
+}
+
+
+function setfirst(dom){
+	var url="../setfirst";
+	var companyId=$.trim($("#companyId").val());
+	 var picturePath= dom.getAttribute("id");
+	console.log("参数data:"+picturePath);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "picturePath":picturePath,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				layer.msg('设置成功!',{icon: 6,time:1000});
+				//"picture-add2?companyId="+companyId+""
+				location.href="picture-add2?companyId="+companyId+"";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+
+
+</script>
+</body>
+</html>

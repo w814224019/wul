@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>手机验证码</title>
+		<script src="../bootstrap3/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<div class="form-group has-feedback">
+ <input type="tel" class="form-control" name="phoneNumber" id="phone" placeholder="请输入手机号" maxlength=11>
+ <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+</div>
+<div class="row">
+ <div class="col-xs-6 pull_left">
+  <div class="form-group">
+   <input class="form-control" id="msg_num" name="msgNum" placeholder="请输入验证码">
+  </div>
+ </div>
+ <div class="col-xs-6 pull_center">
+  <div class="form-group">
+   <input type="button" class="btn btn-block btn-flat" id="verify_refresh" onclick="getMsgNum(this)" value="免费获取验证码">
+  </div>
+ </div>
+</div>
+<div class="col-xs-12 pull_center">
+ <button type="button" class="btn btn-block btn-flat" onclick="validateNum()">验证</button>
+</div>
+<script type="text/javascript">
+var messageData;
+var wait = 120; // 短信验证码120秒后才可获取下一个
+/**
+ * 获取验证码
+ * @param that
+ */
+function getMsgNum(that) {
+ var phoneNumber =$.trim($('#phone').val());
+ console.log(phoneNumber)
+ setButtonStatus(that); // 设置按钮倒计时
+/*  var obj = {
+  phoneNumber: phoneNumber
+ }; */
+ $.ajax({
+  url: '../sendMsg', // 后台短信发送接口
+  type: 'POST',
+  dataType: 'json',
+ // contentType: "application/json",
+  async: false, //false 同步
+  data:{
+		"phone":phoneNumber
+		
+	}, 
+  //data: JSON.stringify(obj),
+  xhrFields: {
+   withCredentials: true
+  },
+  success: function (result) {
+   if(result.state == 200) {
+    messageData = result.data;
+    alert("result.data:"+messageData);
+   }else {
+    alert("错误码:" + result.state + " 错误信息:" + result.message);
+   }
+  },
+  error: function (XMLHttpRequest, textStatus, errorThrown) {
+   console.log(XMLHttpRequest.status);
+   console.log(XMLHttpRequest.readyState);
+   console.log(textStatus);
+  }
+ });
+}
+/**
+ * 设置按钮状态
+ */
+function setButtonStatus(that) {
+ if (wait == 0) {
+  that.removeAttribute("disabled");
+  that.value="免费获取验证码";
+  wait = 60;
+ } else {
+  that.setAttribute("disabled", true);
+  that.value=wait+"秒后可以重新发送";
+  wait--;
+  setTimeout(function() {
+   setButtonStatus(that)
+  }, 1000)
+ }
+}
+/**
+* 注册按钮
+*/
+function validateNum() {
+	var msgNum=$("#msg_num").val();
+	console.log("msgNum"+msgNum);
+	
+	
+ var data = {
+		 msgNum: msgNum,
+  tamp: messageData.tamp,
+  hash: messageData.hash
+ };
+ $.ajax({
+  url:  '../validateNum', // 验证接口
+  type: 'POST',
+  dataType: 'json',
+  contentType: "application/json",
+  data: JSON.stringify(data),
+  async: false, //false 同步
+  success: function (result) {
+	  if(result.state == 200) {
+		  alert(result.message);
+	  }
+  
+   //业务处理
+  },
+  error: function (XMLHttpRequest, textStatus, errorThrown) {
+   console.log(XMLHttpRequest.status);
+   console.log(XMLHttpRequest.readyState);
+   console.log(textStatus);
+  }
+ });
+}
+
+
+
+</script>
+</body>
+</html>

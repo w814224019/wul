@@ -1,0 +1,495 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+[if lt IE 9]
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+[endif]
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+[if IE 6]
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+[endif]
+<title>地区选择</title>
+
+<link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+
+
+
+
+<style type="text/css">
+		.hot-city {
+			margin: 1rem auto;
+			width: 95%;
+		}
+		.hot-city h3{
+			text-align: center;
+		}
+		.list-city {
+			margin-top: 1rem;
+			text-align: center;
+			overflow: hidden;
+		}
+		.list-city span {
+			display: block;
+			float: left;
+			text-align: center;
+			font-size: 0.9rem;
+			background: #DFDFDF;
+			width: 18%;
+			margin: 0 1%;
+			margin-top: 0.3rem;
+			height: 2rem;
+			line-height: 2rem;
+		}
+		.abroad {
+			margin: 1rem auto;
+			width: 95%;
+			overflow: hidden;
+		}
+		.abroad h3 {
+			text-align: center;
+			margin-bottom: 1rem;
+		}
+		.abroad span {
+			display: block;
+			float: left;
+			text-align: center;
+			font-size: 0.9rem;
+			background: #DFDFDF;
+			width: 18%;
+			margin: 0 1%;
+			margin-top: 0.3rem;
+			height: 2rem;
+			line-height: 2rem;
+		}
+		#sousuo {
+			display: block;
+			width: 90%;
+			background: #efeff4;
+			margin: 0 auto;
+		}
+		.searchbar-cancel {
+			display: inline-blockblock;
+			margin-top: 0.2rem;
+			color: #5f646e;
+		}
+		.searchbar .search-input input {
+			height: 1.7rem
+		}
+		.abroad1 {
+			width: 100%;
+			position: relative;
+			margin-top: 1.5rem;
+		}
+		.abroad1 h5{
+			text-align: center;
+			font-size: 0.9rem;
+			height: 1.6rem;
+		}
+		.sheng {
+			line-height: 1.4rem;
+			position: absolute;
+			top: 0;
+			right: 5%;
+			font-size: 0.9rem;
+			color: blue;
+		}
+		.diqu {
+			width: 95%;
+			margin: 0 auto;
+			margin-top: 1rem;
+		}
+		.diqu h6 {
+			display: block;
+			width: 20%;
+			height: 1.4rem;
+			line-height: 1.4rem;
+			font-size: 0.9rem;
+			text-align: center;
+			background: #008AFF;
+			border-radius: 5px;
+			overflow: hidden;
+		}
+		.diqu1 {
+			display: block;
+			margin-left: 20%;
+			margin-top: -1.4rem;
+			width: 80%;
+			font-size: 0.7rem;
+		}
+		.diqu1 span {
+			display: inline-block;
+			text-align: center;
+			height: 1.4rem;
+			line-height: 1.4rem;
+			font-size: 0.9rem;
+			overflow: hidden;
+			margin: 0 2%;
+			width: 28%;
+		}
+		
+		.shiji span{
+			display: block;
+		    padding: 0 10px;
+		    line-height: 2.5rem;
+		    height: 2.5rem;
+		    color: #333;
+		    font-size: 0.8rem;
+		    text-overflow: ellipsis;
+		    overflow: hidden;
+		    white-space: nowrap;
+		    position: relative;
+		}
+		.line {
+			height: 2px;
+			background: white;
+		}
+		.abroad2 {
+			width: 100%;
+			position: relative;
+			margin-top: 1.5rem;
+		}
+		.abroad2 h5{
+			text-align: center;
+			font-size: 0.9rem;
+			height: 1.6rem;
+		}
+		.zhen {
+			line-height: 1.4rem;
+			position: absolute;
+			top: 0;
+			right: 5%;
+			font-size: 0.9rem;
+			color: blue;
+		}
+	</style>
+
+</head>
+<div class="page-group">
+        <div class="page page-current" id="aaa">
+        	<!-- 你的html代码 -->
+		    <header class="bar bar-nav">
+			    <a class="button button-link button-nav pull-left" href="javascript:history.go(-1);" data-transition='slide-out'>
+			        <span class="icon icon-left"></span>
+			              返回
+			    </a>
+			    <h1 class="title">请选择</h1>
+			</header>
+		    <div class="content">
+		    <!-- 这里是页面内容区 -->
+				<div class="searchbar" id="sousuo">
+				    <a class="searchbar-cancel">取消</a>
+				    <div class="search-input">
+				        <label class="icon icon-search" for="search"></label>
+				        <input type="search" id='search' placeholder='输入关键字...'/>
+				    </div>
+				</div>
+	        	<ul class="shiji">
+	        		
+	        	</ul>
+			    <div id="" class="history">
+			    	
+			    </div>
+		    	<div id="" class="hot-city">
+		    		<h3>选择省份</h3>
+		    		<div class="list-city">
+		    			<span id="1" txt='北京'>北京</span>
+		    			<span id="2" txt='上海'>上海</span>
+		    			<span id="3" txt='天津'>天津</span>
+		    			<span id="4" txt='重庆'>重庆</span>
+		    			<span id="5" txt='河北'>河北</span>
+		    			<span id="6" txt='山西'>山西</span>
+		    			<span id="7" txt='河南'>河南</span>
+		    			<span id="8" txt='辽宁'>辽宁</span>
+		    			<span id="9" txt='吉林'>吉林</span>
+		    			<span id="10" txt='黑龙江'>黑龙江</span>
+		    		</div>
+		    	</div>
+		    	<div class="abroad">
+		    		<h3 class="city">选择城市</h3>
+		    		<div class="city1">
+		    			
+		    		</div>
+		    	</div>
+		    	<div class="abroad1">
+		    		
+		    	</div>
+		    	<div class="abroad2">
+		    		
+		    	</div>
+		    </div>
+		    <footer class="footer">
+		    	
+		    </footer>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script> 
+<!--此乃百度统计代码，请自行删除-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<!--/此乃百度统计代码，请自行删除-->
+
+
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js'></script>
+
+<script type="text/javascript">
+	// 获取全部省份
+	$.ajax({
+		url: '../sheng',
+	    type: 'get',
+	    dataType: 'json',
+	    data: '',
+	    success: function(res){
+	        let data = res.data;
+	        //alert(res.data)
+	        for (let i in data) {
+	        	let html = "<span id='"+ data[i]['areaid']+"' txt='"+ data[i]['areaname'] +"'>"+ data[i]['areaname'] +"</span>";
+	        	$('.city1').append(html);
+	        };
+	        
+	        //获取全部的省内的市信息
+	        $('.city1 span').on('click', function(){
+	        	$('.abroad').css('display', 'none');
+	        	
+		    	let id1 = $(this).attr('id');
+		    	let sheng = $(this).attr('txt');
+		    	let c = "<h5>"+sheng+"</h5><span class=sheng>选择省份</span>";
+		    	$('.abroad1').append(c);
+				$.ajax({
+					url: '../area',
+					type: 'get',
+					dataType: 'json',
+					data: {'name': id1},
+					success: function(res){
+						console.log(res);
+						let data1 = res.data;
+						console.log(data1);
+						var diqu = '';
+						for(var j=0; j<data1.length; j++){
+							diqu = '';
+							diqu ="<div class=diqu ><h6 id="+data1[j]["areaid"]+" txt="+data1[j]["areaname"]+">"+data1[j]['areaname']+"</h6><div class=\"diqu1 "+data1[j]['pinyin']+"\">";
+							let data2 = res['data'][j]['diqu'];
+							for(var a=0;a<data2.length;a++){
+								 diqu +="<span id="+data2[a]["areaid"]+" txt="+data2[a]["areaname"]+">"+data2[a]["areaname"]+"</span>";
+							};
+							diqu += '</div></div>'
+					    	$('.abroad1').append(diqu);
+					    	$('.abroad1').css('display', 'block');
+					    	
+					    	// 获取县级信息
+					    	$('.diqu h6').on('click', function(){
+								search(this);
+							});
+						};
+						
+						//获取镇信息
+						$('.diqu1 span').on('click', function(){
+							$('.abroad1').css('display', 'none');
+							let id4 = $(this).attr('id');
+							let shiji = $(this).attr('txt');
+							$.ajax({
+								url: '../area',
+								type: 'get',
+								dataType: 'json',
+								data: {'name': id4},
+								success: function(res){
+									//console.log(res);
+									let res1 = res['data'];
+		    						if(res1 == undefined){
+										//获取镇信息
+										let name=localStorage.getItem("name");//获取存储的信息，也是字符串格式
+										let name1=JSON.parse(name);
+										if(String(name1['name']) == 'from'){
+											let cityFromData={fromId:id4,fromCity:shiji, from1:name1['name']};
+											let cityFromData1=JSON.stringify(cityFromData);      //将对象"序列化"为JSON数据(字符串格式)
+											localStorage.setItem("cityFromData",cityFromData1);  //以字符串格式存储信息
+											window.location.href = 'javascript:history.go(-1)';
+										}else if(String(name1['name']) == 'to') {
+											let cityToData={toId:id4,toCity:shiji, to:name1['name']};
+											let cityToData1=JSON.stringify(cityToData);      //将对象"序列化"为JSON数据(字符串格式)
+											localStorage.setItem("cityToData",cityToData1);  //以字符串格式存储信息
+											window.location.href = 'javascript:history.go(-1)';
+										}else {
+											alery('城市错误')
+										}
+		    						}else {
+		    							let c = "<h5>"+shiji+"</h5><span class=sheng>选择省份</span>";
+		    							$('.abroad2').append(c);
+		    							let d = "<div class=diqu ><h6 id="+id4+" txt="+shiji+">"+shiji+"</h6></div></div>";
+		    							let zhen = "<div class=diqu ><h6 id="+id4+" txt="+shiji+">"+shiji+"</h6><div class=diqu1>"
+		    							for(let h=0; h<res1.length; h++){
+											zhen +="<span id="+res1[h]['areaid']+" txt="+res1[h]['areaname']+">"+res1[h]['areaname']+"</span>";
+			    						}
+			    						zhen += "</div></div>";
+			    						$('.abroad2').append(zhen);
+			    						//返回上一级
+										$('.sheng').on('click', function(){
+											window.location.reload();
+										});
+										
+										//获取镇信息
+										$('.diqu h6').on('click', function(){
+											search(this);
+										});
+										$('.diqu1 span').on('click', function(){
+											search(this);
+										});
+		    						}
+								},
+								error: function(){
+									alert('请从新输入');
+								},
+							});
+						});
+						
+					},
+					error: function(){
+						alert('请从新输入');
+					},
+				});
+				
+				//返回上一级
+				$('.sheng').on('click', function(){
+					window.location.reload();
+				});
+			});
+    	},
+	    error: function(){
+      		alert('网络出现问题了')
+	    },
+	  
+	});
+	
+
+	// 获取热门城市的数据
+	$('.hot-city span').on('click', function(){
+		search(this);
+	});
+	
+	$('#search').bind('input propertychange',function(){
+		let data = $('#search').val();
+		$('.hot-city').css('display','none');
+		$('.abroad').css('display','none');
+		$('.shiji').css('display','block');
+		if(data === '' || data === undefined){
+			$('.hot-city').css('display','block');
+			$('.abroad').css('display','block');
+			$('.shiji').css('display','none');
+		}else{
+			$.ajax({
+				url: '../area1',
+			    type: 'get',
+			    dataType: 'json',
+			    data: {'name': data},
+			    success: function(res){
+			    	//alert(res.state)
+			    	if(res.state == 200){
+			    		
+				    	let shuju = res['data']
+				    	
+					    if(shuju.length === 0 || shuju.length === undefined){
+					    	alert('没有数据')
+					    }else {
+					    	
+					    	$('.shiji').find('li').remove();
+					    	for (let f=0; f<shuju.length; f++){
+					    		
+					    		var city = "";
+					    		city = "<li><span id="+shuju[f]['areaid']+" txt='"+shuju[f]['areaname']+"'>"+shuju[f]['fareaname']+':'+shuju[f]['areaname']+"</span><div class='line'></div></li>";
+					    		$('.shiji').append(city);
+					    		console.log(city);
+					    	}
+					    	$('.shiji li').on('click', function(){
+					    		search1(this);
+					    	});
+					    }
+			    	}else if(res.state == 400){
+			    		$('.hot-city').css('display','block');
+						$('.abroad').css('display','block');
+						$('.shiji').css('display','none');
+			    	}else{
+			    		alert('输入错误')
+			    	}
+			    },
+		    });
+		}
+		
+		
+	});
+	
+	//函数获取txt和id信息插入input标签
+	var search = function(obj) {
+		let name=localStorage.getItem("name");//获取存储的信息，也是字符串格式
+		let name1=JSON.parse(name);
+		if(String(name1['name']) == 'from'){
+			let id = $(obj).attr('id');
+			let city = $(obj).attr('txt');
+			let cityFromData={fromId:id,fromCity:city, from1:name1['name']};
+			let cityFromData1=JSON.stringify(cityFromData);      //将对象"序列化"为JSON数据(字符串格式)
+			localStorage.setItem("cityFromData",cityFromData1);  //以字符串格式存储信息
+			window.location.href = 'javascript:history.go(-1)';
+		}else if(String(name1['name']) == 'to') {
+			let id = $(obj).attr('id');
+			let city = $(obj).attr('txt');
+			let cityToData={toId:id,toCity:city, to:name1['name']};
+			let cityToData1=JSON.stringify(cityToData);      //将对象"序列化"为JSON数据(字符串格式)
+			localStorage.setItem("cityToData",cityToData1);  //以字符串格式存储信息
+			window.location.href = 'javascript:history.go(-1)';
+		}else {
+			alery('城市错误')
+		}
+	};
+	
+	//函数获取txt和id信息插入input标签
+	var search1 = function(obj) {
+		let name=localStorage.getItem("name");//获取存储的信息，也是字符串格式
+		let name1=JSON.parse(name);
+		if(String(name1['name']) == 'from'){
+			let id = $(obj).find('span').attr('id');
+			let city = $(obj).find('span').attr('txt');
+			let cityFromData={fromId:id,fromCity:city, from1:name1['name']};
+			let cityFromData1=JSON.stringify(cityFromData);      //将对象"序列化"为JSON数据(字符串格式)
+			localStorage.setItem("cityFromData",cityFromData1);  //以字符串格式存储信息
+			window.location.href = 'javascript:history.go(-1)';
+			
+		}else if(String(name1['name']) == 'to') {
+			let id = $(obj).find('span').attr('id');
+			let city = $(obj).find('span').attr('txt');
+			let cityToData={toId:id,toCity:city, to:name1['name']};
+			let cityToData1=JSON.stringify(cityToData);      //将对象"序列化"为JSON数据(字符串格式)
+			localStorage.setItem("cityToData",cityToData1);  //以字符串格式存储信息
+			window.location.href = 'javascript:history.go(-1)';
+		}else {
+			alery('城市错误')
+		}
+	};
+	
+	
+	
+	 
+	
+	
+</script>
+</html>

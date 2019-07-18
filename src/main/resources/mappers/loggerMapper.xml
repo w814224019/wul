@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.loggerMapper">
+
+<!-- Integer addLogger(BaseEntity baseEntity); -->
+<insert id="addLogger" parameterType="com.select.wuliu.entity.BaseEntity"
+       >
+	insert into logger
+	(mobile,modified_user,modified_time,type,company,mark,id
+	)
+	values
+	(#{mobile},#{modifiedUser},#{modifiedTime},#{type},
+	#{company},#{mark},#{id}
+     )
+	</insert>
+	<!-- List<BaseEntity> findAll(); -->
+	<select id="findAll" resultType="com.select.wuliu.entity.BaseEntity">
+	select  
+	mobile,modified_user as modifiedUser ,modified_time as
+	modifiedTime,type,company,mark,id
+	
+	FROM  
+	logger WHERE 
+	
+	type LIKE '%${'注册'}%' 
+	order BY modified_time DESC
+	</select>
+	<!-- 	List<BaseEntity> findrecordsById(Integer id); -->
+	<select id="findrecordsById" resultType="com.select.wuliu.entity.BaseEntity">
+	select  
+	mobile,modified_user as modifiedUser ,modified_time as
+	modifiedTime,type,company,mark,id
+	
+	FROM  
+	logger WHERE 
+	
+	id=#{id} order BY modified_time DESC
+	</select>
+	<!-- 查找登入记录  BaseEntity findBaseEntityByid(Integer id);-->
+	<select id="findBaseEntityByid" resultType="com.select.wuliu.entity.BaseEntity">
+	select  
+	mobile,modified_user as modifiedUser ,modified_time as
+	modifiedTime,type,company,mark,id
+	FROM  
+	logger WHERE 
+	 modified_time=(select max(modified_time) from logger where type='获得IP地址'and id=#{id})
+	 and type='获得IP地址'
+	</select>
+	<!-- 查找注册BaseEntity findregtime(String mobile); -->
+	<select id="findregtime" resultType="com.select.wuliu.entity.BaseEntity">
+	select  
+	mobile,modified_user as modifiedUser ,modified_time as
+	modifiedTime,type,company,mark,id
+	FROM  
+	logger WHERE 
+	 modified_time=(select max(modified_time) from logger where type='注册'and mobile=#{mobile})
+	 and type='注册'
+	</select>
+	
+	
+	
+	<!-- List<BaseEntity> findrecordsBypage(Integer id);分页查询 -->
+	<select id="findrecordsBypage" resultType="com.select.wuliu.entity.BaseEntity">
+	select  
+	mobile,modified_user as modifiedUser ,modified_time as
+	modifiedTime,type,company,mark,id
+	
+	FROM  
+	logger WHERE 
+	
+	id=#{id} order BY modified_time DESC
+	</select>
+	<!-- 模糊分页查询所有 Page<BaseEntity> findrecordsPLname(@Param("name")String name); -->
+	<select id="findrecordsPLname" resultType="com.select.wuliu.entity.BaseEntity">
+	select  
+	mobile,modified_user as modifiedUser ,modified_time as
+	modifiedTime,type,company,mark,id
+	
+	FROM  
+	logger WHERE 
+	
+	(
+	type LIKE '%${name}%' or
+	modified_user LIKE '%${name}%' 
+	)
+	order BY modified_time DESC
+	</select>
+</mapper>
+
+
+
+
+

@@ -1,0 +1,174 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<style type="text/css">
+ table {
+            border-collapse: collapse;
+            display: table;
+            table-layout: fixed;
+            text-align: center;
+            width: 100%;
+        }
+  th, td {
+            height: 28px;
+            line-height: 28px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+ table td:hover { /* 鼠标滑过  显示隐藏的内容  伴有横向的滚动条 */
+	overflow:auto; 
+	text-overflow:clip; 
+	
+        } 
+</style>
+<title>意见反馈</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 评论管理 <span class="c-gray en">&gt;</span> 意见反馈 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c"> 
+		<input type="text" class="input-text" style="width:250px" placeholder="输入关键词" id="lname" name="" th:value="${name}">
+		<button onclick="seleevlus()" class="btn btn-primary radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 关键词搜索</button>
+		<button onclick="seleevlus1()" class="btn btn-primary radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜未审核</button>
+		<a href="javascript:;" onclick="article_shenhe()" class="btn btn-primary radius"> 批量审核</a>
+	</div>
+	
+	<label class="r">
+				<span class="r">总共 <span th:text="${pageInfo.pages}"></span> 页,<span th:text="${pageInfo.total}"></span> 条</span>
+	  查看第
+	<select style="width:60px" id="pageNum1" onchange="GaiBian1()" >
+			<option th:each="pageNo : ${#numbers.sequence(1, pageInfo.pages)}" th:text="${pageNo}" th:value="${pageNo}" th:selected="${pageInfo.pageNum==pageNo}" > 请选择</option>
+		    
+		</select>
+		页,
+	  
+	  显示
+   <select  id="select" onChange="GaiBian1()" >
+<option value="10"  th:selected="${pageInfo.pageSize==10}">10</option>
+<option value="25" th:selected="${pageInfo.pageSize==25}">25</option>
+<option value="50" th:selected="${pageInfo.pageSize==50}">50</option>
+<option value="100" th:selected="${pageInfo.pageSize==100}">100</option>
+</select>
+条,
+
+ </label>
+	<div class="mt-20">
+		<table    class="table table-border table-bordered  table-bg table-sort">
+			<thead>
+				<tr class="text-c">
+					<th width="25"><input type="checkbox" name="" value=""></th>
+					<th width="60">公司或用户id</th>
+					<th width="60">审核人</th>
+					<th width="250" >留言内容</th>
+					<th width="60">审核状态</th>
+					<th width="200">留言时间</th>
+					<th width="200">审核时间</th>
+				</tr>
+			</thead>
+			
+				<tr class="text-c" th:each="user:${pageInfo.list}">
+					<td><input type="checkbox" th:value="${user.id}" name="duoxuan"></td>
+					<td th:text="${user.companyId}">1</td>
+					<td th:text="${user.auditor}"></td>
+					<td  class='liuyan' th:text="${user.content}" th:title="${user.content}"></td>
+					<td ><span class='label label-success radius' th:text="${user.status}"></span></td>
+					<td th:text="${#dates.format(user.addtime,'yyyy-MM-dd HH:mm:ss')}">2019-4-5 11:50:22</td>
+					<td th:text="${#dates.format(user.edittime,'yyyy-MM-dd HH:mm:ss')}"> </td>
+			                
+
+				</tr>
+				
+			</tbody>
+		</table>
+		<p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+	</div>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>  
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+
+//每页多少条
+function GaiBian1(){
+	var name=$.trim($("#lname").val());
+	common(name);
+	
+}
+//审核留言article_shenhe()
+function article_shenhe(){
+	var url="../updateEvals";
+	var arr=[];//定义一个数组
+    var arr2=$("input[name='duoxuan']:checked");//获取多选框的数组
+    $.each(arr2,function () {
+        arr.push($(this).val());//把多选框数组的value放入自己定义的里面
+    })
+	console.log(arr);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "ids" : arr.join(",")
+		  
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("当前页面审核完成！");
+				//location.href="product-category";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+//搜未审核seleevlus1()
+function seleevlus1(name){
+	 var name="未审核";
+	 common(name);
+}
+//通用方法
+function common(name){
+var type=$('#select option:selected').val();
+var pageNum=$('#pageNum1 option:selected').val();
+location.href="feedback-list?pageNum="+pageNum+"&&pageSize="+type+"&&name="+name+""	
+	
+}
+
+//查询所有留言
+function seleevlus(){
+	var name=$.trim($("#lname").val());
+	 common(name);
+	
+}
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.moneyMapper">
+	<!-- Integer addmoney(money m);-->
+	<insert id="addmoney" parameterType="com.select.wuliu.entity.money"
+     useGeneratedKeys="true" keyProperty="id">
+	insert into wallet
+	(companyId,type,balance
+	
+	)
+	values
+	(#{companyId},#{type},#{balance}
+	)
+	</insert>
+	
+	<!--    money findBycwid(Integer id); -->
+	<select id="findBycwid" resultType="com.select.wuliu.entity.money">
+	SELECT 
+   id, companyId,type,balance
+      FROM 
+	wallet
+	 where companyId=#{companyId}
+	</select>
+	<!-- Integer updatemoney(@Param("id")Integer id,@Param("companyId")Integer companyId,
+			@Param("type")Integer type,@Param("balance")Integer balance); -->
+	<update id="updatemoney">
+	update wallet
+	set<if test="id!=null">
+	id=#{id},
+	</if>
+	<if test="companyId!=null">
+	companyId=#{companyId},
+	</if>
+	<if test="type!=null">
+	type=#{type},
+	</if>
+	<if test="balance!=null">
+	balance=#{balance}
+	</if>
+	where 
+	companyId=#{companyId}
+	</update>
+	
+</mapper>
+
+
+
+
+

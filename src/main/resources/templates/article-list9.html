@@ -1,0 +1,1009 @@
+﻿<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<style type="text/css">
+.a{
+float:left;
+
+}
+.推广{
+color:blue;
+}
+</style>
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>运营线路</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+	<span class="c-gray en">&gt;</span>
+	系统管理
+	<span class="c-gray en">&gt;</span>
+	<a  style="color: blue;"  th:href="@{/product-category2(companyId=${Idcompany})}">返回基本设置</a>
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+</nav>
+
+	<form id="form-s">
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+	网点ID：<input th:value=${Idcompany} type="text" class="input-text" style="width:100px" placeholder="输入id" id="companyId" name=""> 
+	
+	<span class="c-red">*</span>出发地<input type="text" style="width:100px" name="from" id="from" class="input-text" txt1="" value="" placeholder="出发地" readonly="readonly"/>
+	<input  type="text" style="width:100px" class="input-text" id="alias" placeholder="输入地区别名" />
+	<a href="javascript:;" onclick="addalis()">添加地区别名</a>  
+    <span class="c-red">*</span>到达地
+				<input type="text" style="width:100px" name="to" id="to" value="" class="input-text" placeholder="到达地" readonly="readonly"/>
+				<a  onclick="selpatherByend()"  class="btn btn-success radius">根据到达地查询线路</a>
+				<a  onclick="dataNpath()"  class="btn btn-success radius">1.单独添加线路</a>
+				<a  onclick="addmanys()"  class="btn btn-success radius">2.多选添加线路</a>
+	</div>
+				<a  onclick="addmanys1()"  class="btn btn-success radius">3.多选输入添加线路</a>
+	           <a class="btn btn-success radius" data-title="快速添加全国线路"  onclick="addChina()" href="javascript:;">4.快速添加全国线路</a>
+	           <a  onclick="colsePather()"  class="btn btn-primary radius">5.关闭所有线路</a>
+				<a  onclick="openPather()"  class="btn btn-success radius">6.开通所有线路</a>   
+	 </form>
+	  <div id="hiddenDiv1"  style="display:none;">
+<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>到达地 空格分开：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<textarea    id="end"  class="textarea"></textarea>
+					</div>
+	 <a  onclick="sureadd()"  class="btn btn-success radius">确定添加</a>
+				</div>
+	 
+	 </div>
+	 
+	 
+	 
+	 
+	  <div id="hiddenDiv1">
+<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th colspan="9" scope="col">线路统计 &nbsp;&nbsp;
+				<a class="btn btn-primary radius" data-title="" onclick="getallcompanypaths()" href="javascript:;"> 查看所有线路</a>
+				查看第<input  type="text" class="input-text" style="width:50px" id="pageNum"  value="1"/>页 <a class="btn btn-primary radius" data-title="" onclick="getallcompanypaths()" href="javascript:;"> 确定</a>共<strong id="total" ></strong>页, 总共：<strong id="tiaoshu" ></strong>条 
+				<a href="javascript:;" onclick="delcompanypaths()" class="btn btn-danger radius"> 批量删除线路</a>
+				
+						<a class="btn btn-danger radius" data-title="快速彻底删除此出发地全国线路"  onclick="delchian()" href="javascript:;"> 快速彻底删除此出发地全国线路</a>
+	<a href="javascript:;" th:href="@{/product-category2(companyId=${Idcompany})}"   class="btn btn-success radius"> 返回网点详情</a></span> 
+				</th>
+			</tr>
+			<tr class="text-c">
+			<th width="50"><input type="checkbox"  name="" value="">全选</th>
+				<th>序号</th>
+			<th>网点Id</th>
+				<th width="100">出发地</th>
+				<th>到达地</th>
+				<th>网点名称</th>
+				<th>是否推广</th>
+				<th>线路</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody id="table-result">
+		<div id="company"></div>
+			<tr class="text-c"  >
+			    <td><input type="checkbox"   name="duoxuan"></td>
+				<td ></td>
+				<td ></td>
+				<td ></td>
+				<td ></td>
+				<td ></td>
+				<td ></td>
+				<td ></td>
+				<td class="td-manage">
+				 <a  href="javascript:;"   class="ml-5" style="text-decoration:none">设置双向</a></td>
+				
+			</tr>
+			
+		</tbody>
+	</table>
+
+</div>
+
+<div class="a" width="100%" id="hiddenDiv"  style="display:none;">
+ <div class="a " width="25%">
+	<table class="table table-border table-bordered table-bg" >
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">省
+ <a href="javascript:;" class="btn btn-success radius" onclick="addall()"> 添加为直达线路</a>
+		    <a href="javascript:;" class="btn btn-success radius" onclick="addall1()"> 添加为中转线路</a>
+				</th>
+			</tr>
+			<tr class="text-c">
+			<th width="150"><input type="checkbox" name="" value=""></th>
+				<th width="150">省</th>
+		
+			</tr>
+		</thead>
+		<tbody id="table-result4">
+		<div id="company4">
+		</div>
+			<tr class="text-c"  >
+				<td ></td>
+				<td ></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	 <div class="a" width="25%" id="shi">
+	<table class="table table-border table-bordered table-bg" >
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">市</th>
+			</tr>
+			<tr class="text-c">
+			<th width="150"><input type="checkbox" name="" value=""></th>
+				<th width="150">市</th>
+		
+			</tr>
+		</thead>
+		<tbody id="table-result1">
+		<div id="company1">
+		</div>
+			<tr class="text-c"  >
+				<td ></td>
+				<td ></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+<div class="a " width="25%" id="xian">
+	<table class="table table-border table-bordered table-bg" >
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">区</th>
+			</tr>
+			<tr class="text-c">
+			<th width="160"><input type="checkbox" name="" value=""></th>
+				<th width="160">区/县</th>
+		
+			</tr>
+		</thead>
+		<tbody id="table-result2">
+		<div id="company2">
+		</div>
+			<tr class="text-c"  >
+				<td ></td>
+				<td ></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<div class="a" width="25%" id="zhen">
+	<table class="table table-border table-bordered table-bg" >
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">县</th>
+			</tr>
+			<tr class="text-c">
+			<th width="170"><input type="checkbox" name="" value=""></th>
+				<th width="170">镇</th>
+		
+			</tr>
+		</thead>
+		<tbody id="table-result3">
+		<div id="company3">
+		</div>
+			<tr class="text-c"  >
+				<td ></td>
+				<td ></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+
+
+</div>
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+
+</body>
+</html>
+<script>
+
+
+$(window).resize(function() {
+    var window_height = $(window).height();//获取浏览器窗口宽度
+    if(window_height<=500){
+          $('#footer').css("position","relative")
+    }else{
+		  $('#footer').css("position","absolute")
+		}
+   
+});
+</script>
+<script type="text/javascript">
+	
+	$('#from').on('click', function() {
+		let from5 = $('#from').attr('name');
+		let from1={name:from5};
+		let from2=JSON.stringify(from1);//将对象"序列化"为JSON数据(字符串格式)
+		localStorage.setItem("name",from2);  //以字符串格式存储信息
+		window.location.href = "product-brand7";
+	});
+	$('#to').on('click', function() {
+		let to = $('#to').attr('name');
+		let to1={name:to};
+		let to2=JSON.stringify(to1);//将对象"序列化"为JSON数据(字符串格式)
+		localStorage.setItem("name",to2);  //以字符串格式存储信息
+		window.location.href = "product-brand7";
+	});
+	
+	//插入数据
+	if(localStorage.getItem("cityFromData") != null){
+		let cityFromData2=localStorage.getItem("cityFromData");    //获取存储的信息，也是字符串格式
+		let cityFromData3=JSON.parse(cityFromData2);
+		document.getElementById("from").value = cityFromData3['fromCity'];
+		$('#from').attr('txt1', cityFromData3['fromId']);
+	};
+	if(localStorage.getItem("cityToData") != null){
+		let cityToData2=localStorage.getItem("cityToData");    //获取存储的信息，也是字符串格式
+		let cityToData3=JSON.parse(cityToData2);
+		document.getElementById("to").value = cityToData3['toCity'];
+		$('#to').attr('txt', cityToData3['toId']);
+	};
+</script>
+
+<script type="text/javascript">
+//多选输入添加确定按钮sureadd()
+function sureadd(){
+	var url="../sureadd";
+	var cfd=$("#from").attr("txt1");
+	var id=$.trim($("#companyId").val());
+	var end=$.trim($("#end").val());
+	var type=1;
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "end":end,
+		  "companyId":id,
+		  "cfd":cfd,
+		  "type":type,
+		  
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("添加成功！"+json.data);
+				//location.href="";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+
+
+//添加中转线路
+function addall1(){
+	var direct="中转";
+	addallcommon(direct);
+}
+//添加直达线路
+function addall(){
+	var direct="直达";
+	addallcommon(direct);
+}
+//添加确定按钮
+function addallcommon(direct){
+	var url="../addbcityspath";
+	var cfd=$("#from").attr("txt1");
+	var id=$.trim($("#companyId").val());
+	var arr=[];//定义一个数组
+    var arr2=$(":checked");//获取多选框的数组
+    $.each(arr2,function () {
+        arr.push($(this).val());//把多选框数组的value放入自己定义的里面
+    })
+    	//alert(arr)
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "ids" : arr.join(","),
+		  "id":id,
+		  "cfd":cfd,
+		  
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("添加成功！");
+				//location.href="";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+//点击添加市addcitys(this)
+function addcitys(dom){
+	document.getElementById("xian").style.display='none';
+	document.getElementById("zhen").style.display='none';
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table-result1");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加市成功！"+data);
+					$("#company1").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox' checked='checked' value="+data[i].areaid+" name='duoxuan'></td>"+
+						"<td align='center'><a href='javascript:;' onclick='addqu(this)' id='"+data[i].areaid+"'class='btn btn-primary radius'>"+data[i].areaname+"</a></td>"+
+						"</tr>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+//添加区
+function addqu(dom){
+	document.getElementById("xian").style.display='block';
+	document.getElementById("zhen").style.display='none';
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table-result2");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加市成功！"+data);
+					$("#company2").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox' checked='checked' value="+data[i].areaid+" name='duoxuan'></td>"+
+						"<td align='center'><a href='javascript:;' onclick='addxian(this)' id='"+data[i].areaid+"'class='btn btn-primary radius'>"+data[i].areaname+"</a></td>"+
+						"</tr>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+//添加乡
+function addxiang(dom){
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table-result4");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加市成功！"+data);
+					$("#company4").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox'  value="+data[i].areaid+" name='duoxuan'></td>"+
+						"<td align='center'><a href='javascript:;' onclick='addxiang(this)' id='"+data[i].areaid+"'class='btn btn-primary radius'>"+data[i].areaname+"</a></td>"+
+						"</tr>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}	
+	
+	
+//添加县addxian
+function addxian(dom){
+	document.getElementById("zhen").style.display='block';
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table-result3");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加市成功！"+data);
+					$("#company3").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox' checked='checked' value="+data[i].areaid+" name='duoxuan'></td>"+
+						"<td align='center'><a href='javascript:;' onclick='addxiang(this)' id='"+data[i].areaid+"'class='btn btn-primary radius'>"+data[i].areaname+"</a></td>"+
+						"</tr>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+//多选输入添加线路
+function addmanys1(){
+	var div = document.getElementById("hiddenDiv1").style.display;               
+	if(div=='none'){
+
+        document.getElementById("hiddenDiv1").style.display='block';
+       }else{
+
+          document.getElementById("hiddenDiv1").style.display='none';
+
+      }
+}
+	
+	
+//多选添加线路
+function addmanys(){
+	var div = document.getElementById("hiddenDiv").style.display;               
+	if(div=='none'){
+
+        document.getElementById("hiddenDiv").style.display='block';
+       }else{
+
+          document.getElementById("hiddenDiv").style.display='none';
+
+      }
+	var url='../sheng';
+	var tbody=window.document.getElementById("table-result4");
+	$.ajax({
+		"url":url,
+	  "data":'',
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("查询物流公司线路成功！"+data);
+					$("#company4").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox'  value="+data[i].areaid+" name='duoxuan'></td>"+
+						"<td align='center'><a href='javascript:;' onclick='addcitys(this)' id='"+data[i].areaid+"'class='btn btn-primary radius'>"+data[i].areaname+"</a></td>"+
+						"</tr> ";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	
+}
+
+//添加地区别名addalis()
+function addalis(){
+	//alert("返回公司")
+	var url="../addalis";
+	var areaid=$("#from").attr("txt1");
+	var alias=$.trim($("#alias").val());
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+		  "alias":alias,
+	  },
+		"type":'post',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					alert("修改别名成功！");
+					//location.href="product-category2";
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+
+//返回网点backbCompany()
+function backbCompany(){
+	//alert("返回公司")
+	var url="../ToCategeroy2";
+	var comp=$.trim($("#companyId").val());
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "comp":comp,
+	  },
+		"type":'post',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					location.href="product-category2";
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+
+//开通线路 openPather()	
+function openPather(){
+	if(confirm("确定开通线路吗？")){
+	//alert("")
+	var url='../openPather';
+	var wlid=$.trim($("#companyId").val());
+	var type=1;
+	console.log("参数data:"+wlid);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "wlid":wlid,
+		  "type":type,
+	  },
+		"type":'post',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					alert("开通线路成功！");
+					//location.href="product-category";
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+}
+	
+	
+	
+
+//关闭线路colsePather()
+function colsePather(){
+	if(confirm("确定关闭线路吗？")){
+	//alert("")
+	var url='../colsePather';
+	var wlid=$.trim($("#companyId").val());
+	var type=1;
+	console.log("参数data:"+wlid);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "wlid":wlid,
+		  "type":type,
+	  },
+		"type":'post',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					alert("关闭线路成功！");
+					//location.href="product-category";
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+}
+
+
+//delchian()删除全国
+function delchian(){
+	if(confirm("确定删除此出发地全国线路吗？请慎用")){
+	var url='../delchian';
+	var id=$.trim($("#companyId").val());
+	var sta=$("#from").attr("txt1");
+	console.log("参数data:"+id);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "id":id,
+		  "sta":sta,
+	  },
+		"type":'post',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					alert("删除全国线路成功！");
+					//location.href="product-category";
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+}
+
+
+//addchina()添加全国
+function addChina(){
+	if(confirm("确定添加全国线路吗？请确定此公司出发地没有任何线路时才能使用此功能，请慎用")){
+	var url='../addbchina';
+	var id=$.trim($("#companyId").val());
+	var sta=$("#from").attr("txt1");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "id":id,
+		  "sta":sta,
+	  },
+		"type":'post',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					alert("添加全国线路成功！");
+					//location.href="product-category";
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+}
+//跳页查询公司线路getallcompanypaths()
+$(document).ready(function(){
+	var url="../getallBcompanypaths";
+	var tbody=window.document.getElementById("table-result");
+	 var pageNum=$.trim($("#pageNum").val());
+	 var id=$.trim($("#companyId").val());
+	$.ajax({
+		"url":url,
+	  "data":{
+			"pageNum":pageNum,
+			"companyId":id,
+		},  
+		"type":"get",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				var str="";
+				$("#company").text(str);
+			var data=json.data;
+			 var i=0;
+			for(i in data){
+				str+="<tr class='text-c'>"+
+				"<td ><input type='checkbox'  value="+data[i].id+" name='duoxuan1'></td>"+
+				"<td align='center'>"+data[i].id+"</td>"+
+				"<td align='center'>"+data[i].wlId+"</td>"+
+				"<td align='center'>"+data[i].sta+"</td>"+
+				"<td align='center'>"+data[i].end+"</td>"+
+				"<td align='center'>"+data[i].wname+"</td>"+
+				"<td align='center' class='"+data[i].tui+"'  >"+data[i].tui+"</td>"+
+				"<td align='center'>"+data[i].direct+"</td>"+
+				"<td class='td-manage'>"+ 
+				" <a  href='javascript:;' id="+data[i].id+" onclick='delbPather(this)' class='ml-5' style='text-decoration:none'>设置双向</a> <a id="+data[i].id+" onclick='setTUPather(this)'>推广</a> <a id="+data[i].id+" onclick='setPUPather(this)'>普通</a></td>"+
+				"</tr>";
+				
+			}
+			var total=0;
+			var tiaoshu=0;
+			if (data.length==0){
+				total=0;
+				tiaoshu=0;
+			}else{
+				
+			 total=data[i].pages;
+			 tiaoshu=data[i].totals;
+			}
+			tbody.innerHTML=str;
+			$("#total").text(total);
+			$("#tiaoshu").text(tiaoshu);
+			}else if(json.state==402){
+				alert(json.message);
+			}
+			}
+	});
+});
+
+//公司线路getallcompanypaths()
+
+function getallcompanypaths(){
+	var url="../getallBcompanypaths";
+	var tbody=window.document.getElementById("table-result");
+	 var id=$.trim($("#companyId").val());
+	 var pageNum=$.trim($("#pageNum").val());
+	console.log("参数data:"+id);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "companyId":id,
+		  "pageNum":pageNum,
+		},  
+		"type":"get",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("查询物流公司线路成功！");
+				var str="";
+				var data=json.data;
+				$("#company").text(str);
+				for(i in data){
+					str+="<tr class='text-c'>"+
+					"<td ><input type='checkbox'  value="+data[i].id+" name='duoxuan1'></td>"+
+					"<td align='center'>"+data[i].id+"</td>"+
+					"<td align='center'>"+data[i].wlId+"</td>"+
+					"<td align='center'>"+data[i].sta+"</td>"+
+					"<td align='center'>"+data[i].end+"</td>"+
+					"<td align='center'>"+data[i].wname+"</td>"+
+					"<td align='center' class='"+data[i].tui+"' >"+data[i].tui+"</td>"+
+					"<td align='center'>"+data[i].direct+"</td>"+
+					"<td class='td-manage'>"+ 
+					" <a  href='javascript:;' id="+data[i].id+" onclick='delbPather(this)' class='ml-5' style='text-decoration:none'>设置双向</a> <a id="+data[i].id+" onclick='setTUPather(this)'>推广</a> <a id="+data[i].id+" onclick='setPUPather(this)'>普通</a></td>"+
+					"</tr>";
+				}
+				var total=0;
+				var tiaoshu=0;
+				if (data.length==0){
+					total=0
+					tiaoshu=0;
+				}else{
+					
+				 total=data[i].pages;
+				 tiaoshu=data[i].totals;
+				}
+				$("#total").text(total);
+				$("#tiaoshu").text(tiaoshu);
+				tbody.innerHTML=str;
+				//location.href="product-category";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	
+	});
+}
+
+
+//批量删除线路
+function delcompanypaths(){
+	var url="../delcompanypaths";
+	var arr=[];//定义一个数组
+  var arr2=$("input[name='duoxuan1']:checked");//获取多选框的数组
+  $.each(arr2,function () {
+      arr.push($(this).val());//把多选框数组的value放入自己定义的里面
+  })
+	console.log(arr);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  
+		  "ids" : arr.join(",")
+		  
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("批量删除成功！");
+				//location.href="";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+//根据到达地查询公司线路 selpatherByend()
+function selpatherByend(){
+	var url="../selbpatherByend";
+	var tbody=window.document.getElementById("table-result");
+	 var id=$.trim($("#companyId").val());
+	 var depart=$.trim($("#from").attr("txt1"));
+		var end=$.trim($("#to").attr("txt"));
+	console.log("参数data:"+depart);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "companyId":id,
+		  "end":end,
+		  "depart":depart,
+		},  
+		"type":"get",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("查询物流公司线路成功！");
+				var str="";
+				var data=json.data;
+				$("#company").text(str);
+				for(i in data){
+					str+="<tr class='text-c'>"+
+					"<td ><input type='checkbox'  value="+data[i].id+" name='duoxuan'></td>"+
+					"<td align='center'>"+data[i].id+"</td>"+
+					"<td align='center'>"+data[i].wlId+"</td>"+
+					"<td align='center'>"+data[i].sta+"</td>"+
+					"<td align='center'>"+data[i].end+"</td>"+
+					"<td align='center'>"+data[i].wname+"</td>"+
+					"<td align='center'>"+data[i].qz+"</td>"+
+					"<td class='td-manage'>"+ 
+					" <a  href='javascript:;' id="+data[i].id+" onclick='delbPather(this)' class='ml-5' style='text-decoration:none'>设置双向</a></td>"+
+					"</tr>";
+				}
+				tbody.innerHTML=str;
+				//location.href="product-category";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	
+	});
+}
+//设置普通setPUPather
+function setPUPather(dom){
+	var tui="普通";
+	var url="../setTUPather";
+	var id= dom.getAttribute("id");
+	console.log("参数data:"+id);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "id":id,
+		  "tui":tui,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("设置成功！");
+				//location.href="product-category";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+//设置推广setTUPather
+function setTUPather(dom){
+	var tui="推广";
+	var url="../setTUPather";
+	var id= dom.getAttribute("id");
+	console.log("参数data:"+id);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "id":id,
+		  "tui":tui,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("设置成功！");
+				//location.href="product-category";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+
+
+//设置双向线路 delbPather()
+function delbPather(dom){
+	var url="../delCPather";
+	var id= dom.getAttribute("id");
+	console.log("参数data:"+id);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "id":id,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("设置成功！");
+				//location.href="product-category";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+//单独添加线路
+function dataNpath(){
+	var url="../dNpath";
+	var sta=$("#from").attr("txt1");
+	var end=$("#to").attr("txt");
+	 var id=$.trim($("#companyId").val());
+	console.log("参数data:"+end);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  
+		  "cfd":sta,
+		  "ddd":end,
+		  "id":id,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("添加成功！");
+				//location.href="";
+			}else if(json.state==400){
+				alert(json.message);
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+
+
+		</script>
+</body>
+</html>

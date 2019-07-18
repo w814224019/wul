@@ -1,0 +1,234 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>基本设置</title>
+</head>
+<body  onload="setup();preselect('北京市');">
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+	<span class="c-gray en">&gt;</span>
+	系统管理
+	<span class="c-gray en">&gt;</span>
+	<a th:href="@{/product-category(companyId=${company.companyId})}">返回基本设置</a>
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+</nav>
+<div class="page-container">
+	<form class="form form-horizontal" id="form-article-add">
+		<div id="tab-system" class="HuiTab">
+			<div class="tabBar cl">
+				<span>基本设置</span>
+				<span>网点简介</span>
+			</div>
+			<div class="tabCon">
+			<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						公司ID：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input th:value=${company.companyId} type="text" class="input-text" style="width:100px" placeholder="输入id" id="companyId" name=""> 
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						网点名称：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" id="branchName" placeholder="空制在80个汉字，160个字符以内"  class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						网点位置：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="select-box inline">
+						<select class="select" name="province" id="s1">
+			<option value="0"></option>
+		               </select>
+		<select class="select" name="city" id="s2">
+			<option value="0"></option>
+		       </select>
+		<select class="select" name="town" id="s3">
+			<option value="0"></option>
+		    </select>
+		</span>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						详细地址：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" id="address" placeholder="空制在80个汉字，160个字符以内"  class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						联系人：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" id="content" placeholder="联系人"  class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						手机号：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" id="phone" placeholder="公司联系电话"  class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">
+						<span class="c-red">*</span>
+						座机电话：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" id="telephone" placeholder="公司座机电话"  class="input-text">
+					</div>
+				</div>
+				
+				
+				
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>
+					网点类型：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="select-box inline">
+						<select class="select" id="branchrelation" name="">
+			<option value="1">自营</option>
+			<option value="2">加盟</option>
+		</select>
+		</span>
+					</div>
+				</div>
+			</div>
+			<div class="tabCon">
+			
+			
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">网点简介：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<textarea class="textarea" name="" id="intro"></textarea>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">企业文化：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" class="input-text" value="" id="culture" name="" >
+					</div>
+				</div>
+				
+				
+				
+			</div>
+			
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				
+				<button onClick="regbCompany()" class="btn btn-primary radius" type="button">&nbsp;&nbsp;注册保存&nbsp;&nbsp;</button>
+				
+			</div>
+		</div>
+	</form>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="/h-ui/js/geo.js"></script>
+<script type="text/javascript">
+//注册
+function regbCompany(){
+	var url="../regbCompany";
+	var s1 = document.getElementById('s1').value;
+	 var s2 = document.getElementById('s2').value;
+	 var s3 = document.getElementById('s3').value;
+	 var branchrelation=$("#branchrelation option:selected ").val();
+	 var companyId=$.trim($("#companyId").val());
+	 var branchName=$.trim($("#branchName").val());
+	 var address=$.trim($("#address").val());
+	 var phone=$.trim($("#phone").val());
+	 var telephone=$.trim($("#telephone").val());
+	 var content=$.trim($("#content").val());
+	 var intro=$.trim($("#intro").val());
+	 var culture=$.trim($("#culture").val());
+	console.log("参数data:"+address);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "s1":s1,
+		  "s2":s2,
+		  "s3":s3,
+		  "companyId":companyId,
+		  "branchName":branchName,
+		  "address":address,
+		  "phone":phone,
+		  "telephone":telephone,
+		  "content":content,
+		  "branchrelation":branchrelation,
+		  "intro":intro,
+		  "culture":culture,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("注册成功！");
+				//location.href="article-list6";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+
+
+
+
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	$("#tab-system").Huitab({
+		index:0
+	});
+});
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

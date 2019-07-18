@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.UserMapper">
+
+<!-- Integer addNew(User user); -->
+<insert id="addNewUser" parameterType="com.select.wuliu.entity.User"
+       useGeneratedKeys="true" keyProperty="rid">
+	insert into userinfo_copy
+	(name,uid,khr_id,companyid,branchid,mobile,permissionid
+	,company,password,weixin_unionid,province,city,address,del_flag
+	,headimgurl,sex,areabranchid
+	)
+	values
+	(#{name},#{uid},#{khrId},#{companyid},#{branchid},#{mobile},#{permissionid}
+	,#{company},#{password},#{weixinUnionid},#{province},#{city},#{address},#{delFlag}
+	,#{headimgurl},#{sex},#{areabranchid}
+     )
+	</insert>
+	<!-- List<User> findyUser(); -->
+	<select id="findyUser" resultType="com.select.wuliu.entity.User">
+	SELECT 
+			rid,uid, name,mobile,weixin_unionid as weixinUnionid,permissionid,sex,del_flag,headimgurl
+			,companyid
+		FROM 
+			userinfo_copy
+	    where 
+	    del_flag=0 order by companyid
+	
+	
+	</select>
+	<!--根据部门查询用户信息 List<User> findbycompanyId(Integer companyId); -->
+	<select id="findbycompanyId" resultType="com.select.wuliu.entity.User">
+	SELECT 
+			rid,uid, name,mobile,weixin_unionid as weixinUnionid,permissionid,sex,del_flag,headimgurl
+			,companyid
+		FROM 
+			userinfo_copy
+	    where 
+	    del_flag=0
+	    and companyid=#{companyid}
+	
+	</select>
+	
+	
+	
+	<!-- User findByUserName(String username); -->
+		<select id="findByUserName" resultType="com.select.wuliu.entity.User">
+	SELECT 
+			rid,uid, name, password,mobile,company,permissionid,headimgurl,companyid
+			
+		FROM 
+			userinfo_copy
+			WHERE 
+			name=#{name}
+	       and del_flag=0
+	
+	</select>
+	
+	<!-- User findById(Integer rid); -->
+		<select id="findById" resultType="com.select.wuliu.entity.User">
+	SELECT 
+		rid,uid, name,password,mobile,weixin_unionid as weixinUnionid,permissionid,sex,del_flag as delFlag,headimgurl
+		,companyid	
+		FROM 
+			userinfo_copy
+			WHERE 
+			rid=#{rid}
+	       and del_flag=0
+	
+	</select>
+	<select id="findyId" resultType="java.lang.Integer">
+	SELECT 
+			uid
+			
+		FROM 
+			userinfo_copy
+	
+	where 
+	    del_flag=0
+	
+	</select>
+	<!-- 更新修改信息 Integer updateUser(@Param("rid")Integer rid,@Param("uid")Integer uid,@Param("khr_id")Integer khrId,@Param("companyid")Integer companyid,@Param("branchid")Integer branchid,
+			@Param("mobile")Integer mobile,@Param("permissionid")Integer permissionid,@Param("company")Integer company,@Param("password")Integer password,@Param("weixin_unionid")Integer weixinUnionid,
+			@Param("province")Integer province,@Param("city")Integer city,@Param("address")Integer address,@Param("del_flag")Integer delFlag,@Param("sex")Integer sex,@Param("headimgurl")Integer headimgurl,
+			@Param("areabranchid")Integer areabranchid
+			); -->
+	<update id="updateUser">
+	update userinfo_copy
+	set
+	<if test="rid!=null">
+	rid=#{rid},
+	</if>
+	<if test="name!=null">
+	name=#{name},
+	</if>
+	<if test="uid!=null">
+	uid=#{uid},
+	</if>
+	<if test="companyid!=null">
+	companyid=#{companyid},
+	</if>
+	<if test="mobile!=null">
+	mobile=#{mobile},
+	</if>
+	<if test="permissionid!=null">
+	permissionid=#{permissionid},
+	</if>
+	<if test="password!=null">
+	password=#{password},
+	</if>
+	<if test="weixin_unionid!=null">
+	weixin_unionid=#{weixin_unionid},
+	</if>
+	<if test="address!=null">
+	address=#{address},
+	</if>
+	<if test="sex!=null">
+	sex=#{sex},
+	</if>
+	<if test="headimgurl!=null">
+	headimgurl=#{headimgurl},
+	</if>
+	<if test="del_flag!=null">
+	del_flag=#{del_flag}
+	</if>
+	where 
+	 rid=#{rid}
+	
+	</update>
+	
+	
+	
+	
+</mapper>
+
+
+
+
+

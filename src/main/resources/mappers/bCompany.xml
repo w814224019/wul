@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.bCompanyMapper">
+   <!-- Integer addbCompany(bCompany bc);注册网点 -->
+     <insert id="addbCompany" parameterType="com.select.wuliu.entity.bCompany"
+     useGeneratedKeys="true" keyProperty="id">
+	insert into company_address
+	(branchName,address,phone,telephone,companyId,contact,
+	qz,isDel,longitude,dimensions,branchprovince,branchcity,brancharea,
+	branchrelation,intro,culture
+	
+	)
+	values
+	(#{branchName},#{address},#{phone},#{telephone},#{companyId},#{contact},
+	#{qz},#{isDel},#{longitude},#{dimensions},#{branchprovince},#{branchcity},#{brancharea},
+	#{branchrelation},#{intro},#{culture}
+	)
+	</insert>
+	<!-- 彻底删除网点信息	Integer YdelbCompany(Integer id); -->
+	<delete  id="YdelbCompany" parameterType="com.select.wuliu.entity.bCompany">
+	  delete from 
+	company_address
+	where id=#{id}
+	</delete>
+	<!-- 删除全国此出发地的线路Integer YdelbPather(Integer wid); -->
+	<delete  id="YdelbPather" parameterType="com.select.wuliu.entity.Pather">
+	  delete from 
+	line
+	where sta=#{sta} and wl_id=#{wl_id}
+	</delete>
+	
+	<!--分页模糊查询删除的网点信息 Page<bCompany> findDelbcompany(); -->
+	<select id="findDelbcompany" resultType="com.select.wuliu.entity.bCompany">
+	SELECT 
+      *FROM 
+	company_address where isDel=1 
+	 and  (id LIKE '%${name}%' or
+	branchName LIKE '%${name}%' or
+	address LIKE '%${name}%' or
+	phone LIKE '%${name}%' or
+	telephone LIKE '%${name}%' or
+	companyId LIKE '%${name}%' or
+	branchprovince LIKE '%${name}%' or
+	branchcity LIKE '%${name}%' or
+	brancharea LIKE '%${name}%' )
+	</select>
+	
+	
+	<!-- bCompany findbcompanyBybrname(String branchName);通网点名找网点 -->
+	<select id="findbcompanyBybrname" resultType="com.select.wuliu.entity.bCompany">
+	SELECT 
+      *FROM 
+	company_address where isDel=0 
+	and branchName=#{branchName}
+	
+	</select>
+	<!-- 批量添加线路 Integer addPathers(List<Pather> pa); -->
+	<insert id ="addPathers" parameterType="java.util.List" >
+      insert into line
+      (sta,end,wl_id,qz,del_flag,type,tui,direct
+	
+	)
+      values
+       <foreach collection ="list" item="Pather" index= "index" separator =",">
+           (
+           #{Pather.sta}, #{Pather.end},
+           #{Pather.wlId},
+           #{Pather.qz},
+           #{Pather.delFlag}, #{Pather.type}
+           , #{Pather.tui}, #{Pather.direct}
+           
+           )
+       </foreach >
+</insert >
+	
+	
+	<!-- Integer addPather(Pather pa); -->
+	<insert id="addPather" parameterType="com.select.wuliu.entity.Pather"
+     useGeneratedKeys="true" keyProperty="id">
+	insert into line
+	(sta,end,wl_id,qz,del_flag,type,tui,direct
+	
+	)
+	values
+	(#{sta},#{end},#{wlId},#{qz},#{delFlag},#{type},#{tui},#{direct}
+	)
+	</insert>
+	<!-- 批量设置标记删除线路  	Integer setdelPathers(List<Pather> ps); -->
+	<update id="setdelPathers" parameterType="java.util.List">
+	UPDATE 
+		line
+	SET
+		del_flag= #{del_flag}
+	WHERE id in
+		 <foreach collection="list" index="index" item="Pather" 
+        separator="," open="(" close=")">
+        #{Pather.id}
+    </foreach>
+
+     </update>
+	<!-- 查询所有关闭的线路 List<Pather> findallcolsePather(@Param("del_flag")Integer delFlag,@Param("wl_id")Integer wlid);-->
+	<select id="findallcolsePather" resultType="com.select.wuliu.entity.Pather">
+	SELECT 
+    id, sta,end,wl_id as wlId,qz,del_flag as delFlag,tui,direct,type
+      FROM 
+	line
+	 where del_flag=#{del_flag} and wl_id=#{wl_id}
+	</select>
+	
+	
+	<!-- 设置删除线路Integer SetdelPather(@Param("id")Integer id,@Param("wl_id")Integer wlId,@Param("qz")Integer qz,@Param("del_flag")Integer delFlag,@Param("type")Integer type,@Param("sta")Integer sta,@Param("end")Integer end); -->
+	<update id="SetdelPather">
+	update line
+	set
+	<if test="id!=null">
+	id=#{id},
+	</if>
+	<if test="sta!=null">
+	sta=#{sta},
+	</if>
+	<if test="end!=null">
+	end=#{end},
+	</if>
+	<if test="wl_id!=null">
+	wl_id=#{wl_id},
+	</if>
+	<if test="qz!=null">
+	qz=#{qz},
+	</if>
+	
+	<if test="type!=null">
+	type=#{type},
+	</if>
+	<if test="tui!=null">
+	tui=#{tui},
+	</if>
+	<if test="direct!=null">
+	direct=#{direct},
+	</if>
+	
+	
+	<if test="del_flag!=null">
+	del_flag=#{del_flag}
+	</if>
+	where 
+	 id=#{id}
+	
+	</update>
+	
+	
+	
+	<!-- Integer UpdatebCompany(@Param("id")Integer id,@Param("branchName")String branchName,
+			@Param("phone")String phone,@Param("address")String address,
+			@Param("telephone")String telephone,
+			@Param("companyId")Integer companyId,@Param("content")String content,
+			@Param("longitude")String longitude,@Param("qz")Integer qz,
+			@Param("isDel")Integer isDel,@Param("dimensions")String dimensions); -->
+	<update id="UpdatebCompany">
+	update company_address
+	set<if test="id!=null">
+	id=#{id},
+	</if>
+	<if test="branchName!=null">
+	branchName=#{branchName},
+	</if>
+	<if test="phone!=null">
+	phone=#{phone},
+	</if>
+	<if test="address!=null">
+	address=#{address},
+	</if>
+	<if test="telephone!=null">
+	telephone=#{telephone},
+	</if>
+	<if test="companyId!=null">
+	companyId=#{companyId},
+	</if>
+	<if test="contact!=null">
+	contact=#{contact},
+	</if>
+	<if test="longitude!=null">
+	longitude=#{longitude},
+	</if>
+	<if test="qz!=null">
+	qz=#{qz},
+	</if>
+	<if test="dimensions!=null">
+	dimensions=#{dimensions},
+	</if>
+	
+	<if test="branchprovince!=null">
+	branchprovince=#{branchprovince},
+	</if>
+	<if test="branchcity!=null">
+	branchcity=#{branchcity},
+	</if>
+	<if test="brancharea!=null">
+	brancharea=#{brancharea},
+	</if>
+	<if test="branchrelation!=null">
+	branchrelation=#{branchrelation},
+	</if>
+	<if test="intro!=null">
+	intro=#{intro},
+	</if>
+	<if test="culture!=null">
+	culture=#{culture},
+	</if>
+	<if test="vipClass!=null">
+	vipClass=#{vipClass},
+	</if>
+	
+	<if test="isDel!=null">
+	isDel=#{isDel}
+	</if>
+	where 
+	id=#{id}
+	</update>
+	
+	
+	<!-- List<Pather> findAllPather(); -->
+	<select id="findAllPather" resultType="com.select.wuliu.entity.Pather">
+	SELECT 
+    id, sta,end,wl_id as wlId,qz,del_flag as delFlag,tui,direct
+      FROM 
+	line
+	 where del_flag=0 order by qz desc
+	</select>
+	<!-- List<Pather>  findByPage(); -->
+	<select id="findByPage" resultType="com.select.wuliu.entity.Pather">
+	SELECT 
+    id, sta,end,wl_id as wlId,qz,del_flag as delFlag,type,tui,direct
+      FROM 
+	line
+	where wl_id=#{wl_id} and del_flag =0 and type=#{type} 
+	</select>
+	<!--关联查询地区名 List<Integer> ends(Integer wlid);; -->
+	<select id="ends"    resultType="java.lang.Integer">
+	select 
+	end
+	from line where wl_id=#{wl_id} and del_flag =0 and type=2
+	</select>
+	<!--地区 area findThend(Integer end); -->
+	<select id="findThend" parameterType="java.util.List"   resultType="java.lang.String">
+	select 
+	areaname
+	from area where areaid in
+	 <if test="list!=null and list.size>0">
+             <foreach collection="list" open="(" close=")" item="id" separator="," >
+                  #{id}
+            </foreach>
+      </if>
+	</select>
+	
+	
+	<!-- Pather findBylineID(); -->
+	<select id="findBylineID" resultType="com.select.wuliu.entity.Pather">
+	SELECT 
+    id, sta,end,wl_id as wlId,qz,del_flag as delFlag,type,tui,direct
+      FROM 
+	line
+	 where del_flag=0 and id=#{id}
+	</select>
+	<!-- 查询标记删除的线路Pather findAdelBylineID(Integer lineId); -->
+	<select id="findAdelBylineID" resultType="com.select.wuliu.entity.Pather">
+	SELECT 
+    id, sta,end,wl_id as wlId,qz,del_flag as delFlag,type,tui,direct
+      FROM 
+	line
+	 where del_flag=1 and id=#{id}
+	</select>
+	
+	<!-- 分页模糊查询删除的线路Page<Pather> findAdelPathers(); -->
+	<select id="findAdelPathers" resultType="com.select.wuliu.entity.Pather">
+	SELECT 
+    id, sta,end,wl_id as wlId,qz,del_flag as delFlag,type,tui,direct
+      FROM 
+	line
+	 where del_flag=1 
+	</select>
+	
+	<!-- 彻底删除线路Integer YdeltePatherById(Integer lineID); -->
+	<delete  id="YdeltePatherById" parameterType="com.select.wuliu.entity.Pather">
+	  delete from 
+	line
+	where id=#{id}
+	</delete>
+	
+	<!-- Pather findByft(String sta,String end); -->
+	<select id="findByft" resultType="com.select.wuliu.entity.Pather">
+	SELECT 
+    id, sta,end,wl_id as wlId,qz,del_flag as delFlag,type,tui,direct
+      FROM 
+	line
+	where sta=#{sta} and end=#{end} 
+	</select>
+	
+	<!-- List <Pather> findBywdId(); -->
+	<select id="findBywdId" resultType="com.select.wuliu.entity.Pather">
+	SELECT 
+    id, sta,end,wl_id as wlId,qz,del_flag as delFlag,type,tui,direct
+      FROM 
+	line
+	where wl_id=#{wlId} and del_flag =0 
+	</select>
+		
+	<!-- 通过出发地和网点找线路List <Pather> findBywdIdandsta(Integer sta,Integer wlId); -->
+    <select id="findBywdIdandsta" resultType="com.select.wuliu.entity.Pather">
+	SELECT 
+    id, sta,end,wl_id as wlId,qz,del_flag as delFlag,tui,direct
+      FROM 
+	line
+	where wl_id=#{wl_id}  and sta=#{sta} and del_flag =0
+	</select>
+	<!-- List<bCompany> findAll(); -->
+	<select id="findAll" resultType="com.select.wuliu.entity.bCompany">
+	SELECT 
+      *FROM 
+	company_address where isDel=0 
+	order by qz desc
+	</select>
+	<!-- List<bCompany> findbcompanyByLike(@Param("name")String name); -->
+	<select id="findbcompanyByLike" resultType="com.select.wuliu.entity.bCompany">
+	SELECT * FROM 
+	company_address 
+	WHERE isDel=0  and  (id LIKE '%${name}%' or
+	branchName LIKE '%${name}%' or
+	address LIKE '%${name}%' or
+	phone LIKE '%${name}%' or
+	telephone LIKE '%${name}%' or
+	companyId LIKE '%${name}%' or
+	branchprovince LIKE '%${name}%' or
+	branchcity LIKE '%${name}%' or
+	brancharea LIKE '%${name}%' )
+	
+	</select>
+	<!-- Page<bCompany> findbcompanyPByLike(@Param("name")String name);分页查询结果 -->
+	<select id="findbcompanyPByLike" resultType="com.select.wuliu.entity.bCompany">
+	SELECT * FROM 
+	company_address 
+	WHERE isDel=0  and  (id LIKE '%${name}%' or
+	branchName LIKE '%${name}%' or
+	address LIKE '%${name}%' or
+	phone LIKE '%${name}%' or
+	telephone LIKE '%${name}%' or
+	companyId LIKE '%${name}%' or
+	branchprovince LIKE '%${name}%' or
+	branchcity LIKE '%${name}%' or
+	brancharea LIKE '%${name}%' )
+	
+	</select>
+	
+	
+	
+	
+	<!-- bCompany findById(); -->
+	<select id="findById" resultType="com.select.wuliu.entity.bCompany">
+	SELECT 
+      *
+      FROM 
+	company_address
+	where id=#{id} and isDel=0
+	</select>
+	<!-- 根据主键id 找到标记删除的网点bCompany findAbCompById(Integer id); -->
+	<select id="findAbCompById" resultType="com.select.wuliu.entity.bCompany">
+	SELECT 
+      *
+      FROM 
+	company_address
+	where id=#{id} and isDel=1
+	</select>
+	
+	
+	<!-- List<bCompany> findBycompanyId(Integer companyId); -->
+	<select id="findBycompanyId" resultType="com.select.wuliu.entity.bCompany">
+	SELECT 
+      *FROM 
+	company_address
+	where companyId=#{companyId} and isDel=0
+	</select>
+	
+	
+		
+	
+	
+</mapper>
+
+
+
+
+

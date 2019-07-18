@@ -1,0 +1,220 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>个人收藏</title>
+</head>
+<body>
+<div class="page-container">
+	<p class="f-20 text-success">欢迎使用56114 <span class="f-14">v3.1</span>后台模版！</p>
+	
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> 
+	<input type="hidden" id="rid" th:value="${rid}"/>
+网站名称：<input type="text" class="input-text" style="width:250px" placeholder="输入网站名称" id="webName" name=""><br/>
+网站类型：<input type="text" class="input-text" style="width:250px" placeholder="输入网站类型，比如物流" id="type" name=""><br/>
+网站地址：<input type="text" class="input-text" style="width:650px" placeholder="输入网站地址" id="webAddress" name=""> <br/>
+	<a  onclick="addwebs()" class="btn btn-primary radius" id="btn-skey" ><i class="Hui-iconfont">&#xe600;</i>添加收藏网站  </a>
+  <input name="city" class="input-text" style="width:100px" value="郑州" id="city">
+   <a  onclick="addwebs1()" target="_blank" class="btn btn-primary radius" id="btn-skey" >查查天气 </a>
+     <a  onclick="addwebs3()" target="_blank" class="btn btn-primary radius" id="btn-skey" >查查车辆轨迹 </a>
+ <form  id="movieform" action="/uploadExcl"  enctype="multipart/form-data" method="post">
+       <br/>
+        <input class="input-text" style="width:250px" type="file"  id="file" name="file"/>
+        <a  onclick="uploadmovieFile()"  class="btn btn-primary radius"  >上传视频</a>
+                <button type="submit" class="btn btn-primary radius" id="submitbtn">
+                   <i class="Hui-iconfont">&#xe645;</i>导入表格</button>
+    </form>
+</div>
+<br/>
+<video controls="controls"   id="video">
+<source  src="http://192.168.0.154:8080/img/20190619151020_488c55ab03b583c7278d342012398436.mp4"></source>
+</video>
+
+<form id="websform">
+	<table class="table table-border table-bordered table-bg"  id="websform">
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">收藏统计
+				 <a  onclick="addwebs2()" target="_blank" class="btn btn-primary radius" id="btn-skey" ><i class="Hui-iconfont">&#xe644;</i>导出 </a>
+				<label class="r">
+				<span class="r">总共 <span th:text="${pageInfo.pages}"></span> 页,<span th:text="${pageInfo.total}"></span> 条</span>
+	  查看第
+	<select style="width:60px" id="pageNum1" onchange="GaiBian1()" >
+			<option th:each="pageNo : ${#numbers.sequence(1, pageInfo.pages)}" th:text="${pageNo}" th:value="${pageNo}" th:selected="${pageInfo.pageNum==pageNo}" > 请选择</option>
+		    
+		</select>
+		页,
+	  
+	  显示
+   <select  id="select" onChange="GaiBian1()" >
+<option value="10"  th:selected="${pageInfo.pageSize==10}">10</option>
+<option value="25" th:selected="${pageInfo.pageSize==25}">25</option>
+<option value="50" th:selected="${pageInfo.pageSize==50}">50</option>
+<option value="100" th:selected="${pageInfo.pageSize==100}">100</option>
+</select>
+条,
+
+ </label>
+				
+				</th>
+			</tr>
+			<tr class="text-c">
+				<th>网站名称(点击查看)</th>
+				<th>网站地址</th>
+				<th>修改时间</th>
+				<th>网站类型</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c"  th:each="base:${pageInfo.list}">
+				<td ><a  target='_blank' th:href="${base.webAddress}" th:text="${base.webName}"></a></td>
+				<td ><a  target='_blank' th:href="${base.webAddress}" th:text="${base.webAddress}"></a></td>
+				<td th:text="${#dates.format(base.createTime,'yyyy-MM-dd HH:mm:ss')}">9</td>
+				<td th:text="${base.type}">0</td>
+				<td ><a style="text-decoration:none" class="ml-5" onClick="delweb(this)" th:id="${base.id}"  href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+			</tr>
+		</tbody>
+	</table></form>
+	<p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+</div>
+
+<!--footer-->  
+<div  th:replace="_footer :: common_resource"></div> 
+<script type="text/javascript"> 
+//每页多少条
+function GaiBian1(){
+	var type=$('#select option:selected').val();
+	var pageNum=$('#pageNum1 option:selected').val();
+	var rid=$.trim($("#rid").val());
+	location.href="welcome?pageNum="+pageNum+"&&pageSize="+type+"&&rid="+rid+""
+	
+}
+//按下回车登录
+document.onkeydown = function (e) {
+    var theEvent = window.event || e;
+    var code = theEvent.keyCode || theEvent.which;
+    if (code== 13)
+    {
+$("#btn-skey").click();
+    }
+}
+//车辆轨迹图
+function addwebs3(){
+	location.href="charts-6";
+}
+
+
+//上传视频
+function uploadmovieFile(){
+	var url="../uploadFile";
+	 var form = new FormData();//创建formData
+	 form.append("file", $("#file")[0].files[0]);//将文件放入formData
+	console.log("参数data:"+form);
+	$.ajax({
+		"url":url,
+		data: form,//这个需要重点注意，因为form存在文本和文件，所以不能用data：{"form":form}的        
+		async: false,
+        enctype: "multipart/form-data",//必须
+        contentType: false,//必须
+        processData: false,//必须
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				//alert("添加成功！");
+				console.log(json.message)
+				 $("#video").attr("src",json.message);	
+				//location.href="";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+
+//查询天气
+function addwebs1(){
+	var city=$.trim($("#city").val());
+	console.log(city)
+	//var url="../get/"+city+";
+	location.href="charts-7?city="+city+"";
+	
+}
+//导出表格
+function addwebs2(){
+window.location.href="/excel/export";
+}
+
+//添加网站 
+function addwebs(){
+	var url="../addwebs";
+	 var webName=$.trim($("#webName").val());
+	 var type=$.trim($("#type").val());
+	 var webAddress=$.trim($("#webAddress").val());
+	console.log("参数data:"+webAddress);
+	$.ajax({
+		"url":url,
+	  "data":{
+			"webName":webName,
+			"type":type,
+			"webAddress":webAddress,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				
+				alert("添加成功！");
+				location.href="";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+//删除收藏网站delweb(this)
+function delweb(dom){
+	console.log("点击")
+		var url="../delweb";
+		//var data=$("#form-login").serialize();
+		 var id= dom.getAttribute("id");
+		 console.log("参数comp:"+id);
+		$.ajax({
+			"url":url,
+		 "data":{"id":id}, 
+			"type":"post",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					alert("删除成功！");
+					location.href="";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+		});
+		}
+</script>
+<!--/此乃百度统计代码，请自行删除-->
+</body>
+</html>

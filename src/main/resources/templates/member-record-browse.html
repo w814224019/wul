@@ -1,0 +1,241 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<style type="text/css">
+
+
+</style>
+<title>浏览记录</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 用户中心 <span class="c-gray en">&gt;</span> 浏览记录 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+	<div class="text-c"> 
+	<a  onclick="addmanys()"  class="btn btn-success radius">2.多选点击添加线路</a>
+	</div>
+	<a>河南省</a><a>河南省</a><a>河南省</a><a>河南省</a>
+ <div  class="a1"   id="table-result4">
+	<dl>
+	<dd>M<a>河南省</a><a>河南省</a><a>河南省</a></dd>
+	<dd>M</dd>
+	<dd>M</dd>
+	</dl>
+	
+	
+	</div>
+	 <div  class="a2"   id="table-result2">
+	</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript">
+//多选添加线路
+function addmanys(){
+	var url='../sheng';
+	var tbody=window.document.getElementById("table-result4");
+	var tbody1=window.document.getElementById("table-result2");
+	console.log(tbody+"tbody")
+	$.ajax({
+		"url":url,
+	  "data":'',
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var sr="";
+					var data=json.data;
+					console.log("查询物流公司线路成功！"+data);
+					for(i in data){
+						str+="<li class='a'>"+
+						"<a href='javascript:;'  style='color: blue;font-size:1px;' onclick='addcitys(this)' id='"+data[i].areaid+"'class=''>"+data[i].areaname+"省</a>"+
+						"</li> ";
+						
+						sr+="<div class='shi' >"+
+						"<a href='javascript:;' onclick='addcitys(this)' id='"+data[i].areaid+"'class=''>"+data[i].areaname+"省</a>"+
+						"<div  id='table"+data[i].areaid+"'></div>"+
+						"</div><br/>";
+						
+					}
+					tbody.innerHTML=str;
+					tbody1.innerHTML=sr;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	
+}
+
+
+//点击添加市addcitys(this)
+function addcitys(dom){
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table"+areaid+"");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加市成功！"+data);
+					for(i in data){
+						str+="<div >"+
+						"<span><a href='javascript:;' onclick='addqu(this)' id='"+data[i].areaid+"'class=''>"+data[i].areaname+"</a></span>"+
+						"<div  id='table"+data[i].areaid+"'></div>"+
+						"</div>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+//添加区
+function addqu(dom){
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table"+areaid+"");
+	console.log("tbody"+tbody)
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加市成功！"+data);
+					
+					for(i in data){
+						str+="<div class=''>"+
+						"<span><a href='javascript:;' onclick='addxian(this)' id='"+data[i].areaid+"'class=''>"+data[i].areaname+"</a></span>"+
+						"<div  id='table"+data[i].areaid+"'></div>"+
+						"</div>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+//添加乡
+function addxiang(dom){
+	
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table-result4");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加市成功！"+data);
+					$("#company4").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox'  value="+data[i].areaid+" name='duoxuan'></td>"+
+						"<td align='center'><a href='javascript:;' onclick='addxiang(this)' id='"+data[i].areaid+"'class=''>"+data[i].areaname+"</a></td>"+
+						
+						"</tr>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}	
+//添加县addxian
+function addxian(dom){
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table"+areaid+"");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加成功！"+data);
+					for(i in data){
+						str+="<div class='b4'>"+
+						"<a href='javascript:;' onclick='addxiang(this)' id='"+data[i].areaid+"'class=''>"+data[i].areaname+"</a>"+
+						"<div  id='table"+data[i].areaid+"'></div>"+
+						"</div><br/>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+	
+	
+	
+</script>
+</body>
+</html>

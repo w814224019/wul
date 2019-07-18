@@ -1,0 +1,482 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>销售员绑定公司</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 管理员管理 <span class="c-gray en">&gt;</span> 销售员绑定管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c" >
+请选择销售员:	<span class="select-box inline">
+	<select class="select" id="select1" name=""  onChange="GaiBian1()">
+			<option value="0" > ------------销售员选择--------</option>
+			<option th:each="item:${users}" th:text="${item.name}" 
+	        th:value="${item.rid}" ></option>
+		</select>
+		</span>
+		<input type="text" class="input-text" style="width:250px" placeholder="请输入地区关键词" id="lname" name="">
+		<span class="select-box inline">
+		<select class="select" id="select" name=""  onChange="GaiBian()">
+			<option value="0" > ------------选择操作类型--------</option>
+			<option value="1" > 查询销售员所绑定的公司或者网点</option>
+			<option value="2"  >根据地区搜索物流公司</option>
+			<option value="3"  >根据地区搜索网点</option>
+			<option value="4"  >绑定物流公司或网点</option>
+			<option value="5"  >批量解除绑定</option>
+		</select>
+		</span>
+		
+		<input  type="hidden" id='name1'>
+	</div>
+	
+	  </div>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th scope="col" colspan="7">查询结果
+				<label  class="r" >查看第
+	<select style="width:60px"  id="pageNum" onChange="GaiBian()" >
+			<option value="0"   > 请选择</option>
+		</select>
+		页
+	 <span class="r">共有： <span id="total" ></span> 页,总共：<strong id="tiaoshu" ></strong>条</span>,
+	 显示
+   <select  id="pageSize" onChange="GaiBian()">
+<option value="10"  >10</option>
+<option value="25" >25</option>
+<option value="50" >50</option>
+<option value="100" >100</option>
+</select>
+条,</label>
+				
+				</th>
+			</tr>
+			<tr class="text-c">
+				<th width="25"><input type="checkbox" name="" value=""></th>
+				<th width="40">物流公司或网点ID</th>
+				<th width="200">物流公司或网点名称</th>
+				<th width="100">地址</th>
+			</tr>
+		</thead>
+		<tbody id="table-result" >
+		<div id="bcompany"></div>
+			<tr class="text-c">
+				<td><input type="checkbox" value="1" name=""></td>
+				<td>1</td>
+				<td>栏目添加</td>
+				<td><a title="编辑" href="javascript:;" onclick="admin_permission_edit('角色编辑','admin-permission-add.html','1','','310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_permission_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript">
+/**
+ * 显示销售员id
+ */
+ function GaiBian1(){
+	var type=$('#select1 option:selected').val()
+	//console.log(type)
+	$("#name1").val(type);
+	
+}
+ function GaiBian(){
+		//$("#name").val("");
+		//document.getElementById("biaotou").style.display='block';  
+		var type=$('#select option:selected').val()
+		if(type==1){
+			//查询销售员绑定公司
+			admin_permission_my();
+		}
+		if(type==2){
+			//根据地区搜公司
+			admin_permission_sc();
+		}
+		if(type==3){
+			//根据地区搜网点
+			admin_permission_sbc();
+		}
+		if(type==4){
+			//绑定
+			admin_permission_add();
+		}
+		if(type==5){
+			//解除绑定
+			delusertocpr();
+		}
+
+	}
+
+
+
+
+/*显示网点*/
+function member_sh(title,url,dom,w,h){
+	var url="../ToCategeroy2";
+	 var comp= dom.getAttribute("id");
+	 console.log("参数comp:"+comp);
+	$.ajax({
+		"url":url,
+	 "data":{"comp":comp}, 
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("查询成功！");
+				member_show1('显示公司','member-show3',this,'600','510')
+		}
+	}
+	});
+}
+
+
+/*显示公司*/
+function member_show(title,url,dom,w,h){
+	var url="../ToCategeroy";
+	 var comp= dom.getAttribute("id");
+	 console.log("参数comp:"+comp);
+	$.ajax({
+		"url":url,
+	 "data":{"comp":comp}, 
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("查询成功！");
+				member_show1('显示公司','member-show2',this,'600','510')
+		}
+	}
+	});
+}
+function member_show1(title,url,dom,w,h){
+	layer_show(title,url,w,h);
+}
+
+
+
+var mark;
+//查询当前销售员绑定的公司或者网点admin_permission_my()
+function admin_permission_my(){
+	var url="../selusertocorb";
+	var tbody=window.document.getElementById("table-result");
+	 var pageNum=$.trim($("#pageNum").val());
+	 var pageSize=$.trim($("#pageSize").val());
+	 var rid=$.trim($("#name1").val());
+	 var mark=0;
+	$.ajax({
+		"url":url,
+	  "data":{
+			"pageNum":pageNum,
+			"pageSize":pageSize,
+			"rid":rid,
+			"mark":mark,
+		},  
+		"type":"get",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("查询公司成功！"+json.data);
+				var str="";
+				var data=json.data;
+				$("#bcompany").text(str);
+				for(i in data){
+					str+="<tr class='text-c'>"+
+					"<td ><input type='checkbox'  value="+data[i].companyId+"!"+data[i].mark+" name='duoxuan'></td>"+
+					"<td align='center'>"+data[i].companyId+"</td>"+
+					"<td align='center'>"+data[i].companyName+"</td>"+
+					"<td align='center'>"+data[i].address+"</td>"+
+					"</tr>";
+				}
+				tbody.innerHTML=str;
+				var total=0;
+				var tiaoshu=0;
+				if (data.length==0){
+					total=0;
+					tiaoshu=0;
+				}else{
+					
+				 total=data[i].pages;
+				 tiaoshu=data[i].totals;
+				}
+				$("#total").text(total);
+				var option =""
+					for(i=0;i<total;i++){
+						//先创建好select里面的option元素
+		                 option += "<option value='"+(i+1)+"' >"+(i+1)+"</option>";
+					}
+			    $('#pageNum').html(option);
+			    $('#pageNum').val(pageNum);
+				$("#tiaoshu").text(tiaoshu);
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+
+
+
+}
+
+
+//解除绑定delusertocpr()
+function delusertocpr(){
+	var url="../delusertocpr";
+	var rid=$.trim($("#name1").val());
+	var arr=[];//定义一个数组
+    var arr2=$("input[name='duoxuan']:checked");//获取多选框的数组
+    $.each(arr2,function () {
+        arr.push($(this).val());//把多选框数组的value放入自己定义的里面
+    })
+	console.log(arr);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "rid":rid,
+		  "ids" : arr.join(",")
+		  
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("批量解除绑定成功！");
+				//location.href="product-category";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+//绑定公司或者网点admin_permission_add()
+function admin_permission_add(){
+	var url="../addnewusertoborc";
+	var rid=$.trim($("#name1").val());
+	var arr=[];//定义一个数组
+    var arr2=$("input[name='duoxuan']:checked");//获取多选框的数组
+    $.each(arr2,function () {
+        arr.push($(this).val());//把多选框数组的value放入自己定义的里面
+    })
+    console.log(arr.length);
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "rid":rid,
+		  "ids" : arr.join(","),
+		  "mark":mark,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("批量绑定成功！");
+				//location.href="product-category";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+//模糊查询公司返回查询结果findbcompanysPBylname
+function admin_permission_sc(){
+		var url="../findCompanysPBylname";
+		var tbody=window.document.getElementById("table-result");
+		var name=$.trim($("#lname").val());
+		 var pageNum=$.trim($("#pageNum").val());
+		 var pageSize=$.trim($("#pageSize").val());
+		console.log("参数data:"+name);
+		mark=1;
+		$.ajax({
+			"url":url,
+		  "data":{
+				"name":name,
+				"pageNum":pageNum,
+				"pageSize":pageSize,
+			},  
+			"type":"get",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					console.log("查询公司成功！"+json.data);
+					var str="";
+					var data=json.data;
+					$("#bcompany").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox'  value="+data[i].companyId+" name='duoxuan'></td>"+
+						"<td align='center'>"+data[i].companyId+"</td>"+
+						"<td align='center'><a onClick="+"member_show('显示公司','member-show2',this,'600','510')" +" id="+data[i].companyId+">"+data[i].companyName+"</a></td>"+
+						"<td align='center'>"+data[i].address+"</td>"+
+						"</tr>";
+							
+					}
+					tbody.innerHTML=str;
+					var total=0;
+					var tiaoshu=0;
+					if (data.length==0){
+						total=0;
+						tiaoshu=0;
+					}else{
+						
+					 total=data[i].pages;
+					 tiaoshu=data[i].totals;
+					}
+					$("#total").text(total);
+					var option =""
+						for(i=0;i<total;i++){
+							//先创建好select里面的option元素
+			                 option += "<option value='"+(i+1)+"' >"+(i+1)+"</option>";
+						}
+				    $('#pageNum').html(option);
+				    $('#pageNum').val(pageNum);
+					$("#tiaoshu").text(tiaoshu);
+				}else if(json.state==402){
+					alert(json.message);
+				}
+			}
+		});
+
+	
+	
+}
+
+
+
+//模糊查找网点 admin_permission_sbc()
+function admin_permission_sbc(){
+		var url="../findbcompanysPBylname";
+		var tbody=window.document.getElementById("table-result");
+		var name=$.trim($("#lname").val());
+		 var pageNum=$.trim($("#pageNum").val());
+		 var pageSize=$.trim($("#pageSize").val());
+		 mark=0;
+		console.log("参数data:"+name);
+		$.ajax({
+			"url":url,
+		  "data":{
+				"name":name,
+				"pageNum":pageNum,
+				"pageSize":pageSize,
+			},  
+			"type":"get",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					console.log("查询网点成功！"+json.data);
+					var str="";
+					var data=json.data;
+					$("#bcompany").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox'  value="+data[i].id+" name='duoxuan'></td>"+
+						"<td align='center'>"+data[i].id+"</td>"+
+						"<td align='center'><a onClick="+"member_sh('显示公司','member-show2',this,'600','510')" +" id="+data[i].id+">"+data[i].branchName+"</a></td>"+
+						"<td align='center'>"+data[i].address+"</td>"+
+						"</tr>";
+							
+					}
+					tbody.innerHTML=str;
+					var total=0;
+					var tiaoshu=0;
+					if (data.length==0){
+						total=0;
+						tiaoshu=0;
+					}else{
+						
+					 total=data[i].pages;
+					 tiaoshu=data[i].totals;
+					}
+					$("#total").text(total);
+					var option =""
+						for(i=0;i<total;i++){
+							//先创建好select里面的option元素
+			                 option += "<option value='"+(i+1)+"' >"+(i+1)+"</option>";
+						}
+				    $('#pageNum').html(option);
+				    $('#pageNum').val(pageNum);
+					$("#tiaoshu").text(tiaoshu);
+				}else if(json.state==402){
+					alert(json.message);
+				}
+			}
+		});
+
+	
+	
+}
+
+
+
+
+
+/*管理员-查找*/
+ /* 
+ 
+ <input type="text" class="input-text" style="width:250px" placeholder="请输入姓名" id="name" name="">
+			<button  class="btn btn-success" id="" name="" onclick="datafname()"><i class="Hui-iconfont">&#xe665;</i> 搜索销售员ID</button>
+			<span id="company"></span>
+ 
+ 
+ */
+function datafname(){
+		var url="../findadmins";
+		var tbody=window.document.getElementById("table-result1");
+		var name=$.trim($("#name").val());
+		console.log("参数data:"+name);
+		$.ajax({
+			"url":url,
+		  "data":{
+				"name":name,
+			},  
+			"type":"get",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					console.log("查询成功！"+json.data);
+					var str="";
+					var data=json.data;
+					$("#company1").text(str);
+					str="<span >"+"销售员姓名："+data.name+"&nbsp;&nbsp;销售员ID:<input type='text' class='input-text' style='width:50px'  id='name1' value="+data.rid+"><span/>";
+					tbody.innerHTML=str;
+				}else if(json.state==402){
+					alert(json.message);
+				}
+			}
+		});
+
+	
+	
+}
+
+</script>
+</body>
+</html>

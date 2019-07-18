@@ -1,0 +1,386 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>公司查询</title>
+
+</head>
+<body>
+<div class="page-container">
+	<form id="form-s">
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+	<input type="text" style="width:100px" name="from" id="from" class="input-text" txt1="" value="" placeholder="出发地" readonly="readonly"/>
+		    		-->
+    <input type="text" style="width:100px" name="to" id="to" value="" class="input-text" placeholder="到达地" readonly="readonly"/>
+	<a href="javascript:;" onclick="datacx()" class="btn btn-primary radius"> 专线查询</a>
+	<a href="javascript:;" onclick="datafx()" class="btn btn-primary radius"> 反向查询</a>  
+	<a  onclick="datacxc()" class="btn btn-primary radius"  ><i class="Hui-iconfont">&#xe665;</i> 根据地区查询公司</a>
+	 <input type="text" class="input-text" style="width:100px" placeholder="输入id" id="companyId" name=""> <a href="javascript:;" onclick="datafid()" class="btn btn-primary radius">根据公司id查找</a><br/>
+	 </div>
+	 <div class="cl pd-5 bg-1 bk-gray mt-20">
+	<input type="text" class="input-text" style="width:250px" placeholder="输入关键词" id="companyLname" name=""> 
+	<a  onclick="datagjc()" class="btn btn-primary radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 关键词查找</a>
+		<a href="javascript:;" th:href="@{/product-category4}" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加公司</a></span> 
+	</div>
+	 </form>
+	 <div  id="chushibiao">
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">查询统计</th>
+			</tr>
+			<tr class="text-c">
+				<th>Id</th>
+				<th>公司名称(点击名称查看详情)</th>
+				<th width="100">图片(点击查看原图)</th>
+				<th>公司地址</th>
+				<th>联系人</th>
+				<th>联系电话</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c"  th:each="base:${pageInfo.list}" varStatus="s">
+				<td><a   th:text="${base.companyId}"></a></td>
+				<td><img th:class="'img'+${base.vipClass}" src=""/><a  th:href="@{/index4(companyId=${base.companyId})}"     target='_blank' th:text="${base.companyName}"></a><a target='_blank'   th:href="${base.mobilepath}"><img src='http://static.56114.net.cn/images/ssj.jpg' width='9' height='15'/></a></td>
+				<td><img style="width:100%" onclick="zx(this)"  th:id="${base.companyId}"  th:src="${base.detailPicture}"></img></td>
+				<td th:text="${base.address}"></td>
+				<td th:text="${base.contact}"></td>
+				<td th:text="${base.phone}"></td>
+				
+			</tr>
+			
+		</tbody>
+	</table>
+	<p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+    <a th:href="@{/product-brand}">首页</a>
+    <a th:href="@{/product-brand(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+    <a th:href="@{/product-brand(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+    <a th:href="@{/product-brand(pageNum=${pageInfo.pages})}">尾页</a>
+	</div>
+	<div id="zhuanxianbiao" style="display:none;" >
+    <table class="table table-border table-bordered table-bg table-hover">
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">查询统计
+				 查看第<input  type="text" class="input-text" style="width:50px" id="pageNum"    value="1"/>页 ,共<strong id="total" ></strong>页, 总共：<strong id="tiaoshu" ></strong>条
+				</th>
+			</tr>
+			<tr class="text-c">
+				<th>网点或者公司Id</th>
+				<th>网点或者公司名称(点击名称查看详情)</th>
+				<th width="100">图片(点击查看原图)</th>
+				<th>网点或者公司地址</th>
+				<th>联系人</th>
+				<th>联系电话</th>
+				
+			</tr>
+		</thead>
+		<tbody id="table-result">
+		<div id="company"></div>
+			<tr>
+				<td></td>
+				<td  ></td>
+				<td></td>
+				<td ></td>
+				<td ></td>
+				<td >123456</td>
+				
+			</tr>
+			
+		</tbody>
+	</table>
+    </div>
+	
+	
+</div>
+<footer class="footer mt-20">
+	<div class="container">
+		<p>感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br>
+			Copyright &copy;2015-2017 H-ui.admin v3.1 All Rights Reserved.<br>
+			本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持</p>
+	</div>
+</footer>
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script> 
+<!--此乃百度统计代码，请自行删除-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<!--/此乃百度统计代码，请自行删除-->
+<script type="text/javascript">
+	
+	$('#from').on('click', function() {
+		let from5 = $('#from').attr('name');
+		let from1={name:from5};
+		let from2=JSON.stringify(from1);//将对象"序列化"为JSON数据(字符串格式)
+		localStorage.setItem("name",from2);  //以字符串格式存储信息
+		window.location.href = "product-brand7";
+	});
+	$('#to').on('click', function() {
+		let to = $('#to').attr('name');
+		let to1={name:to};
+		let to2=JSON.stringify(to1);//将对象"序列化"为JSON数据(字符串格式)
+		localStorage.setItem("name",to2);  //以字符串格式存储信息
+		window.location.href = "product-brand7";
+	});
+	
+	//插入数据
+	if(localStorage.getItem("cityFromData") != null){
+		let cityFromData2=localStorage.getItem("cityFromData");    //获取存储的信息，也是字符串格式
+		let cityFromData3=JSON.parse(cityFromData2);
+		document.getElementById("from").value = cityFromData3['fromCity'];
+		$('#from').attr('txt1', cityFromData3['fromId']);
+	};
+	if(localStorage.getItem("cityToData") != null){
+		let cityToData2=localStorage.getItem("cityToData");    //获取存储的信息，也是字符串格式
+		let cityToData3=JSON.parse(cityToData2);
+		document.getElementById("to").value = cityToData3['toCity'];
+		$('#to').attr('txt', cityToData3['toId']);
+	};
+</script>
+
+</body>
+</html>
+<script>
+$(window).resize(function() {
+    var window_height = $(window).height();//获取浏览器窗口宽度
+    if(window_height<=500){
+          $('#footer').css("position","relative")
+    }else{
+		  $('#footer').css("position","absolute")
+		}
+   
+});
+</script>
+<script type="text/javascript">
+//会员图片
+$(".img1").attr("src", "http://www.56114.net.cn/img/诚信会员.jpg");
+$(".img2").attr("src", "http://www.56114.net.cn/img/金牌会员.jpg");
+$(".img3").attr("src", "http://www.56114.net.cn/img/银牌会员.jpg");
+$(".img4").attr("src", "http://www.56114.net.cn/img/铜牌会员.jpg");
+$(".img5").attr("src", "http://www.56114.net.cn/img/普通会员.jpg");
+$(".img6").attr("src", "http://www.56114.net.cn/img/试用会员.jpg");
+$(".img7").attr("src", "http://www.56114.net.cn/img/非会员.jpg");
+
+function datacxc(){
+	var url="../article-list4";
+	 var address=$.trim($("#from").val());
+	console.log("参数data:"+address);
+	$.ajax({
+		"url":url,
+	  "data":{
+			"address":address,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("查询成功！");
+				location.href="product-brand";
+			}else if(json.state==400){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+function datagjc(){
+	var url="../product-brand2";
+	 var Name=$.trim($("#companyLname").val());
+	console.log("参数data:"+Name);
+	$.ajax({
+		"url":url,
+	  "data":{
+			"Name":Name,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("查询成功！");
+				location.href="product-brand2";
+			}else if(json.state==400){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+function datafcn(){
+	var url="../article-list2";
+	 var companyName=$.trim($("#companyName").val());
+	console.log("参数data:"+companyName);
+	$.ajax({
+		"url":url,
+	  "data":{
+			"companyName":companyName,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("查询成功！");
+				location.href="product-brand";
+			}else if(json.state==400){
+				alert(json.message);
+			}
+		}
+	});
+}
+
+
+function datafid(){
+	var url="../article-list1";
+	 var companyId=$.trim($("#companyId").val());
+	console.log("参数data:"+companyId);
+	$.ajax({
+		"url":url,
+	  "data":{
+			"companyId":companyId,
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				console.log("查询成功！");
+				location.href="product-brand";
+			}else if(json.state==400){
+				alert(json.message);
+			}
+		}
+	});
+}
+//根据出发地和目的地查询
+function datacx(){
+	var sta=$("#from").attr("txt1");
+	var end=$("#to").attr("txt");
+	datacx1(sta,end);
+}
+//根据出发地和目的地反向查询
+function datafx(){
+	
+	var end=$("#from").attr("txt1");
+	var sta=$("#to").attr("txt");
+	datacx1(sta,end);
+}
+
+//专线查询不跳页
+function datacx1(sta,end){
+	document.getElementById("zhuanxianbiao").style.display='block';  
+	 document.getElementById("chushibiao").style.display='none';
+	 var url="../article-list";
+	 var tbody=window.document.getElementById("table-result");
+		 var pageNum=$.trim($("#pageNum").val());
+		$.ajax({
+			"url":url,
+		  "data":{
+				"pageNum":pageNum,
+				"sta":sta,
+				"end":end,
+			},  
+			"type":"post",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					console.log("查询公司成功！"+json.data);
+					var str="";
+					var data=json.data;
+					$("#company").text(str);
+					for(i in data){
+						if(data[i].mark==1){
+							str+="<tr class='text-c'>"+
+							"<td align='center'><a  id="+data[i].companyId+">"+data[i].companyId+"</a></td>"+
+							"<td align='center'><img  src='http://www.56114.net.cn/img/"+data[i].vip+".jpg'><a     target='_blank'   href='../index4?companyId="+data[i].companyId+"'>"+data[i].companyName+"</a><a target='_blank'   href='"+data[i].mobilepath+"'><img src='http://static.56114.net.cn/images/ssj.jpg' width='9' height='15'/></a></td>"+
+							"<td align='center'><img style='width:100%' onclick='javascript:window.open(this.src)' src="+data[i].detailPicture+"></img></td>"+
+							"<td align='center'>"+data[i].address+"</td>"+
+							"<td align='center'>"+data[i].contact+"</td>"+
+							"<td align='center'>"+data[i].phone+"</td>"+
+							"</tr>";
+						}else{
+							str+="<tr class='text-c'>"+
+							"<td align='center'><a  id="+data[i].companyId+">"+data[i].companyId+"</a></td>"+
+							"<td align='center'><a  target='_blank'   href='/product-category2?companyId="+data[i].companyId+"'>"+data[i].companyName+"</a></td>"+
+							"<td align='center'></td>"+
+							"<td align='center'>"+data[i].address+"</td>"+
+							"<td align='center'>"+(data[i].contact==null?'':data[i].contact)+"</td>"+
+							"<td align='center'>"+data[i].phone+"</td>"+
+							"</tr>";
+						}
+						
+						
+					}
+					tbody.innerHTML=str;
+					
+					var total=0;
+					var tiaoshu=0;
+					if (data.length==0){
+						total=0;
+						tiaoshu=0;
+					}else{
+						
+					 total=data[i].pages;
+					 tiaoshu=data[i].totals;
+					}
+					$("#total").text(total);
+					$("#tiaoshu").text(tiaoshu);
+					
+				}else if(json.state==402){
+					alert(json.message)
+				}
+			}
+		});
+
+	
+	
+}
+
+function zx(dom){
+	console.log("点击")
+		var url="../ToCategeroy";
+		//var data=$("#form-login").serialize();
+		 var comp= dom.getAttribute("id");
+		 console.log("参数comp:"+comp);
+		$.ajax({
+			"url":url,
+		 "data":{"comp":comp}, 
+			"type":"post",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					console.log("查询成功！");
+					window.open("index4");
+			}else if(json.state==400){
+				alert(json.message);
+				window.open("product-category5");
+			}
+		}
+		});
+		}
+		</script>
+</body>
+</html>

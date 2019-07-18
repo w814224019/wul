@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.userToCorbcompanyMapper">
+
+<!-- Integer addNewUserToCompany(userToCorbcompany utoc);添加绑定 -->
+<insert id="addNewUserToCompany" parameterType="com.select.wuliu.entity.userToCorbcompany"
+     >
+	insert into user_company
+	(companyid,userid,isDel,mark
+	
+	
+	)
+	values
+	(#{companyid},#{userid},#{isDel},#{mark}
+	
+	)
+	</insert>
+	<!-- 解除绑定Integer delUsertoCompany(@Param("companyid")Integer companyid,@Param("userid")Integer userid,@Param("isDel")Integer isDel); -->
+	<update id="delUsertoCompany">
+	update user_company
+	set
+	<if test="companyid!=null">
+	companyid=#{companyid},
+	</if>
+	<if test="userid!=null">
+	userid=#{userid},
+	</if>
+	
+	<if test="mark!=null">
+	mark=#{mark},
+	</if>
+	<if test="isDel!=null">
+	isDel=#{isDel}
+	</if>
+	where 
+	 companyid=#{companyid}
+	</update>
+	<!-- 分页查询结果 Page<userToCorbcompany> findutoCPByrid(Integer rid); -->
+	<select id="findutoCPByrid" resultType="com.select.wuliu.entity.userToCorbcompany">
+	SELECT 
+      *FROM 
+	user_company where isDel=0 
+	and userid=#{userid}
+	
+	</select>
+	<!-- 通过公司或网点id找到实体类userToCorbcompany findByBorCompanyId(Integer companyid); -->
+	<select id="findByBorCompanyId" resultType="com.select.wuliu.entity.userToCorbcompany">
+	SELECT 
+      *FROM 
+	user_company where  
+	  companyid=#{companyid} 
+	and  mark=#{mark} and isDel=0
+	</select>
+	
+</mapper>
+
+
+
+
+

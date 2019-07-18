@@ -1,0 +1,514 @@
+﻿<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<style type="text/css">
+.a{
+float:left;
+
+}
+</style>
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>运营线路</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+	<span class="c-gray en">&gt;</span>
+	<a th:href="@{/product-category}">系统管理</a>
+	<span class="c-gray en">&gt;</span>
+	基本设置
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+</nav>
+<div class="page-container">
+	<form id="form-s">
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+	公司/网点ID：<input  type="text" class="input-text" style="width:100px" placeholder="输入id" id="companyId" name=""> 
+	
+	<a href="javascript:;" onclick="addprovince()" class="btn btn-primary radius">添加选择</a>  
+		<a href="javascript:;" onclick="addall()"  class="btn btn-primary radius"> 确定</a></span> 
+	</div>
+	 </form>
+</div>
+<div class="a" width="100%" id="hiddenDiv"  style="display:none;">
+ <div class="a " width="25%">
+	<table class="table table-border table-bordered table-bg" >
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">省</th>
+			</tr>
+			<tr class="text-c">
+			<th width="100"><input type="checkbox" name="" value=""></th>
+				<th width="100" >区号</th>
+				<th width="100">省</th>
+		
+			</tr>
+		</thead>
+		<tbody id="table-result">
+		<div id="company">
+		</div>
+			<tr class="text-c"  >
+				<td ></td>
+				<td ></td>
+				<td ></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	 <div class="a shi" width="25%">
+	<table class="table table-border table-bordered table-bg" >
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">市</th>
+			</tr>
+			<tr class="text-c">
+			<th width="100"><input type="checkbox" name="" value=""></th>
+				<th width="100" >区号</th>
+				<th width="100">市</th>
+		
+			</tr>
+		</thead>
+		<tbody id="table-result1">
+		<div id="company1">
+		</div>
+			<tr class="text-c"  >
+				<td ></td>
+				<td ></td>
+				<td ></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+<div class="a xian" width="25%">
+	<table class="table table-border table-bordered table-bg" >
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">区</th>
+			</tr>
+			<tr class="text-c">
+			<th width="90"><input type="checkbox" name="" value=""></th>
+				<th width="90" >区号</th>
+				<th width="90">区/县</th>
+		
+			</tr>
+		</thead>
+		<tbody id="table-result2">
+		<div id="company2">
+		</div>
+			<tr class="text-c"  >
+				<td ></td>
+				<td ></td>
+				<td ></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<div class="a zhen" width="25%">
+	<table class="table table-border table-bordered table-bg" >
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">县</th>
+			</tr>
+			<tr class="text-c">
+			<th width="100"><input type="checkbox" name="" value=""></th>
+				<th width="100" >区号</th>
+				<th width="100">镇</th>
+		
+			</tr>
+		</thead>
+		<tbody id="table-result3">
+		<div id="company3">
+		</div>
+			<tr class="text-c"  >
+				<td ></td>
+				<td ></td>
+				<td ></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+
+
+</div>
+
+
+<div id="wrapper"></div>
+<div  class="button-group">
+    <input type="button" class="button" value="添加点标记覆盖物" id="addMarker"/>
+    <input type="button" class="button" value="更新点标记覆盖物" id="updateMarker"/>
+    <input type="button" class="button" value="删除点标记覆盖物" id="clearMarker"/>
+</div>
+
+<style>
+	#wrapper{
+		width: 500px;
+		height: 500px;
+	}
+</style>
+
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=f5ff20cbcc7f8d7bcd92baf7221a5c7d"></script> 
+
+<script>
+var marker, map = new AMap.Map("wrapper", {
+    resizeEnable: true,
+    center: [104.747402,31.46131],
+    zoom: 13
+});
+AMap.event.addDomListener(document.getElementById('addMarker'), 'click', function() {
+    addMarker();
+}, false);
+AMap.event.addDomListener(document.getElementById('updateMarker'), 'click', function() {
+    marker && updateMarker();
+}, false);
+AMap.event.addDomListener(document.getElementById('clearMarker'), 'click', function() {
+    if (marker) {
+        marker.setMap(null);
+        marker = null;
+    }
+}, false);
+function updateMarker() {
+    // 自定义点标记内容
+    var markerContent = document.createElement("div");
+    
+    // 点标记中的图标
+    var markerImg = document.createElement("img");
+    markerImg.className = "markerlnglat";
+    markerImg.src = "http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png";
+    markerContent.appendChild(markerImg);
+
+    // 点标记中的文本
+    var markerSpan = document.createElement("span");
+    markerSpan.className = 'marker';
+    markerSpan.innerHTML = "Hi，我换新装备啦！";
+    markerContent.appendChild(markerSpan);
+
+    marker.setContent(markerContent); //更新点标记内容
+    marker.setPosition([104.747402,31.46131]); //更新点标记位置
+}
+
+
+
+//实例化点标记
+function addMarker() {
+    if (marker) {
+        return;
+    }
+    marker = new AMap.Marker({
+        icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+        position: [104.747402,31.46131]
+    });
+    marker.setMap(map);
+}
+
+
+
+
+
+
+
+
+	/* //初始化地图插件
+	window.onload = function(){
+		var map = new AMap.Map('wrapper');
+	} */
+</script>
+
+
+
+
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+
+</body>
+</html>
+<script>
+
+
+$(window).resize(function() {
+    var window_height = $(window).height();//获取浏览器窗口宽度
+    if(window_height<=500){
+          $('#footer').css("position","relative")
+    }else{
+		  $('#footer').css("position","absolute")
+		}
+   
+});
+</script>
+<script type="text/javascript">
+	
+	$('#from').on('click', function() {
+		let from5 = $('#from').attr('name');
+		let from1={name:from5};
+		let from2=JSON.stringify(from1);//将对象"序列化"为JSON数据(字符串格式)
+		localStorage.setItem("name",from2);  //以字符串格式存储信息
+		window.location.href = "product-brand7";
+	});
+	$('#to').on('click', function() {
+		let to = $('#to').attr('name');
+		let to1={name:to};
+		let to2=JSON.stringify(to1);//将对象"序列化"为JSON数据(字符串格式)
+		localStorage.setItem("name",to2);  //以字符串格式存储信息
+		window.location.href = "product-brand7";
+	});
+	
+	//插入数据
+	if(localStorage.getItem("cityFromData") != null){
+		let cityFromData2=localStorage.getItem("cityFromData");    //获取存储的信息，也是字符串格式
+		let cityFromData3=JSON.parse(cityFromData2);
+		document.getElementById("from").value = cityFromData3['fromCity'];
+		$('#from').attr('txt1', cityFromData3['fromId']);
+	};
+	
+</script>
+
+<script type="text/javascript">
+//返回公司backCompany()
+function backCompany(){
+	//alert("返回公司")
+	var url="../ToCategeroy";
+	var comp=$.trim($("#companyId").val());
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "comp":comp,
+	  },
+		"type":'post',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					location.href="product-category";
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+
+//添加确定按钮
+function addall(){
+	var url="../addcityspath";
+	var id=$.trim($("#companyId").val());
+	var arr=[];//定义一个数组
+    var arr2=$(":checked");//获取多选框的数组
+    $.each(arr2,function () {
+        arr.push($(this).val());//把多选框数组的value放入自己定义的里面
+    })
+    	//alert(arr)
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "ids" : arr.join(","),
+		  "id":id,
+		  "cfd":cfd,
+		  
+		},  
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==200){
+				alert("添加成功！");
+				//location.href="product-category";
+			}else if(json.state==402){
+				alert(json.message);
+			}
+		}
+	});
+}
+//添加县addxian
+function addxian(dom){
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table-result3");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加市成功！"+data);
+					$("#company3").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox' checked='checked' value="+data[i].areaid+" name='duoxuan'></td>"+
+						"<td align='center'>"+data[i].areaid+"</td>"+
+						"<td align='center'><a href='javascript:;' onclick='addxiang(this)' id='"+data[i].areaid+"'class='btn btn-primary radius'>"+data[i].areaname+"</a></td>"+
+						"</tr>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+//添加乡
+function addxiang(dom){
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table-result4");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加市成功！"+data);
+					$("#company4").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox'  value="+data[i].areaid+" name='duoxuan'></td>"+
+						"<td align='center'>"+data[i].areaid+"</td>"+
+						"<td align='center'><a href='javascript:;' onclick='addxiang(this)' id='"+data[i].areaid+"'class='btn btn-primary radius'>"+data[i].areaname+"</a></td>"+
+						"</tr>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+//添加区
+function addqu(dom){
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table-result2");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加市成功！"+data);
+					$("#company2").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox' checked='checked' value="+data[i].areaid+" name='duoxuan'></td>"+
+						"<td align='center'>"+data[i].areaid+"</td>"+
+						"<td align='center'><a href='javascript:;' onclick='addxian(this)' id='"+data[i].areaid+"'class='btn btn-primary radius'>"+data[i].areaname+"</a></td>"+
+						"</tr>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+
+
+//点击添加市addcitys(this)
+function addcitys(dom){
+	var url='../shi';
+	var areaid= dom.getAttribute("id");
+	console.log("areaid"+areaid)
+	var tbody=window.document.getElementById("table-result1");
+	$.ajax({
+		"url":url,
+	  "data":{
+		  "areaid":areaid,
+	  },
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					console.log("添加市成功！"+data);
+					$("#company1").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox' checked='checked' value="+data[i].areaid+" name='duoxuan'></td>"+
+						"<td align='center'>"+data[i].areaid+"</td>"+
+						"<td align='center'><a href='javascript:;' onclick='addqu(this)' id='"+data[i].areaid+"'class='btn btn-primary radius'>"+data[i].areaname+"</a></td>"+
+						"</tr>";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+
+//点击添加省份
+function addprovince(){
+	var url='../sheng';
+	var tbody=window.document.getElementById("table-result");
+	$.ajax({
+		"url":url,
+	  "data":'',
+		"type":'get',
+		"dataType":"json",
+		"success":function(json){
+				if(json.state==200){
+					var str="";
+					var data=json.data;
+					$("#company").text(str);
+					for(i in data){
+						str+="<tr class='text-c'>"+
+						"<td ><input type='checkbox'  value="+data[i].areaid+" name='duoxuan'></td>"+
+						"<td align='center'>"+data[i].areaid+"</td>"+
+						"<td align='center'><a href='javascript:;' onclick='addcitys(this)' id='"+data[i].areaid+"'class='btn btn-primary radius'>"+data[i].areaname+"</a></td>"+
+						"</tr> ";
+					}
+					tbody.innerHTML=str;
+				}else{
+					alert(json.message);
+				}
+				
+			}
+
+});
+	}
+
+
+		</script>
+</body>
+</html>

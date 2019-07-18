@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>区域图</title>
+</head>
+
+
+<link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+<script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.9&key=f5ff20cbcc7f8d7bcd92baf7221a5c7d&plugin=AMap.Autocomplete&plugin=AMap.Geocoder"></script>
+<script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+<body>
+
+<div class="layui-form-item layui-form-text" style="height: 500px">
+    <label class="layui-form-label">高德地图</label>
+    <div class="layui-input-block">
+     
+        <div id="container" style="height: 290px"></div>
+        <div id="myPageTop">
+            <table>
+                <tr>
+                    <td>
+                        <label>按关键字搜索：</label>
+                    </td>
+                    <td class="column2">
+                        <label>左击获取经纬度：</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" id="tipinput"   autocomplete="off" onkeydown="if(event.keyCode==13)return false;" placeholder="请输入关键字进行搜索" >
+                    </td>
+                    <td class="column2">
+                        <input type="text"  readonly="true" id="lnglat" name="lnglat" >
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    var map = new AMap.Map("container", {
+            resizeEnable: true,
+            zoom: 18
+        })
+
+        //为地图注册click事件获取鼠标点击出的经纬度坐标
+    var clickEventListener = map.on('click', function(e) {
+        document.getElementById("lnglat").value = e.lnglat.getLng() + ',' + e.lnglat.getLat();
+
+        if (marker) {
+            marker.setMap(null);
+            marker = null;
+        }
+        addMarker(e.lnglat.getLng(),e.lnglat.getLat());
+        //这边是数组
+        var lnglatXY=[e.lnglat.getLng(),e.lnglat.getLat()];
+        regeocoder(lnglatXY);
+    });
+
+    var auto = new AMap.Autocomplete({
+        input: "tipinput"
+    });
+
+    //注册监听，当选中某条记录时会触发
+    AMap.event.addListener(auto, "select", select);
+    function select(e) {
+        var lng = e.poi.location.lng;
+        var lat = e.poi.location.lat;
+        console.log(e.poi.location.lng);
+        if (e.poi && e.poi.location) {
+            map.setZoom(15);
+            map.setCenter(e.poi.location);
+            addMarker(lng,lat);
+        }
+    }
+
+    var marker;
+    // 实例化点标记
+    function addMarker(lng,lat) {
+        marker = new AMap.Marker({
+            icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+            position: [lng, lat]
+        });
+        marker.setMap(map);
+    }
+
+    //坐标-地址
+    function regeocoder(lnglatXY) {  //逆地理编码
+        var geocoder = new AMap.Geocoder({
+            radius: 1000,
+            extensions: "all"
+        });
+        geocoder.getAddress(lnglatXY, function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+                geocoder_CallBack(result);
+            }
+        });
+    }
+
+    function geocoder_CallBack(data) {
+        var address = data.regeocode.formattedAddress; //返回地址描述
+        document.getElementById("tipinput").value=address;
+    }
+</script>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/hcharts/Highcharts/5.0.6/js/highcharts.js"></script>
+<script type="text/javascript" src="lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js"></script>
+
+</body>
+</html>

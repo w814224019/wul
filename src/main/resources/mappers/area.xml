@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.areaMapper">
+
+<!-- Area findByname(Integer areaid); -->
+<select id="findByname" resultType="com.select.wuliu.entity.area">
+	select 
+	*
+	from area
+	WHERE
+	areaname = #{areaname}
+	and parentId &gt;4
+ 
+	</select>
+	
+	<!-- area findByIntegerid(Integer id); -->
+	<select id="findByIntegerid" resultType="com.select.wuliu.entity.area">
+	select 
+	*
+	from area
+	WHERE
+	areaid = #{areaid}
+	
+ 
+	</select>
+	<!-- List<area> findAareas(); -->
+	<select id="findAareas" resultType="com.select.wuliu.entity.area">
+	select 
+	*
+	from area
+	
+	</select>
+	<!-- 分页查询全国所有Page<area> findChina(); -->
+	<select id="findChina" resultType="com.select.wuliu.entity.area">
+	select 
+	*
+	from area
+	where parentId is not NULL  and class&lt;=3
+	</select>
+	<!-- 按照等级查询 List<area> findAareasByClass(Integer calss); -->
+	<select id="findAareasByClass" resultType="com.select.wuliu.entity.area">
+	select 
+	*
+	from area
+	where parentId is not NULL  and class=#{class}
+	</select>
+	<!-- 查询全国区号List<Integer> findChinaId(); -->
+	<select id="findChinaId" resultType="java.lang.Integer">
+	select 
+	areaid
+	from area
+	where parentId is not NULL and class&lt;=3
+	</select>
+
+	<!-- List<area> findAllareas(); -->
+	<select id="findAllareas" resultType="com.select.wuliu.entity.area">
+	select 
+	*
+	from area
+	WHERE
+    parentId= #{parentId}
+	</select>
+	<!-- List<area> findaeraLN(@Param("name")String name); -->
+	<select id="findaeraLN" resultType="com.select.wuliu.entity.area">
+	SELECT * FROM 
+	area 
+	WHERE 
+	
+	(areaname LIKE '%${name}%' or
+	alias LIKE '%${name}%')
+	</select>
+	<!-- 地图专用List<area> findaeraLNMap(@Param("name")String name); -->
+	<select id="findaeraLNMap" resultType="com.select.wuliu.entity.area">
+	SELECT * FROM 
+	area 
+	WHERE 
+	
+	(areaname LIKE '%${name}%' or
+	alias LIKE '%${name}%')
+	and areaid &gt;34
+	</select>
+	
+	<!-- 添加别称 Integer updateaAlias(@Param("areaid")Integer areaid); -->
+	<update id="updateaAlias">
+	update area
+	set
+	<if test="alias!=null">
+	alias=#{alias}
+	</if>
+	where 
+	 areaid=#{areaid}
+	</update>
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.memberMapper">
+<!-- 添加会员Integer addNewMember(member m); -->
+<insert id="addNewMember" parameterType="com.select.wuliu.entity.member"
+     useGeneratedKeys="true" keyProperty="id">
+	insert into memberlist
+	(companyId,companyName,userName,remarks,startTime,endTime,
+	InvoiceNumber,isDel,type
+	
+	)
+	values
+	(#{companyId},#{companyName},#{userName},#{remarks},#{startTime},#{endTime},
+	#{InvoiceNumber},#{isDel},#{type}
+	)
+	</insert>
+	<!-- 删除会员Integer ydelmember(Integer id); -->
+	<delete  id="ydelmember" parameterType="com.select.wuliu.entity.member">
+	  delete from 
+	memberlist
+	where id=#{id}
+	</delete>
+	<!-- 分页模糊查询删除的会员Page<member> findAdelmembers(@Param("name")String name); -->
+	<select id="findAdelmembers" resultType="com.select.wuliu.entity.member">
+	SELECT 
+      *FROM 
+	memberlist where isDel=1 
+	and(companyName LIKE '%${name}%' or
+	   InvoiceNumber LIKE '%${name}%' or
+	  userName LIKE '%${name}%'
+	)
+	
+	</select>
+	<!-- 查询标记删除的会员member findADelmebeById(Integer id); -->
+	<select id="findADelmebeById" resultType="com.select.wuliu.entity.member">
+	SELECT 
+      *FROM 
+	memberlist where isDel=1 
+	and id=#{id}
+	
+	</select>
+	
+	
+	
+  <!-- 分页模糊查询所有	Page<member> findmeberByPLname(@Param("name")String name); -->
+<select id="findmeberByPLname" resultType="com.select.wuliu.entity.member">
+	SELECT 
+      *FROM 
+	memberlist where isDel=0 
+	and(companyName LIKE '%${name}%' or
+	   InvoiceNumber LIKE '%${name}%' or
+	  userName LIKE '%${name}%'
+	)order by endTime 
+	
+	</select>
+   <!-- 根据主键id查找会员member findmebeById(Integer id); -->
+   <select id="findmebeById" resultType="com.select.wuliu.entity.member">
+	SELECT 
+      *FROM 
+	memberlist where isDel=0 
+	and id=#{id}
+	
+	</select>
+	
+	<!-- 根据公司id找会员信息	member findmebeByCompanyId(Integer companyId); -->
+	<select id="findmebeByCompanyId" resultType="com.select.wuliu.entity.member">
+	SELECT 
+      *FROM 
+	memberlist where isDel=0 
+	and companyId=#{companyId}
+	
+	</select>
+	
+	
+	
+	<!-- 根据公司名查找会员信息member findMemberByName(String companyName); -->
+	<select id="findMemberByName" resultType="com.select.wuliu.entity.member">
+	SELECT 
+      *FROM 
+	memberlist where isDel=0 
+	and companyName=#{companyName}
+	
+	</select>
+	
+   <!-- 修改会员信息Integer UpdateMember(@Param("id")Integer id,@Param("companyName")String companyName,
+			@Param("companyId")Integer companyId,@Param("userName")String userName,
+			@Param("remarks")String remarks,
+			@Param("startTime")Date startTime,@Param("endTime")Date endTime,
+			@Param("InvoiceNumber")String InvoiceNumber,@Param("type")Integer type,
+			@Param("isDel")Integer isDel); -->
+			<update id="UpdateMember">
+	update memberlist
+	set
+	<if test="id!=null">
+	id=#{id},
+	</if>
+	<if test="companyName!=null">
+	companyName=#{companyName},
+	</if>
+	<if test="companyId!=null">
+	companyId=#{companyId},
+	</if>
+	<if test="userName!=null">
+	userName=#{userName},
+	</if>
+	<if test="remarks!=null">
+	remarks=#{remarks},
+	</if>
+	<if test="startTime!=null">
+	startTime=#{startTime},
+	</if>
+	<if test="endTime!=null">
+	endTime=#{endTime},
+	</if>
+	
+	<if test="type!=null">
+	type=#{type},
+	</if>
+	<if test="InvoiceNumber!=null">
+	InvoiceNumber=#{InvoiceNumber},
+	</if>
+	<if test="isDel!=null">
+	isDel=#{isDel}
+	</if>
+	where 
+	 id=#{id}
+	
+	</update>
+	
+			
+			
+			
+			
+			
+			
+			
+			
+</mapper>
+
+
+
+
+

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.select.wuliu.mapper.fahRecorederMapper">
+	<!-- 分页查询所有发货记录Page<fahRecoreder> findAfdhRecorder(); -->
+	<select id="findAfdhRecorder" resultType="com.select.wuliu.entity.fahRecoreder">
+	SELECT 
+	*
+		FROM 
+			shipments_order
+			where 
+			(
+			fhuser LIKE '%${name}%' or
+			fhphone LIKE '%${name}%' or
+	fhaddress LIKE '%${name}%' or
+	fhaddress1 LIKE '%${name}%' or
+	shuser LIKE '%${name}%' or
+	shphone LIKE '%${name}%' or
+	shaddress LIKE '%${name}%' or
+	shaddress1 LIKE '%${name}%' or
+	tracking LIKE '%${name}%' or
+	status LIKE '%${name}%' or
+	goodsname LIKE '%${name}%'
+	)and userid=#{userid}
+	
+	</select>
+	<!-- 根据发货人id查询发货记录Page<fahRecoreder> findAfdhRecorderByi(Integer rid); -->
+		<select id="findAfdhRecorderByi" resultType="com.select.wuliu.entity.fahRecoreder">
+	SELECT 
+	*
+		FROM 
+			shipments_order
+			WHERE 
+			userid=#{userid}
+	</select>
+	<!--  根据发货状态查询发货记录Page<fahRecoreder> findAfdhRecorderBystatus(String status); -->
+		<select id="findAfdhRecorderBystatus" resultType="com.select.wuliu.entity.fahRecoreder">
+	SELECT 
+	*
+		FROM 
+			shipments_order
+			WHERE 
+			status=#{status}
+	</select>
+	
+	
+</mapper>
+
+
+
+
+

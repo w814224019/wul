@@ -1,0 +1,199 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>发货记录</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 发货记录<span class="c-gray en">&gt;</span> 
+<a style="color: blue;"  th:href="@{/admin-list2}">返回货车主列表 </a><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<form id="form-s"><div class="cl pd-5 bg-1 bk-gray mt-20">
+  <input type="hidden"   th:value="${rid}"  class="input-text" style="width:60px"  id="rid" name="">
+	<input type="text" class="input-text" style="width:250px" placeholder="输入运单号、发货人、订单状态.." id="name"  th:value="${name}"> 
+	<a  onclick="GaiBian1()" class="btn btn-primary radius" id="btn-skey" name=""><i class="Hui-iconfont">&#xe665;</i> 关键词查找发货记录</a>
+	<a  onclick="datafall()" class="btn btn-primary radius" id="btn-skey" name=""><i class="Hui-iconfont">&#xe665;</i> 返回查看发货记录</a>
+	</div>
+	 </form>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th colspan="18" scope="col">查询统计
+				<label class="r">
+				<span class="r">总共 <span th:text="${pageInfo.pages}"></span> 页,<span th:text="${pageInfo.total}"></span> 条</span>
+	  查看第
+	<select style="width:60px" id="pageNum1" onchange="GaiBian1()" >
+			<option th:each="pageNo : ${#numbers.sequence(1, pageInfo.pages)}" th:text="${pageNo}" th:value="${pageNo}" th:selected="${pageInfo.pageNum==pageNo}" > 请选择</option>
+		</select>
+		页,
+	  
+	  显示
+   <select  id="select" onChange="GaiBian1()" >
+<option value="10"  th:selected="${pageInfo.pageSize==10}">10</option>
+<option value="25" th:selected="${pageInfo.pageSize==25}">25</option>
+<option value="50" th:selected="${pageInfo.pageSize==50}">50</option>
+<option value="100" th:selected="${pageInfo.pageSize==100}">100</option>
+</select>
+条,
+
+ </label>
+				
+				</th>
+			</tr>
+			<tr class="text-c">
+			    <th>订单ID</th>
+			    <th>运单号</th>
+			    <th>时间</th>
+				<th>发货人ID</th>
+				<th>发货人</th>
+				<th>发货人电话</th>
+				<th>发货地址</th>
+				<th>发货详细地址</th>
+				<th>收货人</th>
+				<th>收货人电话</th>
+				<th>收货地址</th>
+				<th>收货详细地址</th>
+				<th>货物名称</th>
+				<th>货物数量</th>
+				<th>货物重量</th>
+				<th>体积</th>
+				<th>状态</th>
+				<th>备注</th>
+			</tr>
+		</thead>
+		<tbody id="table-result" >
+		<div id="company"></div>
+			 <tr class="text-c"  th:each="base:${pageInfo.list}" varStatus="s">
+				<td th:text="${base.id}"></td>
+				<td th:text="${base.tracking}"> </td>
+				<td th:text="${base.time}"> </td>
+				<td th:text="${base.userid}"></td>
+				<td th:text="${base.fhuser}"></td>
+				<td th:text="${base.fhphone}"></td>
+				<td th:text="${base.fhaddress}"></td>
+				<td th:text="${base.fhaddress1}"></td>
+				<td th:text="${base.shuser}"></td>
+				<td th:text="${base.shphone}"></td>
+				<td th:text="${base.shaddress}"></td>
+				<td th:text="${base.shaddress1}"></td>
+				<td th:text="${base.goodsname}"></td>
+				<td th:text="${base.goodsnum}"></td>
+				<td th:text="${base.weight}"></td>
+				<td th:text="${base.volume}"></td>
+				<td th:text="${base.status}"></td>
+				<td th:text="${base.remark}"></td>
+			</tr>
+			
+		</tbody>
+	</table>
+	<div id="fajj">
+	 <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+    
+	</div>
+	
+	
+</div>
+<footer class="footer mt-20">
+	<div class="container">
+		<p>感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br>
+			Copyright &copy;2015-2017 H-ui.admin v3.1 All Rights Reserved.<br>
+			本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持</p>
+	</div>
+</footer>
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script> 
+<!--此乃百度统计代码，请自行删除-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<!--/此乃百度统计代码，请自行删除-->
+
+
+
+</body>
+</html>
+<script>
+$(window).resize(function() {
+    var window_height = $(window).height();//获取浏览器窗口宽度
+    if(window_height<=500){
+          $('#footer').css("position","relative")
+    }else{
+		  $('#footer').css("position","absolute")
+		}
+   
+});
+</script>
+<script type="text/javascript">
+//按下回车
+document.onkeydown = function (e) {
+    var theEvent = window.event || e;
+    var code = theEvent.keyCode || theEvent.which;
+    if (code== 13)
+    {
+$("#btn-skey").click();
+    }
+}
+//每页多少条
+function GaiBian1(){
+	var type=$('#select option:selected').val();
+	var pageNum=$('#pageNum1 option:selected').val();
+	var name=$.trim($("#name").val());
+	var rid=$.trim($("#rid").val());
+	location.href="article-list10?pageNum="+pageNum+"&&pageSize="+type+"&&name="+name+"&&rid="+rid+""
+	
+}
+//返回查看所有datafall()
+function datafall(){
+	 var rid= $.trim($("#rid").val());
+	console.log("参数data:"+rid);
+location.href="article-list10?rid="+rid+"";
+			
+}
+function zx(dom){
+	console.log("点击")
+		var url="../ToCategeroy2";
+		//var data=$("#form-login").serialize();
+		 var comp= dom.getAttribute("id");
+		 console.log("参数comp:"+comp);
+		$.ajax({
+			"url":url,
+		 "data":{"comp":comp}, 
+			"type":"post",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					console.log("查询成功！");
+					window.open("product-category2");
+			}else if(json.state==402){
+				//location.href="product-category5"
+				alert(json.message);
+			}
+		}
+		});
+		}
+		</script>
+</body>
+</html>

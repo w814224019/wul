@@ -1,0 +1,48 @@
+@charset "utf-8";
+/*map-begin*/
+*{margin: 0;padding: 0;}
+.prince-a:hover{text-decoration:underline;color:#df0000;}
+.prince-a{cursor:pointer; color:#222; width: 200px;display: block; font-weight: bold;font-size: 18px;text-align: center;margin: 0 auto;}
+.prince-b{width: 150px;height: 30px;line-height: 30px; font-size: 16px;font-weight: bold;cursor: pointer;  position: absolute;top: 0;left: 445px;color: #df0000;}
+.c-close{position: absolute;float: right;font-size: 30px; cursor: pointer;top: 0;right: 0;width: 25px;}
+.province-mapboxs{ margin-left:12px;box-sizing: border-box; position:absolute;top: -90px;width: 440px;height: 600px;overflow: hidden;}
+.province-mapbox{box-sizing: border-box;   width: 440px;  height:490px;float: left;overflow: hidden;position:relative;}
+#province_maps {position: relative;width: 440px;height: 490px;z-index: 999999;}
+#WTMap_Main #china_map .c-span{font-size:21px;color:#df0000;position:absolute;left:20px;top:20px;z-index:99999999;	    cursor: default;}
+#china_map{overflow: hidden;cursor: default;z-index: 999999;margin-left: -430px;background-color: #fff;border-top: solid 10px #D6EFF6;border-left: solid 10px #D6EFF6;border-right: solid 10px #D6EFF6;border-bottom: 1px dashed #ccc;width: 860px;height: 480px;position: absolute;top: 125px;left: 50%;margin-top: 0;display: none;}
+.m-box:after{content:'';width:10px;height:5px;position: absolute;top: -5px;left: -10px;z-index:9999999999;background: #D6EFF6;}
+.m-box:before{content:'';width:10px;height:5px;position: absolute;top: -5px;right: -10px;z-index: 99999999999999;background: #D6EFF6;}
+.china-mapbox{position:absolute;top:-60px;left: 0;width: 90%;float:left ; height: 500px;}
+#WTMap_Main path, span{cursor: pointer;}
+#WTMap_Main span{position: absolute;font-weight: bold;font-size:12px;color:#333;} 
+.m-bottom .more-a{position:absolute;top:15px;right:10px;font-size: 14px;font-weight: bold;color: #df0000;}
+.m-box {display: none;z-index: 9999999;top: 615px;left: 50%;background: #fff;position: absolute;width: 820px;height: auto;padding: 5px 20px 20px 20px;border-bottom: 10px solid #D6EFF6;border-left: 10px solid #D6EFF6;border-right: 10px solid #D6EFF6;margin-left: -430px;cursor: default;border-top: 1px dashed #ccc;}
+.m-top{width: 100%;height: 35px;line-height: 35px;text-align: left;}
+.m-top h1{font-size: 21px;color: #df0000;font-weight:bold;}
+.m-bottom{width: 100%;height: auto;position:relative;border-bottom: 1px dashed #eaeaea;}
+.arrow{padding-right: 50px;overflow: hidden;display:inline-block;width: 89%;height: 40px;line-height: 40px;padding-right: 50px;box-sizing: border-box; margin: 0;}
+.arrow1{overflow: hidden;display:inline-block;width: 89%;height: auto;line-height:40px;padding-right: 0;}
+.m-bottom dl dd{display: inline-block;padding: 0 10px;height: 40px;line-height: 40px;color: #666;font-size: 14px;font-weight: bold;float: left;}
+.m-bottom dl dd a{float: left;color: #666;font-size: 14px;font-weight: bold;}
+.m-bottom dl dd a:hover{ text-decoration:underline;}
+.m-bottom span{	cursor: default;float: left;width:8%;color: #df0000;display: inline-block;padding: 0 10px;height: 40px;line-height: 40px;font-size: 14px;font-weight: bold;}
+.china-mapbox span{ z-index:999999;}
+.warning{font-size: 14px; color: red;z-index: 999999999;position: absolute;top: 100px;left: 0;width: 420px;height: 450px;background-color: #fff;text-align: center;line-height: 450px;border: 1px solid #ccc;display:none;}
+.hd_a{color:#df0000;font-size:13px; margin-left:15px;}
+.theme-popover-mask{display: none; z-index:9900;position:absolute;left:0;top:0;width:100%;height:100%;background:#000;opacity:0.5;filter:alpha(opacity=50);-moz-opacity:0.5;}
+.theme-popover{position: absolute;top:128px;left: 0;right: 0; margin-left: auto; margin-right: auto;z-index: 999999;border-radius:5px;border:solid 2px #e4e4e4;background-color:#fff;display:none;box-shadow:0 0 10px #fff;background:#fff;width:1250px;height:auto;border:solid 2px #e4e4e4;}
+.theme-poptit{border-bottom:1px solid #ddd;padding:10px 20px;position:relative;}
+.theme-poptit .close{float:right;color:#999;padding:5px;margin:-2px -5px -5px;font:bold 14px/14px simsun;text-shadow:0 1px 0 #ddd}.theme-poptit .close:hover{color:#444;}
+.theme-popbod{height:auto; min-height:460px;color:#444; position:relative;padding-top: 30px;position: relative;}.theme-signin{margin:-50px -20px -50px 90px;text-align:left;font-size:14px;}h3{font-size:14px;font-weight:normal;margin:0;padding:0;}#sheng{display:none; position:absolute;}
+.theme-popbod #shi{display:none;overflow:hidden;}
+#zhen{position:absolute;background-color:#e4e4e4;z-index:9999999999999999999999;background:#CCC;display:none;width:300px;}#zhen .zhenlist{padding:10px;}#zhen a{font-size: 12px; margin-right:10px;color:#ff0000;font-weight:bold;text-decoration:none;}.zhen{width:33%;}.list-memu{display:inline-block;}.list-memu dl{display:inline-block;width:810px;}.list-memu  dd{border-bottom:1px dashed #ccc; width:49%; float:left;margin-left:1%;}.list-memu dl dd .ppp a{text-decoration: none;text-align:center;position:relative;display:inline-block;white-space:nowrap;font-size:12px;padding-right:12px;height:26px;line-height:26px;text-align:center;color:#666;}.list-memu  a:hover div{display:block;}.list-memu div{display:none;background-color:#fff;overflow:hidden;position:absolute;top:25px;left:-85px;width:200px;border:1px solid #ccc;z-index:1000;}.list-memu div:hover{cursor:default;}
+.list-memu  ul{width:200px;}
+.list-memu  li{float:left;border-bottom:1px dashed #eaeaea;width:50px;height:26px;line-height:26px;color:#666;background-color:#fff;}.list-memu a:hover{color:red;text-decoration:none;}.list-memu .list-one{ padding-right:5px;margin-bottom: 2px;height: 30px;line-height: 30px;text-align: left;color: #df0000;font-size: 16px;font-weight: bold;cursor: pointer;}#WTMap_Main #zhen .zhentitle{width:100%;height:30px;line-height:30px;background:#666;font-size:14px;color:#fff;cursor:pointer;}.zhentitle_left{float:left;width:37%;height:30px;line-height:30px;padding-left:10px;cursor: default;}.zhentitle_right{float:right;width:20%;height:30px;line-height:30px;padding-right:10px;text-align:right;}
+.shifgx{width:1px;background: #DDD;position: absolute;top: 0px;left: 845px;height: 100%;}
+.shifgx1{width:1px;background: #DDD;position: absolute;top: 0px;left: 848px;height: 100%;}
+.theme-bottom{height: auto;min-height: 450px;width: 100%;position: relative;}
+#ggzkcon3 table{width: 100% !important;text-align: center;}
+.ppp{float:right;width:323px; margin:0;}
+#zhen .zhentitle .zhen-z{cursor: pointer;color: #fff;}
+#zhen .az{ color:#fff; font-size: 14px;}
+/*map-end*/

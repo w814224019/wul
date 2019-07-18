@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>公司内部权限注册页面</title>
+		<script src="../bootstrap3/jquery-1.9.1.min.js"></script>
+</head>
+<form id="form-reg" action="">
+角色：
+<select id="testSelect">  
+  <option value ="技术">技术</option>  
+  <option value ="销售">销售</option>  
+  <option value="前台">前台</option>  
+  <option value="客服">客服</option>  
+</select>
+<br/> 
+	
+	用户名：<input id="username" name="username"/><br/> 
+	用户密码：<input type="password" id="password"     name="password"/><br/>
+	确认密码：<input  type="password"  id="passwords"   name="passwords"/><br/>
+	手机号：<input  id="phone"  name="phone"/><br/>
+	<input id="btn-reg" type="button" value="立即注册">
+</form>
+<script type="text/javascript">
+          
+		$("#btn-reg").click(function(){
+		var url="../RoleReg";
+		var sda=$('#testSelect option:selected').val()
+		console.log("sda"+sda)
+		//var data=$("#form-reg").serialize();
+		var username=$.trim($("#username").val());
+		var password=$.trim($("#password").val());
+		var passwords=$.trim($("#passwords").val());
+		var phone=$.trim($("#phone").val());
+		
+		console.log("登录参数password:"+password);
+		console.log("登录参数passwords:"+passwords);
+		$.ajax({
+			"url":url,
+			"data":{
+				"username":username,
+				"password":password,
+				"passwords":passwords,
+				"phone":phone,
+				"roleName":sda
+			}, 
+			"type":"post",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					alert("注册成功！");
+			   location.href="rolehome";
+				
+				}else{
+					alert(json.message);
+				}
+				
+			}
+		});
+		
+		});
+		
+		</script>
+
+</body>
+</html>

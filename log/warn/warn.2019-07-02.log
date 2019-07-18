@@ -1,0 +1,37 @@
+17:18:24.381 物流专线项目 [main] WARN  o.s.b.t.j.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/D:/tts9/repository/org/json/json/20140107/json-20140107.jar!/org/json/JSONObject.class
+	jar:file:/D:/tts9/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+17:35:41.598 物流专线项目 [main] WARN  o.s.b.t.j.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/D:/tts9/repository/org/json/json/20140107/json-20140107.jar!/org/json/JSONObject.class
+	jar:file:/D:/tts9/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+17:37:42.683 物流专线项目 [main] WARN  o.s.b.t.j.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/D:/tts9/repository/org/json/json/20140107/json-20140107.jar!/org/json/JSONObject.class
+	jar:file:/D:/tts9/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+18:50:18.523 物流专线项目 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - 本地 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@871e1c (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+18:50:18.523 物流专线项目 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - 本地 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@3cf8fbfd (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+18:50:22.931 物流专线项目 [http-nio-8080-exec-10] WARN  com.zaxxer.hikari.pool.PoolBase - 本地 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7b40ec8d (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+18:50:22.938 物流专线项目 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - 本地 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5cb22c1f (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+18:50:23.526 物流专线项目 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - 本地 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@500d0dc1 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+18:50:23.526 物流专线项目 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - 本地 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@246a5a4a (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+18:50:27.933 物流专线项目 [http-nio-8080-exec-10] WARN  com.zaxxer.hikari.pool.PoolBase - 本地 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@b213b77 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+18:50:27.941 物流专线项目 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - 本地 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@535ffe9 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+18:50:28.530 物流专线项目 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - 本地 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5f366a29 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+18:50:28.530 物流专线项目 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - 本地 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@104476a3 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.

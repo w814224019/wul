@@ -1,0 +1,93 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>公司查询</title>
+
+</head>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+	<span class="c-gray en">&gt;</span>
+        物流公司管理
+	<span class="c-gray en">&gt;</span>
+	国际物流公司查询
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+</nav>
+<body>
+<div class="page-container">
+	<form id="form-s"><div class="text-c">
+	<input type="text" class="input-text" style="width:250px" placeholder="输入关键词" id="companyLname" name="" th:value="${name}"> 
+	<a  onclick="GaiBian1()" class="btn btn-primary radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 关键词查找</a>
+	</div>
+	 </form>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">查询统计
+				<label class="r">
+				<span class="r">总共 <span th:text="${pageInfo.pages}"></span> 页,<span th:text="${pageInfo.total}"></span> 条</span>
+	  查看第
+	<select style="width:60px" id="pageNum1" onchange="GaiBian1()" >
+			<option th:each="pageNo : ${#numbers.sequence(1, pageInfo.pages)}" th:text="${pageNo}" th:value="${pageNo}" th:selected="${pageInfo.pageNum==pageNo}" > 请选择</option>
+		    
+		</select>
+		页,
+	  
+	  显示
+   <select  id="select" onChange="GaiBian1()" >
+<option value="10"  th:selected="${pageInfo.pageSize==10}">10</option>
+<option value="25" th:selected="${pageInfo.pageSize==25}">25</option>
+<option value="50" th:selected="${pageInfo.pageSize==50}">50</option>
+<option value="100" th:selected="${pageInfo.pageSize==100}">100</option>
+</select>
+条,
+
+ </label>
+				</th>
+			</tr>
+			<tr class="text-c">
+				<th>公司ID</th>
+				<th>公司名称</th>
+				<th >联系人</th>
+				<th>电话</th>
+				<th>传真</th>
+				<th>地址</th>
+			</tr>
+		</thead>
+		<tbody id="table-result">
+		<div id="company"></div>
+			<tr class="text-c"  th:each="base:${pageInfo.list}" >
+				<td th:text="${base.id}"></td>
+				<td ><a    th:id="${base.id}" th:text="${base.companyName}" ></a> </td>
+				<td th:text="${base.content}"> </td>
+				<td th:text="${base.phone}"></td>
+				<td  th:text="${base.chuanzhen}"> </td>
+				<td th:text="${base.companyAddress}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="fajj">
+	<p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+	</div>
+</div>
+<!--footer-->  
+<div  th:replace="_footer :: common_resource"></div> 
+<script data-th-src="@{system/company/article-list4.js}"></script>
+</body>
+</html>
