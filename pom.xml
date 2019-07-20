@@ -79,6 +79,7 @@
                 <groupId>com.alipay</groupId>
                 <artifactId>alipay-sdk</artifactId>
                 <version>java20170324180803</version>
+                
             </dependency>
 
        
@@ -138,10 +139,7 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -156,11 +154,9 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<classifier>sources</classifier>
 				</configuration>
 			</plugin>
-
-
-
 		</plugins>
 	</build>
 
