@@ -1,5 +1,5 @@
 ﻿server:
-  port: 8081
+  port: 8080
 #spring.mvc.static-path-pattern=/** # Path pattern used for static resources.
 spring:
     mvc:
@@ -7,10 +7,10 @@ spring:
     
       static-path-pattern: /**
     datasource:
-        name: 本地
-        url: jdbc:mysql://192.168.0.103:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-        username: root
-        password: 168168
+        name: m_56114_com
+        url: jdbc:mysql://106.3.44.119:3306/m_56114_com?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+        username: m_56114_com
+        password: kEGAbw8fpm
         # druid
 #        type: com.alibaba.druid.pool.DruidDataSource
        

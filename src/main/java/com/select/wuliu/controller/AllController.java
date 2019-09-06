@@ -146,7 +146,7 @@ public class AllController extends BaseController {
 					wdc.setPhone(company.getPhone());
 					wdc.setDetailPicture(company.getDetailPicture());
 					wdc.setMark(mark);
-					String mobilepath="http://192.168.0.109/index/demo/index.html";
+					String mobilepath="http://m.56114.com/i.html";
 					wdc.setMobilepath(mobilepath);
 					Integer vipc=company.getVipClass();
 					if(vipc==1){
@@ -251,7 +251,7 @@ public class AllController extends BaseController {
 					wdc.setDetailPicture(company.getDetailPicture());
 					wdc.setMark(1);
 					wdc.setMark(mark);
-					String mobilepath="http://192.168.0.103/index/demo/index.html";
+					String mobilepath="http://m.56114.com/i.html";
 					wdc.setMobilepath(mobilepath);
 					wdc.setPages(pages);
 					wdc.setTotals(totals);

@@ -69,7 +69,7 @@ private Integer pages;
 //总条数
 private long totals;
 //
-private static final String mobilepath="http://192.168.0.103/index/demo/index.html";
+private static final String mobilepath="http://m.56114.com/i.html";
 public Integer getCompanyId() {
 	return companyId;
 }
